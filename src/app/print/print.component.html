@@ -1,0 +1,61 @@
+<h1>Review and Print</h1>
+<div class="sequence-info">
+    <div class="row">
+        <div class="item catalog">
+            <div class="label">Catalog no.</div>
+            <div class="text">{{sequence.composition.catalogNo}}</div>
+        </div>
+        <div class="item title">
+            <div class="label">Title</div>
+            <div class="text">{{sequence.composition.title}}</div>
+        </div>
+        <div class="item composer">
+            <div class="label">Composer</div>
+            <div class="text">{{sequence.composition.composer}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="item notes">
+            <div class="label">Version</div>
+            <div class="text">{{sequence.version}}</div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="sequence-table">
+    <div class="row header">
+        <div class="cell step">Step</div>
+        <div class="cell piston">Piston</div>
+        <div class="cell base">Based on</div>
+        <div class="cell measure">Measure(s)</div>
+        <div class="cell notes">Notes</div>
+    </div>
+    <div class="row" *ngFor="let step of sequence.steps; index as i;">
+        <div class="cell step">{{i + 1}}</div>
+        <div class="cell piston">
+            <span class="piston-inner" [ngClass]="getDivisionStyle(pistons[step.piston].division)">
+                <span class="piston-level">{{step.memoryLevel}}</span>
+                <span class="piston-division">{{pistons[step.piston].division}}</span>
+                <span class="piston-number">{{pistons[step.piston].number}}</span>     
+            </span>  
+        </div>
+        <div class="cell piston">
+            <span class="piston-inner" *ngIf="step.base !== -1" [ngClass]="getDivisionStyle(pistons[sequence.steps[step.base].piston].division)">
+                <span class="piston-level">{{sequence.steps[step.base].memoryLevel}}</span>
+                <span class="piston-division">{{pistons[sequence.steps[step.base].piston].division}}</span>
+                <span class="piston-number">{{pistons[sequence.steps[step.base].piston].number}}</span>     
+            </span>
+            <span class="piston-none" *ngIf="step.base === -1">–</span>  
+        </div>
+        <div class="cell measure">{{step.measure}}</div>
+        <div class="cell notes">{{step.notes}}</div>
+    </div>
+</div>
+
+<div class="action-row">
+    <a routerLink="/edit" class="action-left">&larr; Edit Sequence</a>
+    <span class="action-spacer"></span>
+    <a routerLink="/print" class="action-right" (click)="print()">Generate PDF</a>
+</div>

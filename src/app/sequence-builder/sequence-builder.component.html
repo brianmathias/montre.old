@@ -1,0 +1,70 @@
+<h1>Build Sequence</h1>
+<div class="sequence-form">
+    <form>
+        <div class="form-row">
+            <div class="form-group form-catalog">
+                <label for="catalog">Catalog no.</label>
+                <input type="text" class="form-control" [(ngModel)]="sequence.composition.catalogNo" id="catalog" name="catalog">
+            </div>
+            <div class="form-group form-title">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" [(ngModel)]="sequence.composition.title" id="title" name="title">
+            </div>
+    
+            <div class="form-group form-composer">
+                <label for="composer">Composer</label>
+                <input type="text" class="form-control" [(ngModel)]="sequence.composition.composer" id="composer" name="composer">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group form-notes">
+                <label for="notes">Version</label>
+                <input type="text" class="form-control" [(ngModel)]="sequence.version" id="version" name="version">
+            </div>
+            
+        </div>
+  
+        
+  
+      </form>
+</div>
+
+<div class="flex-container">
+    <div class="left">
+        <div class="division memory-level">
+            <h2>Memory Level</h2>
+            <select class="form-control" id="level" [(ngModel)]="memoryLevel">
+                <option *ngFor="let level of memoryLevels" [value]="level">{{level}}</option>
+            </select>
+        </div>
+        <div *ngFor="let manual of organ.manuals" class="division">
+            <h2>{{manual.name}}</h2>
+            <div class="piston-container" [ngClass]="getDivisionStyle(manual.name)">
+                <button *ngFor="let piston of manual.pistons" (click)="addStep(memoryLevel, piston.id)">{{piston.number}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <h2>Sequence</h2>
+        <div class="sequence-container" cdkDropList (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let step of sequence.steps; index as i;" [ngClass]="getDivisionStyle(pistons[step.piston].division)" cdkDrag class="sequence-step">
+                <span class="step">{{i + 1}}.</span> 
+                <span class="level">{{step.memoryLevel}}</span>
+                <span class="division">{{pistons[step.piston].division}}</span>
+                <span class="piston">{{pistons[step.piston].number}}</span>
+                <span class="spacer"></span>
+                <span (click)="deleteStep(i)" class="delete">X</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="action-row">
+    <a routerLink="/upload" class="action-left">&larr; Upload File</a>
+    <span class="action-spacer"></span>
+    <a routerLink="/edit" class="action-right">Edit Sequence &rarr;</a>
+</div>
+
+
+
+
+

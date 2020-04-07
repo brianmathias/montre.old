@@ -1,0 +1,188 @@
+@use "sass:color";
+
+$general-base: rgb(150, 150, 150);
+$antiphonal-base: rgb(38, 50, 237);
+$solo-base: rgb(193, 47, 138);
+$swell-base: rgb(219, 81, 32);
+$great-base: rgb(3, 195, 235);
+$choir-base: rgb(228, 220, 0);
+$positiv-base: rgb(152, 193, 42);
+$pedal-base: rgb(62, 96, 111);
+
+$base-ligthness: 80%;
+$hover-lightness: 65%;
+$active-lightness: 50%;
+
+$input-bg-color: color.scale($general-base, $lightness: 85%);
+$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+
+
+.sequence-info {
+
+    margin-bottom: 50px;
+    
+   .row {
+       display: flex;
+       flex-direction: row;
+       margin-bottom: 30px;
+
+       .item {
+
+            margin-right: 30px;
+
+            &:last-child {
+                margin-right: 0;
+            } 
+
+            &.catalog {
+                width: 100px;
+            }
+
+            &.title {
+                flex-grow: 1;
+            }
+
+            &.composer {
+                width: 185px;
+            }
+
+            &.notes {
+                flex-grow: 1;
+            }
+
+            .label {
+                font-size: 12px;
+            }
+
+            .text {
+                min-height: 19px;
+                padding: 10px 0 4px;
+                border-bottom: 1px solid #ddd;
+            }
+       }
+   }
+}
+
+.sequence-table {
+
+    font-size: 14px; 
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        line-height: 35px;
+
+        &.header {
+            font-weight: 700;
+        }
+    }
+
+    .cell {
+
+        padding: 0 10px;
+
+        &.step {
+            width: 30px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        &.piston,
+        &.base {
+            width: 200px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        &.measure {
+            width: 100px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin-right: 10px;
+            padding: 8.5px 0;
+            line-height: 16px;
+
+        }
+
+        &.notes {
+            flex-grow: 1;
+            padding: 8.5px 0;
+            line-height: 16px;
+        }
+
+        .piston-none {
+            padding: 5px 8px;
+        }
+
+        .piston-inner {
+            width: fit-content;
+            display: flex;
+            flex-grow: 0;
+            padding: 5px 8px;
+            
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 25px;
+            text-transform: uppercase;
+
+            .piston-level {
+                width: 23px;
+                height: 23px;
+                margin-right: 6px;
+                border: 1px solid black;
+                padding: 0px;
+                line-height: 23px;
+                text-align: center;
+            }
+
+            .piston-division {
+                margin-right: 6px;
+            }
+
+            .piston-number {
+                width: 23px;
+                height: 23px;
+                border: 1px solid black;
+                border-radius: 12px;
+                line-height: 23px;
+                text-align: center;
+            }
+
+            &.general {
+                background-color: color.scale($general-base, $lightness: $base-ligthness);
+            }
+        
+            &.antiphonal {
+                background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+            }
+        
+            &.solo {
+                background-color: color.scale($solo-base, $lightness: $base-ligthness);
+            }
+        
+            &.swell {
+                background-color: color.scale($swell-base, $lightness: $base-ligthness);
+            }
+        
+            &.great {
+                background-color: color.scale($great-base, $lightness: $base-ligthness);
+            }
+        
+            &.choir {
+                background-color: color.scale($choir-base, $lightness: $base-ligthness);
+            }
+        
+            &.positiv {
+                background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+            }
+        
+            &.pedal {
+                background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+            }
+        }
+    }
+}
+
+

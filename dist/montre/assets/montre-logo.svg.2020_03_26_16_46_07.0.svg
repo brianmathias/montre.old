@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 79.375006 19.05"
+   height="72"
+   width="300"
+   sodipodi:docname="montre-logo.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     inkscape:document-rotation="0"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview849"
+     showgrid="false"
+     units="mm"
+     inkscape:pagecheckerboard="true" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="powerclip"
+       id="path-effect911"
+       is_visible="true"
+       uri="#clipPath905"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       is_inverse="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
+    <rect
+       x="18.759664"
+       y="45.552203"
+       width="22.624936"
+       height="20.069248"
+       id="rect883" />
+    <rect
+       x="3.3072918"
+       y="30.956251"
+       width="73.686461"
+       height="25.135418"
+       id="rect864" />
+    <rect
+       id="rect838"
+       height="12.938583"
+       width="37.62508"
+       y="24.845255"
+       x="4.7626686" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath905">
+      <text
+         xml:space="preserve"
+         id="text909"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;shape-inside:url(#rect883);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+         transform="translate(-0.19266591,-15.044596)"><tspan
+           sodipodi:role="line"
+           id="tspan907"
+           x="18.759766"
+           y="55.208199"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:5.64445px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1">8</tspan></text>
+    </clipPath>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <text
+     xml:space="preserve"
+     id="text836"
+     style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;shape-inside:url(#rect838);opacity:1;fill:#000000;fill-opacity:1;stroke:none;stop-opacity:1" />
+  <g
+     aria-label="MONTRE"
+     transform="matrix(0.99999763,0,0,1,-4.7036295,-33.676019)"
+     id="text862"
+     style="font-style:normal;font-weight:normal;font-size:12.69999999999999929px;line-height:1.25;font-family:sans-serif;shape-inside:url(#rect864);fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1">
+    <path
+       d="m 4.7036406,33.739519 h 1.0922 l 3.4797999,6.6675 3.4416995,-6.6675 h 1.0922 v 8.89 h -0.8128 l -0.0127,-7.6708 -3.4797995,6.7183 h -0.4826 l -3.4924999,-6.7183 v 7.6708 h -0.8255 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1;fill:#ffffff;fill-opacity:1"
+       id="path868" />
+    <path
+       d="m 20.381791,33.676019 c 0.846667,0 1.621367,0.2032 2.3241,0.6096 0.711199,0.397933 1.274232,0.9398 1.689099,1.6256 0.414867,0.6858 0.6223,1.439333 0.6223,2.2606 0,0.821267 -0.207433,1.579033 -0.6223,2.2733 -0.414867,0.694267 -0.9779,1.2446 -1.689099,1.651 -0.702733,0.4064 -1.477433,0.6096 -2.3241,0.6096 -0.846667,0 -1.6256,-0.2032 -2.3368,-0.6096 -0.702733,-0.4064 -1.261533,-0.956733 -1.6764,-1.651 -0.414867,-0.694267 -0.6223,-1.452033 -0.6223,-2.2733 0,-0.821267 0.207433,-1.5748 0.6223,-2.2606 0.414867,-0.6858 0.973667,-1.227667 1.6764,-1.6256 0.7112,-0.4064 1.490133,-0.6096 2.3368,-0.6096 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';fill:#ffffff;fill-opacity:1;stroke-width:1"
+       id="path870"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="scssscscssscs"
+       clip-path="url(#clipPath905)"
+       inkscape:path-effect="#path-effect911"
+       inkscape:original-d="m 20.381791,33.676019 c 0.846667,0 1.621367,0.2032 2.3241,0.6096 0.711199,0.397933 1.274232,0.9398 1.689099,1.6256 0.414867,0.6858 0.6223,1.439333 0.6223,2.2606 0,0.821267 -0.207433,1.579033 -0.6223,2.2733 -0.414867,0.694267 -0.9779,1.2446 -1.689099,1.651 -0.702733,0.4064 -1.477433,0.6096 -2.3241,0.6096 -0.846667,0 -1.6256,-0.2032 -2.3368,-0.6096 -0.702733,-0.4064 -1.261533,-0.956733 -1.6764,-1.651 -0.414867,-0.694267 -0.6223,-1.452033 -0.6223,-2.2733 0,-0.821267 0.207433,-1.5748 0.6223,-2.2606 0.414867,-0.6858 0.973667,-1.227667 1.6764,-1.6256 0.7112,-0.4064 1.490133,-0.6096 2.3368,-0.6096 z" />
+    <path
+       d="m 33.392346,33.752219 h 0.8636 v 8.8773 h -0.9271 l -5.4991,-7.5184 v 7.5184 h -0.8763 v -8.8773 h 0.9271 l 5.5118,7.5184 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1;fill:#ffffff;fill-opacity:1"
+       id="path872" />
+    <path
+       d="m 35.816458,33.739519 h 6.7437 v 0.8001 h -2.9337 v 8.0899 h -0.8763 v -8.0899 h -2.9337 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1;fill:#ffffff;fill-opacity:1"
+       id="path874" />
+    <path
+       d="m 49.948184,42.629519 -1.9177,-2.8956 q -0.4064,0.0254 -0.6223,0.0254 h -2.4384 v 2.8702 h -0.8763 v -8.8773 h 3.3147 q 1.6637,0 2.5654,0.7747 0.914399,0.762 0.914399,2.1717 0,1.1049 -0.5334,1.8415 -0.533399,0.7366 -1.523999,1.0287 l 2.133599,3.0607 z m -2.54,-3.6576 q 1.27,0 1.9558,-0.5715 0.6858,-0.5842 0.6858,-1.6764 0,-1.0668 -0.6858,-1.6256 -0.6858,-0.5588 -1.9558,-0.5588 h -2.4384 v 4.4323 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1;fill:#ffffff;fill-opacity:1"
+       id="path876" />
+    <path
+       d="m 53.271218,33.752219 h 5.9436 v 0.7874 h -5.0673 v 3.175 h 4.5339 v 0.7874 h -4.5339 v 3.3401 h 5.2324 v 0.7874 h -6.1087 z"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Light';stroke-width:1;fill:#ffffff;fill-opacity:1"
+       id="path878" />
+  </g>
+</svg>

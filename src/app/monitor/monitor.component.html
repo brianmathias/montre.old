@@ -1,0 +1,11 @@
+<div class="monitor">
+    <p>Title: {{sequence.composition.title}}</p>
+    <p>Composer: {{sequence.composition.composer}}</p>
+    <p>Catalog no: {{sequence.composition.catalogNo}}</p>
+    <p>Notes: {{sequence.version}}</p>
+    <p>Sequence: 
+    <p *ngFor="let step of sequence.steps; index as i">{{i}}. Level {{step.piston.memoryLevel}}: {{step.piston.division}} {{step.piston.number}} (Base: Step {{step.base}})</p>   
+    <p>{{sequence | json}}</p> 
+</div>
+
+

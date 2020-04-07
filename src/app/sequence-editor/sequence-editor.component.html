@@ -1,0 +1,47 @@
+<h1>Edit Sequence</h1>
+<div>
+    <div *ngFor="let step of sequence.steps; index as i;" class="step" [ngClass]="getDivisionStyle(pistons[step.piston].division)">
+        <div class="step-number">
+            <div class="text">Step</div>
+            <div class="number">{{i + 1}}</div>
+        </div>
+        <div class="editor">
+            <div class="form-row">
+                <div class="form-group form-memory">
+                    <label for="level">Memory Level</label>
+                    <select class="form-control" id="level" [(ngModel)]="step.memoryLevel">
+                        <option *ngFor="let level of memoryLevels" [value]="level">{{level}}</option>
+                    </select>    
+                </div>
+                <div class="form-group form-piston">
+                    <label for="piston">Piston</label>
+                    <select class="form-control" id="piston" [(ngModel)]="step.piston">
+                        <option *ngFor="let p of pistons" [value]="p.id">{{p.division}} {{p.number}}</option>
+                    </select>    
+                </div>
+                <div class="form-group form-base">
+                    <label for="base">Based on</label>
+                    <select class="form-control" id="base" [(ngModel)]="step.base">
+                        <option [ngValue]="-1">None</option>
+                        <option *ngFor="let step of sequence.steps; index as i;" [ngValue]="i">{{i + 1}}: Level {{step.memoryLevel}}, {{pistons[step.piston].division}} {{pistons[step.piston].number}}</option>
+                    </select>  
+                </div>
+                <div class="form-group form-measure">
+                    <label for="measure">Measure(s)</label>
+                    <input type="text" class="form-control" [(ngModel)]="step.measure" [id]="'measure' + i" name="measure">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group notes">
+                    <label for="notes">Notes</label>
+                    <input type="text" class="form-control" [(ngModel)]="step.notes" [id]="'notes' + i" name="notes">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="action-row">
+        <a routerLink="/build" class="action-left">&larr; Build Sequence</a>
+        <span class="action-spacer"></span>
+        <a routerLink="/print" class="action-right">Review and Print &rarr;</a>
+    </div>
+</div>

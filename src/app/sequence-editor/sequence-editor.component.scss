@@ -1,0 +1,214 @@
+@use "sass:color";
+
+$general-base: rgb(150, 150, 150);
+$antiphonal-base: rgb(38, 50, 237);
+$solo-base: rgb(193, 47, 138);
+$swell-base: rgb(219, 81, 32);
+$great-base: rgb(3, 195, 235);
+$choir-base: rgb(228, 220, 0);
+$positiv-base: rgb(152, 193, 42);
+$pedal-base: rgb(62, 96, 111);
+
+$base-ligthness: 80%;
+$hover-lightness: 65%;
+$active-lightness: 50%;
+
+$input-bg-color: color.scale($general-base, $lightness: 85%);
+$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+
+.step {
+    margin: 30px 0;
+    padding: 0px;
+    display: flex;
+
+    &.general {
+        border: 1px solid color.scale($general-base, $lightness: $base-ligthness);
+
+        .step-number {
+            color: $general-base;
+            background-color: color.scale($general-base, $lightness: $base-ligthness);
+        }
+    }
+
+    &.antiphonal {
+        border: 1px solid color.scale($antiphonal-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+            color: $antiphonal-base;
+        }
+    }
+
+    &.solo {
+        border: 1px solid color.scale($solo-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($solo-base, $lightness: $base-ligthness);
+            color: $solo-base;
+        }
+    }
+
+    &.swell {
+        border: 1px solid color.scale($swell-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($swell-base, $lightness: $base-ligthness);
+            color: $swell-base;
+        }
+    }
+
+    &.great {
+        border: 1px solid color.scale($great-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($great-base, $lightness: $base-ligthness);
+            color: $great-base;
+        }
+    }
+
+    &.choir {
+        border: 1px solid color.scale($choir-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($choir-base, $lightness: $base-ligthness);
+            color: $choir-base;
+        }
+    }
+
+    &.positiv {
+        border: 1px solid color.scale($positiv-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+            color: $positiv-base;
+        }
+    }
+
+    &.pedal {
+        border: 1px solid color.scale($pedal-base, $lightness: $base-ligthness);
+
+        .step-number {
+            background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+            color: $pedal-base;
+        }
+    }
+
+    .step-number {
+        
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        flex-grow: 0;
+        padding: 10px;
+        background-color: $solo-base;
+        text-align: center;
+        
+        .text {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .number {
+            font-size: 36px;
+        }
+    }
+
+    .editor {
+        flex-grow: 1;
+        padding: 30px;
+    }
+
+    .form-row {
+        margin-bottom: 20px;
+        display: flex;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    .form-group {
+        margin-right: 20px;
+        display: flex;
+        flex-direction: column;
+    
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &.form-memory {
+            width: 85px;
+        }
+
+        &.form-piston {
+            width: 175px;
+        }
+        &.form-base {
+            width: 250px;
+        }
+
+        &.form-measure {
+            flex-grow: 1;
+        }
+
+
+        &.notes {
+            flex-grow: 1;
+        }
+    
+        label {
+            margin-bottom: 5px;
+            
+            font-size: 12px;
+            //text-transform: uppercase;
+        }
+    
+        input[type=text] {
+            
+            padding: 7px;
+            background-color: $input-bg-color;
+            border: 0px solid black;
+            font-size: 14px;
+            font-family: "Montserrat";
+    
+        }
+    
+        input[type=text]:focus {
+            background-color: $input-bg-color-active;
+            outline: none;
+        }
+    
+        select {
+            
+            padding: 7px;
+            appearance: none;
+            background-color: $input-bg-color;
+            border: 0px solid black;
+            border-radius: 0px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+    
+            // https://codepen.io/vkjgr/pen/VYMeXp
+            background-image:
+                linear-gradient(45deg, transparent 50%, gray 50%),
+                linear-gradient(135deg, gray 50%, transparent 50%),
+                linear-gradient(to right, #ccc, #ccc);
+            background-position:
+                calc(100% - 18px) calc(1em + 0px),
+                calc(100% - 13px) calc(1em + 0px),
+                calc(100% - 2.5em) 0.5em;
+            background-size:
+                5px 5px,
+                5px 5px,
+                1px 1.5em;
+            background-repeat: no-repeat;
+    
+            option {
+                padding: 10px;
+            }  
+        }
+    }
+}

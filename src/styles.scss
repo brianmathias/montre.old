@@ -1,1 +1,132 @@
+
+@use "sass:color";
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$montre-primary: mat-palette($mat-indigo);
+$montre-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$montre-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$montre-theme: mat-light-theme($montre-primary, $montre-accent, $montre-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($montre-theme);
+
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --general-base: rgb(150, 150, 150);
+    --antiphonal-base: rgb(38, 50, 237);
+    --solo-base: rgb(193, 47, 138);
+    --swell-base: rgb(219, 81, 32);
+    --great-base: rgb(3, 195, 235);
+    --choir-base: rgb(228, 220, 0);
+    --positiv-base: rgb(152, 193, 42);
+    --pedal-base:  rgb(114, 151, 166);
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
+
+
+
+$general-base: rgb(150, 150, 150);
+$antiphonal-base: rgb(38, 50, 237);
+$solo-base: rgb(193, 47, 138);
+$swell-base: rgb(219, 81, 32);
+$great-base: rgb(3, 195, 235);
+$choir-base: rgb(228, 220, 0);
+$positiv-base: rgb(152, 193, 42);
+$pedal-base: rgb(62, 96, 111);
+
+$base-ligthness: 80%;
+$hover-lightness: 65%;
+$active-lightness: 50%;
+
+$input-bg-color: color.scale($general-base, $lightness: 85%);
+$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+
+$action-button-base: rgb(12, 130, 232);
+
+
+html, body { height: 100%; }
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--test);
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+}
+
+h1 {
+    margin: 0 0 50px;
+    font-size: 48px;
+    font-weight: 200;
+}
+
+h2 {
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    
+}
+
+.action-row {
+    margin: 100px 0 150px;
+    display: flex;
+
+    a {
+        padding: 15px 20px;
+        font-size: 20px;
+        font-weight: 300;
+        text-decoration: none;
+    }
+
+    a.action-left,
+    a.action-left:link,
+    a.action-left:visited {
+        background-color: $input-bg-color;
+        color: black;
+
+        &:hover {
+            background-color: color.scale($general-base, $lightness: 75%);
+        }
+
+        &:active {
+            background-color: color.scale($general-base, $lightness: 65%);
+        }
+    }
+
+    .action-spacer {
+        flex-grow: 1;
+    }
+
+    a.action-right,
+    a.action-right:link,
+    a.action-right:visited {
+        background-color: $action-button-base;
+        color: white;
+
+        &:hover {
+            background-color: color.scale($action-button-base, $lightness: -10%);
+        }
+    
+        &:active {
+            background-color: color.scale($action-button-base, $lightness: -20%);
+        }
+    }
+}

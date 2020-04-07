@@ -1,0 +1,416 @@
+@use "sass:color";
+
+$general-base: rgb(150, 150, 150);
+$antiphonal-base: rgb(38, 50, 237);
+$solo-base: rgb(193, 47, 138);
+$swell-base: rgb(219, 81, 32);
+$great-base: rgb(3, 195, 235);
+$choir-base: rgb(228, 220, 0);
+$positiv-base: rgb(152, 193, 42);
+$pedal-base: rgb(62, 96, 111);
+
+$base-ligthness: 80%;
+$hover-lightness: 65%;
+$active-lightness: 50%;
+
+$input-bg-color: color.scale($general-base, $lightness: 85%);
+$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+
+// Container styles ---------------------------------------------
+
+.sequence-form {
+    margin-bottom: 30px;
+}
+
+.form-row {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.form-group {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    label {
+        margin-bottom: 5px;
+        
+        font-size: 12px;
+        //text-transform: uppercase;
+    }
+
+    input[type=text] {
+        
+        padding: 10px;
+        background-color: $input-bg-color;
+        border: 0px solid black;
+        font-size: 16px;
+        font-family: "Montserrat";
+
+    }
+
+    input[type=text]:focus {
+        background-color: $input-bg-color-active;
+        outline: none;
+    }
+
+    &.form-catalog {
+        width: 100px;
+        flex-grow: 0;
+    }
+    &.form-title {
+        flex-grow: 2;
+    }
+
+    &.form-notes {
+        flex-grow: 1;
+    }
+}
+
+
+
+.flex-container {
+    display: flex;
+}
+
+.left {
+    width: 685px;
+    flex-grow: 0;
+    
+}
+
+.right {
+    
+    flex-grow: 1;
+    padding-left: 30px;
+    border-left: 1px solid #ddd;
+}
+
+// Piston styles -------------------------------------------------
+
+.memory-level {
+
+    select {
+        width: 100px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        appearance: none;
+        background-color: $input-bg-color;
+        border: 0px solid black;
+        border-radius: 0px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        outline: none;
+
+        // https://codepen.io/vkjgr/pen/VYMeXp
+        background-image:
+            linear-gradient(45deg, transparent 50%, gray 50%),
+            linear-gradient(135deg, gray 50%, transparent 50%),
+            linear-gradient(to right, #ccc, #ccc);
+        background-position:
+            calc(100% - 20px) calc(1em + 2px),
+            calc(100% - 15px) calc(1em + 2px),
+            calc(100% - 2.5em) 0.5em;
+        background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
+        background-repeat: no-repeat;
+
+        option {
+            padding: 10px;
+        }  
+    }
+}
+
+.piston-container {
+    width: 100%;
+    margin-left: -10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &.general button {
+        background-color: color.scale($general-base, $lightness: $base-ligthness);
+    }
+
+    &.general button:hover {
+        background-color: color.scale($general-base, $lightness: $hover-lightness);
+    }
+
+    &.general button:active {
+        background-color: color.scale($general-base, $lightness: $active-lightness);
+    }
+
+    &.antiphonal button {
+        background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+    }
+
+    &.antiphonal button:hover {
+        background-color: color.scale($antiphonal-base, $lightness: $hover-lightness);
+    }
+
+    &.antiphonal button:active {
+        background-color: color.scale($antiphonal-base, $lightness: $active-lightness);
+    }
+
+    &.solo button {
+        background-color: color.scale($solo-base, $lightness: $base-ligthness);
+    }
+
+    &.solo button:hover {
+        background-color: color.scale($solo-base, $lightness: $hover-lightness);
+    }
+
+    &.solo button:active {
+        background-color: color.scale($solo-base, $lightness: $active-lightness);
+    }
+
+    &.swell button {
+        background-color: color.scale($swell-base, $lightness: $base-ligthness);
+    }
+
+    &.swell button:hover {
+        background-color: color.scale($swell-base, $lightness: $hover-lightness);
+    }
+
+    &.swell button:active {
+        background-color: color.scale($swell-base, $lightness: $active-lightness);
+    }
+
+    &.great button {
+        background-color: color.scale($great-base, $lightness: $base-ligthness);
+    }
+
+    &.great button:hover {
+        background-color: color.scale($great-base, $lightness: $hover-lightness);
+    }
+
+    &.great button:active {
+        background-color: color.scale($great-base, $lightness: $active-lightness);
+    }
+
+    &.choir button {
+        background-color: color.scale($choir-base, $lightness: $base-ligthness);
+    }
+
+    &.choir button:hover {
+        background-color: color.scale($choir-base, $lightness: $hover-lightness);
+    }
+
+    &.choir button:active {
+        background-color: color.scale($choir-base, $lightness: $active-lightness);
+    }
+
+    &.positiv button {
+        background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+    }
+
+    &.positiv button:hover {
+        background-color: color.scale($positiv-base, $lightness: $hover-lightness);
+    }
+
+    &.positiv button:active {
+        background-color: color.scale($positiv-base, $lightness: $active-lightness);
+    }
+
+    &.pedal button {
+        background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+    }
+
+    &.pedal button:hover {
+        background-color: color.scale($pedal-base, $lightness: $hover-lightness);
+    }
+
+    &.pedal button:active {
+        background-color: color.scale($pedal-base, $lightness: $active-lightness);
+    }
+}
+
+button {
+    
+    margin: 8px;
+    width: 40px;
+    height: 40px;
+    padding-left: 8px;
+    border: 0px solid black; 
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'montserrat', sans-serif;
+    font-weight: 300;
+    line-height: 40px;   
+    text-align: center;
+}
+
+button:focus {
+    outline: none;
+}
+
+// Sequence styles ------------------------------------
+
+.sequence-container {
+    padding-top: 1px;
+}
+
+.sequence-step {
+    
+    margin: 10px 0;
+    padding: 5px 5px 5px 8px;
+    display: flex;
+    flex-grow: 0;
+    cursor: move;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 25px;
+    text-transform: uppercase;
+
+    .step {
+        width: 22px;
+        
+    }
+
+    .level {
+        width: 23px;
+        height: 23px;
+        margin-right: 6px;
+        border: 1px solid black;
+        padding: 0px;
+        line-height: 23px;
+        text-align: center;
+    }
+
+    .division {
+        margin-right: 6px;
+    }
+
+    .piston {
+        width: 23px;
+        height: 23px;
+        border: 1px solid black;
+        border-radius: 12px;
+        line-height: 23px;
+        text-align: center;
+       
+    }
+
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .delete {
+        width: 16px;
+        margin: -5px;
+        padding: 0 10px;
+        flex-grow: 0;
+        background-color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 35px;
+        text-align: center;
+    }
+
+    &.general {
+        background-color: color.scale($general-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $general-base;
+        }
+    }
+
+    &.antiphonal {
+        background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $antiphonal-base;
+        }
+    }
+
+    &.solo {
+        background-color: color.scale($solo-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $solo-base;
+        }
+    }
+
+    &.swell {
+        background-color: color.scale($swell-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $swell-base;
+        }
+    }
+
+    &.great {
+        background-color: color.scale($great-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $great-base;
+        }
+    }
+
+    &.choir {
+        background-color: color.scale($choir-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $choir-base;
+        }
+    }
+
+    &.positiv {
+        background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $positiv-base;
+        }
+    }
+
+    &.pedal {
+        background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+
+        .delete {
+            color: $pedal-base;
+        }
+    }
+
+    &.cdk-drag-preview {
+        line-height: 35px;
+
+        .level {
+            margin-top: 5px;
+        }
+
+        .piston {
+            margin-top: 5px;
+        }
+
+        .delete {
+            padding: 6px 10px;
+        } 
+    }
+}
+
+.cdk-drag-placeholder {
+    color: transparent;
+    opacity: 50%;
+
+    .level {
+        border: 1px solid transparent;
+    }
+
+    .piston {
+        border: 1px solid transparent;
+    }
+
+    .delete {
+        background-color: transparent;
+        color: transparent !important;
+    }
+}
