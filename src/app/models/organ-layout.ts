@@ -36,7 +36,7 @@ export class OrganLayout {
     public spacerColumnWidth: number = 7;
     public divisionSpacerWidth: number = this.spacerColumnWidth + 7;
     public centerSpacerWidth: number = 16;
-
+    
     // Drawknob rows and columns
     public columns: number[] = [];
     private _rowCount: number = 23;

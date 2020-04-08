@@ -61,7 +61,7 @@
 <div class="action-row">
     <a routerLink="/upload" class="action-left">&larr; Upload File</a>
     <span class="action-spacer"></span>
-    <a routerLink="/edit" class="action-right">Edit Sequence &rarr;</a>
+    <a routerLink="/edit" class="action-right" *ngIf="sequence.steps.length > 0">Edit Sequence &rarr;</a>
 </div>
 
 

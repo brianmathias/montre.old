@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-
 import { Sequence } from '../models/sequence';
+import { Piston } from '../models/piston';
+import { OrganService } from './organ.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,33 @@ export class SequenceService {
   public sequence: Sequence = new Sequence();
   //public sequence: Sequence = this.mockData;
 
-  constructor() { }
+  private _pistons: Piston[];
+
+  constructor(private organService: OrganService) {
+    this._pistons = this.organService.pistons;
+  }
 
   public addStep(memoryLevel: number, piston: number): void {
 
-    let base;
+    let base: number;
 
     if (this.sequence.steps.length === 0) { base = -1; }
-    else { base = this.sequence.steps.length -1; }
+    else { 
+      
+      // Base new steps on the most recent general
+      base = -1;
+      let index = this.sequence.steps.length - 1;
+      
+      for (let i = index; i > -1; i--) {
+        if(this._pistons[this.sequence.steps[i].piston].division === "General") {
+          base = i;
+          break;
+        }
+      }
+
+      // Base new steps on the most recent piston
+      //base = this.sequence.steps.length -1; 
+    }
 
     this.sequence.steps.push({
       memoryLevel: memoryLevel,
