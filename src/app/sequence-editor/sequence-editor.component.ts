@@ -28,8 +28,11 @@ export class SequenceEditorComponent implements OnInit {
     this.sequence = this.sequenceService.sequence;
   }
 
+  setBases(method: number): void {
+    this.sequenceService.setBases(method);
+  }
+
   getDivisionStyle(manual: string) {
     return this.divisionStylesService.getDivisionClass(manual);
   }
-
 }

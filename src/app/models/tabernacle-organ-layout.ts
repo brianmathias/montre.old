@@ -54,7 +54,7 @@ export class TabernacleOrganLayout extends OrganLayout {
         this.dividers.push({x: this.dividerColumn(8), y1: this.rows[0], y2: this.rows[20]});
         
         // Center
-        this.dividers.push({x: 396, y1: this.rows[0] - 20, y2: this.rows[21]});
+        this.dividers.push({x: 396, y1: this.rows[0] - 30, y2: this.rows[22] + 30});
         
         // Right stop jamb
         this.dividers.push({x: this.dividerColumn(12), y1: this.rows[0], y2: this.rows[18]});

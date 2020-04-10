@@ -10,5 +10,5 @@
 <div class="action-row">
     <span class="action-spacer"></span>
     <!--<a routerLink="/build" class="action-right" *ngIf="fileLoaded">Build Sequence &rarr;</a>-->
-    <a routerLink="/build" class="action-right">Build Sequence &rarr;</a>
+    <button routerLink="/build" class="action-right" [disabled]="!fileLoaded">Build Sequence &rarr;</button>
 </div>

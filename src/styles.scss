@@ -149,20 +149,28 @@ h2 {
     
 }
 
+button {
+    font-family: "montserrat", sans-serif;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    &:disabled {
+        opacity: 50%;
+    }
+}
+
 .action-row {
     margin: 100px 0 150px;
     display: flex;
 
-    a {
+    button {
         padding: 15px 20px;
         font-size: 20px;
         font-weight: 300;
         text-decoration: none;
     }
 
-    a.action-left,
-    a.action-left:link,
-    a.action-left:visited {
+    button.action-left {
         background-color: $input-bg-color;
         color: black;
 
@@ -179,9 +187,7 @@ h2 {
         flex-grow: 1;
     }
 
-    a.action-right,
-    a.action-right:link,
-    a.action-right:visited {
+    button.action-right {
         background-color: $action-button-base;
         color: white;
 

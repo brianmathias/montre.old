@@ -3,8 +3,6 @@ import * as jsPDF from 'jspdf';
 import { Organ } from '../models/organ';
 import { Piston } from '../models/piston';
 import { OrganLayout } from '../models/organ-layout';
-
-import { TabernacleOrganLayout } from '../models/tabernacle-organ-layout';
 import { SequenceService } from './sequence.service';
 import { OrganService } from './organ.service';
 import { Sequence } from '../models/sequence';
@@ -17,11 +15,12 @@ export class PDFService {
   sequence: Sequence;
   organ: Organ;
   pistons: Piston[];
-  organLayout: OrganLayout = new TabernacleOrganLayout();
+  organLayout: OrganLayout;;
 
   constructor(private sequenceService: SequenceService, private organService: OrganService) { 
     this.sequence = this.sequenceService.sequence;
     this.organ = this.organService.organ;
+    this.organLayout = this.organService.organLayout;
     this.pistons = this.organService.pistons;
   }
 
@@ -150,10 +149,11 @@ export class PDFService {
       pdf.setFont(font, "bold");
       
       for(let stop of this.organ.stops) {
-        const x = this.organLayout.columns[stop.column];
-        const y = this.organLayout.rows[stop.row];
-        const lh = this.organLayout.drawknobFontSize;
-        let offset;
+        const x: number = this.organLayout.columns[stop.column];
+        const y: number = this.organLayout.rows[stop.row];
+        const lh: number = this.organLayout.drawknobFontSize; // Line height
+        let offset: number;
+        let baseline: number;
         
         if(stop.shortPitchDesignation.indexOf("\'") !== -1) {
           offset = this.organLayout.drawknobPitchOffset;
@@ -161,9 +161,15 @@ export class PDFService {
           offset = 0;
         }
 
+        if(stop.shortPitchDesignation === "") {
+          baseline = y + (lh / 2) - 1;
+        } else {
+          baseline = y;
+        }
+
         pdf.circle(x, y, r, "S");
-        pdf.text(stop.shortName, x, y, {align: "center"});
-        pdf.text(stop.shortPitchDesignation, (x + offset), (y + lh), {align: "center"}); 
+        pdf.text(stop.shortName, x, baseline, {align: "center"});
+        pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
       }
 
       for(let divider of this.organLayout.dividers) {

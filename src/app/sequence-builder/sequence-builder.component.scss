@@ -137,6 +137,26 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     flex-direction: row;
     flex-wrap: wrap;
 
+    button {
+    
+        margin: 8px;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        border: 0px solid black; 
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: 'montserrat', sans-serif;
+        font-weight: 300;
+        line-height: 40px;   
+        text-align: center;
+    }
+    
+    button:focus {
+        outline: none;
+    }
+
     &.general button {
         background-color: color.scale($general-base, $lightness: $base-ligthness);
     }
@@ -234,25 +254,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 }
 
-button {
-    
-    margin: 8px;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    border: 0px solid black; 
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    font-family: 'montserrat', sans-serif;
-    font-weight: 300;
-    line-height: 40px;   
-    text-align: center;
-}
 
-button:focus {
-    outline: none;
-}
 
 // Sequence styles ------------------------------------
 

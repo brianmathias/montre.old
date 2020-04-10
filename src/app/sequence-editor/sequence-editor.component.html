@@ -1,5 +1,11 @@
 <h1>Edit Sequence</h1>
 <div>
+    <div class="step general based-on">
+        Base pistons on:
+        <button (click)="setBases(1)">Previous General Piston</button>
+        <button (click)="setBases(2)">Previous Piston</button>
+        <button (click)="setBases(0)">None</button>
+    </div>
     <div *ngFor="let step of sequence.steps; index as i;" class="step" [ngClass]="getDivisionStyle(pistons[step.piston].division)">
         <div class="step-number">
             <div class="text">Step</div>
@@ -40,8 +46,8 @@
         </div>
     </div>
     <div class="action-row">
-        <a routerLink="/build" class="action-left">&larr; Build Sequence</a>
+        <button routerLink="/build" class="action-left">&larr; Build Sequence</button>
         <span class="action-spacer"></span>
-        <a routerLink="/print" class="action-right">Review and Print &rarr;</a>
+        <button routerLink="/print" class="action-right">Review and Print &rarr;</button>
     </div>
 </div>

@@ -9,8 +9,8 @@ import { OrganService } from './organ.service';
 })
 export class SequenceService {
 
-  // Used for working on other components with having to enter a sequence on every reload
-  //public mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "963" }, "version": "Organ w/ Orchestra", "organ": "", "steps": [ { "memoryLevel": 1, "piston": 0, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 1, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 2, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 3, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 35, "base": 3, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 4, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 5, "notes": "", "measure": "" } ] };
+  // Used for working on other components without having to enter a sequence on every reload
+  public mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "963" }, "version": "Organ w/ Orchestra", "organ": "", "steps": [ { "memoryLevel": 1, "piston": 0, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 1, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 2, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 3, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 35, "base": 3, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 4, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 5, "notes": "", "measure": "" } ] };
   
   public sequence: Sequence = new Sequence();
   //public sequence: Sequence = this.mockData;
@@ -23,30 +23,10 @@ export class SequenceService {
 
   public addStep(memoryLevel: number, piston: number): void {
 
-    let base: number;
-
-    if (this.sequence.steps.length === 0) { base = -1; }
-    else { 
-      
-      // Base new steps on the most recent general
-      base = -1;
-      let index = this.sequence.steps.length - 1;
-      
-      for (let i = index; i > -1; i--) {
-        if(this._pistons[this.sequence.steps[i].piston].division === "General") {
-          base = i;
-          break;
-        }
-      }
-
-      // Base new steps on the most recent piston
-      //base = this.sequence.steps.length -1; 
-    }
-
     this.sequence.steps.push({
       memoryLevel: memoryLevel,
       piston: piston,
-      base: base,
+      base: -1,
       notes: "",
       measure: ""
     });
@@ -58,5 +38,29 @@ export class SequenceService {
 
   public reorderSequence(previousIndex: number, currentIndex: number): void { 
     moveItemInArray(this.sequence.steps, previousIndex, currentIndex);
+  }
+
+  public setBases(method: number): void {
+    
+    if(method === 0) { // "None"
+      for(let step of this.sequence.steps) {
+        step.base = -1;
+      }
+    } else if (method === 1) { // "Previous General Piston"
+      
+      let base: number = -1;
+      
+      this.sequence.steps.forEach((step, index) => {
+        this.sequence.steps[index].base = base;
+        if(this._pistons[step.piston].division === "General") {
+          base = index;
+        }
+      });
+    } else if (method === 2) { // "Previous Piston"
+      
+      this.sequence.steps.forEach((step, index) => {
+        step.base = index - 1;
+      });
+    }
   }
 }

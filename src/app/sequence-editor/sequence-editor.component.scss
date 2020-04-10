@@ -21,6 +21,27 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     padding: 0px;
     display: flex;
 
+    &.based-on {
+        padding: 20px;
+        line-height: 40px;
+
+        button {
+            margin: 0 10px;
+            padding: 0 20px;
+            background-color: $input-bg-color;
+            font-size: 16px;
+
+            &:hover {
+                background-color: color.scale($general-base, $lightness: 75%);
+            }
+
+            &:active {
+                background-color: color.scale($general-base, $lightness: 65%);
+            }
+
+        }
+    }
+
     &.general {
         border: 1px solid color.scale($general-base, $lightness: $base-ligthness);
 

@@ -24,7 +24,7 @@ export class OrganLayout {
     public pageHeight: number = 612; // 8.5"
     public pageMargin: number = 36; // 0.25"
     public topMargin: number = 36; // 0.5"
-    public drawknobMargin: number = 18;
+    public drawknobMargin: number = 27;
     public drawknobTopMargin: number = 160;
     
     // Drawknob variables
@@ -35,7 +35,7 @@ export class OrganLayout {
     public drawknobRadius: number = this.drawknobColumnWidth / 2; 
     public spacerColumnWidth: number = 7;
     public divisionSpacerWidth: number = this.spacerColumnWidth + 7;
-    public centerSpacerWidth: number = 16;
+    public centerSpacerWidth: number = 7;
     
     // Drawknob rows and columns
     public columns: number[] = [];
