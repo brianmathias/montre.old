@@ -1,4 +1,4 @@
-import { SequenceStep } from "./sequence-step";
+import { SequenceStep, PrintStep } from "./sequence-step";
 
 export class Sequence {
 
@@ -22,4 +22,8 @@ export class Sequence {
         this.organ = "";
         this.steps = [];
     }
+}
+
+export interface PrintSequence extends Sequence {
+    steps: PrintStep[];
 }

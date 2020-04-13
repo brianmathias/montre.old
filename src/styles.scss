@@ -198,5 +198,9 @@ button {
         &:active {
             background-color: color.scale($action-button-base, $lightness: -20%);
         }
+
+        &:disabled {
+            opacity: .5;
+        }
     }
 }

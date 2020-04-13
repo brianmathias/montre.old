@@ -3,6 +3,7 @@ import { SequenceService } from '../services/sequence.service';
 import { OrganService } from '../services/organ.service';
 import { DivisionStylesService } from '../services/division-styles.service';
 import { PDFService } from '../services/pdf.service';
+import { ProcessService } from '../services/process.service';
 import { Sequence } from '../models/sequence';
 import { SequenceStep } from '../models/sequence-step';
 import { Piston } from '../models/piston';
@@ -18,7 +19,7 @@ export class PrintComponent implements OnInit {
   pistons: Piston[];
   bases: Piston[];
 
-  constructor(private sequenceService: SequenceService, private organService: OrganService, private divisionStylesService: DivisionStylesService, private pdfService: PDFService) { }
+  constructor(private sequenceService: SequenceService, private organService: OrganService, private divisionStylesService: DivisionStylesService, private processService: ProcessService) { }
 
   ngOnInit(): void {
     this.sequence = this.sequenceService.sequence;
@@ -47,7 +48,7 @@ export class PrintComponent implements OnInit {
   }
 
   print(): void {
-    this.pdfService.PDF();
+    this.processService.process(this.sequence);
   }
 
   // Provides conditional CSS classes to enable division colors
