@@ -1,5 +1,5 @@
 <app-header></app-header>
 <div class="container">
     <router-outlet></router-outlet>
-    
+    <app-monitor *ngIf="!env.production"></app-monitor>
 </div>

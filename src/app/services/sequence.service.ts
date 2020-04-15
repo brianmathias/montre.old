@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Sequence } from '../models/sequence';
 import { Piston } from '../models/piston';
@@ -9,16 +10,21 @@ import { OrganService } from './organ.service';
 })
 export class SequenceService {
 
-  // Used for working on other components without having to enter a sequence on every reload
-  public mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "963" }, "version": "Organ w/ Orchestra", "organ": "", "steps": [ { "memoryLevel": 1, "piston": 0, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 1, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 2, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 3, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 35, "base": 3, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 4, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 5, "notes": "", "measure": "" } ] };
-  
-  public sequence: Sequence = new Sequence();
-  //public sequence: Sequence = this.mockData;
-
+  private _env = environment;
+  private _mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "963" }, "version": "Organ w/ Orchestra", "organ": "", "steps": [ { "memoryLevel": 1, "piston": 0, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 1, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 2, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 3, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 35, "base": 3, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 4, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 5, "notes": "", "measure": "" } ] };
   private _pistons: Piston[];
 
+  public sequence: Sequence;
+  
+  
   constructor(private organService: OrganService) {
     this._pistons = this.organService.pistons;
+    
+    if(this._env.production){
+      this.sequence = new Sequence();
+    } else {
+      this.sequence = this._mockData;
+    }
   }
 
   public addStep(memoryLevel: number, piston: number): void {

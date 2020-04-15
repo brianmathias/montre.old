@@ -1706,8 +1706,8 @@ export const TabernacleOrgan: Organ = {
         },
         {
             id: 128, 
-            name: "Antiphonal to Choir",
-            shortName: "ATC", 
+            name: "Antiphonal to Solo",
+            shortName: "ATS", 
             pitchDesignation: "8\'",
             shortPitchDesignation: "8\'",
             column: 12,

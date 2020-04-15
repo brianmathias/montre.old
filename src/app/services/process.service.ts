@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { OrganService } from './organ.service';
 import { Sequence, PrintSequence } from '../models/sequence';
-import { Organ } from '../models/organ';
 import { DrawknobState } from '../models/drawknob-state';
+import { VirtuosoService } from '../services/virtuoso.service';
 import { PDFService } from '../services/pdf.service';
 
 @Injectable({
@@ -10,24 +9,24 @@ import { PDFService } from '../services/pdf.service';
 })
 export class ProcessService {
 
-  organ: Organ;
-
-  constructor(private organService: OrganService, private pdfService: PDFService) { 
-    this.organ = this.organService.organ;
-  }
+  constructor(private virtuosoService: VirtuosoService, private pdfService: PDFService) { }
 
   public process(sequence: Sequence): void { 
     
     // Create a copy of the sequence
     const str = JSON.stringify(sequence);
-    let seq = JSON.parse(str);
+    let seq: Sequence = JSON.parse(str);
 
-    // This step should be replaced with actual logic to get drawknob states from the file
-    seq = this._generateDrawknobs(seq);
+    // Add drawknobs to sequence steps
+    for(let step of seq.steps){
+      step.drawknobs = this.virtuosoService.getPiston(step.memoryLevel, step.piston);
+    }
 
-    // This step stays
-    seq = this._compareDrawknobs(seq);
-    this.pdfService.PDF(seq);    
+    let pseq = seq as PrintSequence;
+
+    // Compare steps to determine add/remove states
+    pseq = this._compareDrawknobs(pseq);
+    this.pdfService.PDF(pseq);    
   }
 
   // Compare drawknobs of each sequence step to determine Add/Remove states
@@ -60,34 +59,7 @@ export class ProcessService {
       }
     }
     return seq;
-  }
-
-  // This function generates fake drawknob data and should be removed later
-  private _generateDrawknobs(sequence: Sequence): PrintSequence {
-
-    // Create copy of sequence
-    const str = JSON.stringify(sequence);
-    let seq: Sequence = JSON.parse(str);
-
-    for (let step of seq.steps) {
-
-      step.drawknobs = [];
-      
-      // Create a random array of boolean drawknob states for each step of the sequence
-      for(let stop of this.organ.stops){
-        const bool: boolean = Math.random() >= 0.5;
-        let ds: DrawknobState;
-        if(bool) { ds = DrawknobState.On; }
-        else { ds = DrawknobState.Off; }
-        step.drawknobs.push(ds);
-      }
-    }
-    return seq as PrintSequence; 
-  }
-
-
-
-
+  } // End _compareDrawknobs
 
 
 
