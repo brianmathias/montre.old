@@ -4,7 +4,7 @@
         <span class="spacer"></span>
         <!--<nav *ngIf="show">-->
         <nav>
-            <a routerLink="/upload" routerLinkActive="active">Upload</a>
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Upload</a>
             <a routerLink="/build" routerLinkActive="active">Build</a>
             <a routerLink="/edit" routerLinkActive="active">Edit</a>
             <a routerLink="/print" routerLinkActive="active">Print</a>

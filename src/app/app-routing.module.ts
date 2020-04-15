@@ -7,8 +7,7 @@ import { PrintComponent } from './print/print.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/upload', pathMatch: 'full' },
-  { path: 'upload', component: FileUploadComponent },
+  { path: '', component: FileUploadComponent },
   { path: 'build', component: SequenceBuilderComponent },
   { path: 'edit', component: SequenceEditorComponent },
   { path: 'print', component: PrintComponent }
