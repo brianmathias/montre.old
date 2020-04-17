@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import { Organ } from '../models/organ';
+import { Organs } from '../models/organs';
 import { Piston } from '../models/piston';
 import { OrganLayout } from '../models/organ-layout';
 import { PrintSequence } from '../models/sequence';
@@ -24,7 +25,13 @@ export class PDFService {
   }
 
   public PDF(sequence: PrintSequence){
+    
     this.sequence = sequence;
+    let organString: string;
+
+    if (this.sequence.organ === Organs.Tabernacle) { organString = "TAB"; }
+    else if (this.sequence.organ === Organs.ConferenceCenter ) { organString = "CC" }
+
     const testing = false;
     const font = "Helvetica";
     const r = this.organLayout.drawknobRadius;
@@ -90,9 +97,6 @@ export class PDFService {
       pdf.setFont(font, "bold");
       pdf.setFontSize(10);
       
-      let organString;
-      if(this.organ.venue === "Tabernacle") { organString = "TAB"; }
-      else if (this.organ.venue === "Conference Center") { organString = "CC"; }
       pdf.text(organString, 72, 46, {align: "center"});
 
       // Draw step number 
@@ -150,7 +154,7 @@ export class PDFService {
       
       for(let i = 0; i < this.organ.stops.length; i++) {
         const stop = this.organ.stops[i];
-        const state: DrawknobState = step.drawknobs[i];
+        const state: DrawknobState = step.drawknobs[i].state;
         
         const x: number = this.organLayout.columns[stop.column];
         const y: number = this.organLayout.rows[stop.row];
@@ -220,7 +224,14 @@ export class PDFService {
 
 
     pdf.deletePage(page); // Delete extra page from end of loop
-    pdf.save("montre.pdf");
+
+    let title = "";
+    if(sequence.composition.catalogNo !== "") { title += sequence.composition.catalogNo + " - "; }
+    title += sequence.composition.title;
+    if(title === "") { title = "Montre"; }
+    title += " (" + organString + ").pdf";
+
+    pdf.save(title);
 
   }
 }

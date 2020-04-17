@@ -1,4 +1,4 @@
-import { DrawknobState } from './drawknob-state';
+import { Drawknob } from './drawknob';
 
 export interface SequenceStep {
     
@@ -7,9 +7,9 @@ export interface SequenceStep {
     base: number; // Index of sequence step current step is based on (-1 = none); 
     notes: string;
     measure: string; 
-    drawknobs?: DrawknobState[];
+    drawknobs?: Drawknob[];
 }
 
 export interface PrintStep extends SequenceStep {
-    drawknobs: DrawknobState[];
+    drawknobs: Drawknob[];
 }

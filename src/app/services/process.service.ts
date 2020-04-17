@@ -47,13 +47,13 @@ export class ProcessService {
         for(let j = 0; j < step.drawknobs.length; j++){
 
           // If previous step is Off or Remove, change On to Add
-          if (step.drawknobs[j] === DrawknobState.On && (base.drawknobs[j] === DrawknobState.Off || base.drawknobs[j] === DrawknobState.Remove)){
-            step.drawknobs[j] = DrawknobState.Add;
+          if (step.drawknobs[j].state === DrawknobState.On && (base.drawknobs[j].state === DrawknobState.Off || base.drawknobs[j].state === DrawknobState.Remove)){
+            step.drawknobs[j].state = DrawknobState.Add;
           }
 
           // If previous step is On or Add, change Off to Remove
-          else if (step.drawknobs[j] === DrawknobState.Off && (base.drawknobs[j] === DrawknobState.On || base.drawknobs[j] === DrawknobState.Add)){
-            step.drawknobs[j] = DrawknobState.Remove;
+          else if (step.drawknobs[j].state === DrawknobState.Off && (base.drawknobs[j].state === DrawknobState.On || base.drawknobs[j].state === DrawknobState.Add)){
+            step.drawknobs[j].state = DrawknobState.Remove;
           }
         }
       }

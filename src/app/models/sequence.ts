@@ -1,4 +1,6 @@
+import { Organs } from '../models/organs';
 import { SequenceStep, PrintStep } from "./sequence-step";
+
 
 export class Sequence {
 
@@ -9,7 +11,7 @@ export class Sequence {
     }
     
     version: string;
-    organ: string
+    organ: Organs;
     steps: SequenceStep[]
 
     constructor() {
@@ -19,7 +21,7 @@ export class Sequence {
             catalogNo: ""
         };
         this.version = "";
-        this.organ = "";
+        this.organ = null;
         this.steps = [];
     }
 }

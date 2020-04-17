@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Organ } from '../models/organ';
+import { Drawknob } from '../models/drawknob';
 import { DrawknobState } from '../models/drawknob-state';
 import { OrganService } from '../services/organ.service';
 import { FileService } from '../services/file.service';
@@ -18,9 +19,9 @@ export class VirtuosoService {
     this._organ = this.organService.organ;
    }
 
-  public getPiston(level: number, piston: number): DrawknobState[] {
+  public getPiston(level: number, piston: number): Drawknob[] {
 
-    let drawknobs: DrawknobState[] = [];
+    let drawknobs: Drawknob[] = [];
 
     if(this._env.virtuoso) {
       // Insert code here to find the correct address for the requested piston,
@@ -33,18 +34,50 @@ export class VirtuosoService {
     return drawknobs;
   }
 
-  private _generateDrawknobs(): DrawknobState[] {
+  private _getOffset(level: number, piston: number): number {
+    
+    // Calculates and returns the offset at which the data for the requested piston 
+    // is located
+
+    return 1;
+  }
+
+  private _getBinaryString(offset: number): string[] {
+    
+    // Requests binary info from FileService at offset and returns the information as
+    // an array of 32-bit binary strings
+    
+    return ["test", "string"]; 
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+  private _generateDrawknobs(): Drawknob[] {
 
     // Generates drawknob states for one piston and returns an array of On or Off drawknob states
 
-    let drawknobs: DrawknobState[] = [];
+    let drawknobs: Drawknob[] = [];
 
     for(let stop of this._organ.stops){
+      
+      let drawknob: Drawknob = {
+        state: DrawknobState.Off,
+        isInRange: true,
+        isCancelable: true
+      }
+
       const bool: boolean = Math.random() >= 0.5;
-      let ds: DrawknobState;
-      if(bool) { ds = DrawknobState.On; }
-      else { ds = DrawknobState.Off; }
-      drawknobs.push(ds);
+      if(bool) { drawknob.state = DrawknobState.On; }
+      drawknobs.push(drawknob);
     }
     return drawknobs;
   }

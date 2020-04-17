@@ -11,7 +11,7 @@ import { OrganService } from './organ.service';
 export class SequenceService {
 
   private _env = environment;
-  private _mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "963" }, "version": "Organ w/ Orchestra", "organ": "", "steps": [ { "memoryLevel": 1, "piston": 0, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 1, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 2, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 3, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 35, "base": 3, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 4, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 5, "notes": "", "measure": "" } ] };
+  private _mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "893" }, "version": "Organ w/ Orchestra", "organ": null, "steps": [ { "memoryLevel": 1, "piston": 13, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 12, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 11, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 41, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 14, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 4, "base": 5, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 28, "base": 6, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 6, "notes": "", "measure": "" } ] }
   private _pistons: Piston[];
 
   public sequence: Sequence;
@@ -22,8 +22,10 @@ export class SequenceService {
     
     if(this._env.production){
       this.sequence = new Sequence();
+      this.sequence.organ = this.organService.selectedOrgan;
     } else {
       this.sequence = this._mockData;
+      this.sequence.organ = this.organService.selectedOrgan;
     }
   }
 
