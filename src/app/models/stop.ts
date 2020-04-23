@@ -8,5 +8,6 @@ export interface Stop {
     column: number; // Drawknob column index (from left, zero indexed)
     row: number; // Drawknob row index (from top, zero indexed)
     division: number; // Index of manual stop belongs to
-    
+    aux?: boolean; // Whether the stop is an "auxilliary" stop (to be drawn with a square border at the bottom)
+       
 }

@@ -54,7 +54,7 @@ export class TabernacleOrganLayout extends OrganLayout {
         this.dividers.push({x: this.dividerColumn(8), y1: this.rows[0], y2: this.rows[20]});
         
         // Center
-        this.dividers.push({x: 396, y1: this.rows[0] - 30, y2: this.rows[22] + 30});
+        this.dividers.push({x: 396, y1: this.rows[0] - 30, y2: this.rows[22] + 10});
         
         // Right stop jamb
         this.dividers.push({x: this.dividerColumn(12), y1: this.rows[0], y2: this.rows[18]});
@@ -73,5 +73,15 @@ export class TabernacleOrganLayout extends OrganLayout {
         this.labels.push({label: "GREAT", x: this.columns[16], y: this.labelRow()});
         this.labels.push({label: "CHOIR", x: this.labelColumn(19), y: this.labelRow()});
         this.labels.push({label: "POS.", x: this.columns[19], y: this.rows[14] + 2});
+
+        // Auxilliary stop columns (7 stops, centered on page)
+        let center = 792 / 2;
+        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
+        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
+        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
+        this.auxColumns.push(center);
+        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
+        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
+        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
     }
 }

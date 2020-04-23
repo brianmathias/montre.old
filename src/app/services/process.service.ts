@@ -3,16 +3,18 @@ import { Sequence, PrintSequence } from '../models/sequence';
 import { DrawknobState } from '../models/drawknob-state';
 import { VirtuosoService } from '../services/virtuoso.service';
 import { PDFService } from '../services/pdf.service';
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessService {
 
-  constructor(private virtuosoService: VirtuosoService, private pdfService: PDFService) { }
+  constructor(private virtuosoService: VirtuosoService, private pdfService: PDFService, private log: LogService) { }
 
   public process(sequence: Sequence): void { 
     
+    this.log.add("Processing sequence.");
     // Create a copy of the sequence
     const str = JSON.stringify(sequence);
     let seq: Sequence = JSON.parse(str);
@@ -26,6 +28,7 @@ export class ProcessService {
 
     // Compare steps to determine add/remove states
     pseq = this._compareDrawknobs(pseq);
+    this.log.add(pseq);
     this.pdfService.PDF(pseq);    
   }
 

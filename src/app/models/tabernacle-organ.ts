@@ -2633,8 +2633,83 @@ export const TabernacleOrgan: Organ = {
             column: 21,
             row: 22,
             division: 6
-        }
-
+        },
+        {
+            id: 221, 
+            name: "All Tremulants Off",
+            shortName: "TRM", 
+            pitchDesignation: "",
+            shortPitchDesignation: "OFF",
+            column: 0,
+            row: 24,
+            division: 0,
+            aux: true
+        },
+        {
+            id: 222, 
+            name: "MIDI to Antiphonal",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "ANT",
+            column: 1,
+            row: 24,
+            division: 1,
+            aux: true
+        },
+        {
+            id: 223, 
+            name: "MIDI to Solo",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "SO",
+            column: 2,
+            row: 24,
+            division: 2,
+            aux: true
+        },
+        {
+            id: 224, 
+            name: "MIDI to Swell",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "SW",
+            column: 3,
+            row: 24,
+            division: 3,
+            aux: true
+        },
+        {
+            id: 225, 
+            name: "MIDI to Great",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "GT",
+            column: 4,
+            row: 24,
+            division: 4,
+            aux: true
+        },
+        {
+            id: 226, 
+            name: "MIDI to Choir",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "CH",
+            column: 5,
+            row: 24,
+            division: 5,
+            aux: true,
+        },
+        {
+            id: 227, 
+            name: "MIDI to Pedal",
+            shortName: "MID", 
+            pitchDesignation: "",
+            shortPitchDesignation: "PD",
+            column: 6,
+            row: 24,
+            division: 7,
+            aux: true
+        } 
     ] // end stops
-
 }

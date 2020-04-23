@@ -39,6 +39,7 @@ export class OrganLayout {
     
     // Drawknob rows and columns
     public columns: number[] = [];
+    public auxColumns?: number[] = []
     private _rowCount: number = 23;
     public rows: number[] = [];
 
@@ -56,6 +57,9 @@ export class OrganLayout {
             const y = this.rows[i - 1] + (this.drawknobColumnWidth / 2) + (this.spacerColumnWidth / 2);
             this.rows.push(y);
         }
+
+        // Bottom row for auxilliary stops (row 24)
+        this.rows.push(564);
         
         // Column coordinates should be calculated in sub-class cunstructors
         // Division labels and dividers should be specified in sub-class constructors

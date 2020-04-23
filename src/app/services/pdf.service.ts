@@ -7,7 +7,8 @@ import { OrganLayout } from '../models/organ-layout';
 import { PrintSequence } from '../models/sequence';
 import { DrawknobState } from '../models/drawknob-state';
 import { OrganService } from './organ.service';
-
+import { LogService } from './log.service';
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,7 @@ export class PDFService {
   pistons: Piston[];
   organLayout: OrganLayout;
 
-  constructor(private organService: OrganService) { 
+  constructor(private organService: OrganService, private log: LogService) { 
     this.organ = this.organService.organ;
     this.organLayout = this.organService.organLayout;
     this.pistons = this.organService.pistons;
@@ -45,6 +46,7 @@ export class PDFService {
 
     for (let step of this.sequence.steps) {
       
+      this.log.add("Drawing page " + page + ".");
       // Draw margins and drawknob columns in test mode
       if(testing) {
         
@@ -92,6 +94,7 @@ export class PDFService {
       }
     
       // Draw organ indicator
+      pdf.setDrawColor("0");
       pdf.setLineWidth(1);
       pdf.rect(36, 30, 72, 24, "S");
       pdf.setFont(font, "bold");
@@ -156,7 +159,14 @@ export class PDFService {
         const stop = this.organ.stops[i];
         const state: DrawknobState = step.drawknobs[i].state;
         
-        const x: number = this.organLayout.columns[stop.column];
+        let x: number 
+        
+        if (this.organ.stops[i].aux) {
+          x = this.organLayout.auxColumns[stop.column];
+        } else {
+          x = this.organLayout.columns[stop.column];
+        } 
+
         const y: number = this.organLayout.rows[stop.row];
         const lh: number = this.organLayout.drawknobFontSize; // Line height
         let offset: number;
@@ -197,10 +207,17 @@ export class PDFService {
         if(stop.shortPitchDesignation === "") {
           baseline = y + (lh / 2) - 1;
         } else {
-          baseline = y;
+          baseline = y - 1;
         }
 
-        pdf.circle(x, y, r, style);
+        // Draw a circle around regular stops and a square around "auxilliary" stops
+        if(stop.aux) {
+          pdf.rect(x - r, y - r, r * 2, r * 2, style);
+        } else {
+          pdf.circle(x, y, r, style);
+        }
+
+        
         pdf.text(stop.shortName, x, baseline, {align: "center"});
         pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
       }
@@ -232,6 +249,6 @@ export class PDFService {
     title += " (" + organString + ").pdf";
 
     pdf.save(title);
-
+    this.log.add("PDF finished.")
   }
 }

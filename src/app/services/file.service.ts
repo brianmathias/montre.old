@@ -24,6 +24,7 @@ export class FileService {
   
   constructor(private organService: OrganService) {
     if(!this._env.virtuoso) {
+      //this.organService.setOrgan(Organs.Tabernacle);
       this.organService.setOrgan(Organs.Tabernacle);
     }
   }
