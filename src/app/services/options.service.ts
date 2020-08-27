@@ -91,7 +91,6 @@ export class OptionsService {
     let dateString = date.toISOString().split("T")[0];
     str = str.replace("$date", dateString);
 
-    console.log(str);
     return str;
   }
 
