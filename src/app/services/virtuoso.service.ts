@@ -6,7 +6,11 @@ import { DrawknobState } from '../models/drawknob-state';
 import { OrganService } from '../services/organ.service';
 import { FileService } from '../services/file.service';
 
-
+/**
+ * This service is the bridge between ProcessService and FileService, and is responsible
+ * for interpreting the Virtuoso file format. It requests raw binary data from FileService
+ * and returns an array of DrawknobState[] to ProcessService.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +23,11 @@ export class VirtuosoService {
     this._organ = this.organService.organ;
    }
 
+  /**
+   * Retrieves the drawknob data for a single piston.
+   * @param level {number} - The memory level of the requested piston.
+   * @param piston {number} - The index number of the requested piston.
+   */ 
   public getPiston(level: number, piston: number): Drawknob[] {
 
     let drawknobs: Drawknob[] = [];
@@ -34,14 +43,19 @@ export class VirtuosoService {
     return drawknobs;
   }
 
+  /** Calculates (or looks up?) the binary offset for the requested piston.
+   * @param level {number} - The memory level of the requested piston.
+   * @param piston {number} - The index number of the requested piston.
+   */
   private _getOffset(level: number, piston: number): number {
-    
-    // Calculates and returns the offset at which the data for the requested piston 
-    // is located
 
     return 1;
   }
 
+  /**
+   * Requests a binary string at offset from FileService.
+   * @param offset {number} - The offset location of binary string being requested.
+   */
   private _getBinaryString(offset: number): string[] {
     
     // Requests binary info from FileService at offset and returns the information as

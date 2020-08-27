@@ -1,5 +1,10 @@
 import { OrganLayout } from './organ-layout';
 
+/** 
+ * Subclassed OrganLayout for the Tabernacle organ. 
+ * 
+ * @extends OrganLayout
+ */
 export class TabernacleOrganLayout extends OrganLayout {
 
     constructor(){

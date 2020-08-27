@@ -11,7 +11,7 @@
         display: flex;
     }
 
-    img {
+    img.logo {
         height: 36px;
         margin: 12px 0;
         flex-grow: 0;
@@ -23,10 +23,11 @@
 
     nav {
         flex-grow: 0;
+        display: flex;
 
         a {
             padding: 0 40px;
-            display: inline-block;
+           
             color: white;
             line-height: 60px;
             text-align: center;
@@ -36,6 +37,11 @@
 
         a.active {
             background-color: rgba(255,255,255,0.1);
+        }
+
+        img.gear { 
+            padding: 16px 0;
+
         }
 
     }

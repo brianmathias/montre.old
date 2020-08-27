@@ -1,3 +1,7 @@
+@use "sass:color";
+
+// Division Colors
+
 $general-base: rgb(150, 150, 150);
 $antiphonal-base: rgb(38, 50, 237);
 $solo-base: rgb(193, 47, 138);
@@ -5,4 +9,61 @@ $swell-base: rgb(219, 81, 32);
 $great-base: rgb(3, 195, 235);
 $choir-base: rgb(228, 220, 0);
 $positiv-base: rgb(152, 193, 42);
-$pedal-base:  rgb(114, 151, 166);
+$pedal-base: rgb(62, 96, 111);
+
+$default-lightness: 80%;
+$hover-lightness: 65%;
+$active-lightness: 50%;
+
+$general: color.scale($general-base, $lightness: $default-lightness);
+$general-hover: color.scale($general-base, $lightness: $hover-lightness);
+$general-active: color.scale($general-base, $lightness: $active-lightness);
+
+$antiphonal: color.scale($antiphonal-base, $lightness: $default-lightness);
+$antiphonal-hover: color.scale($antiphonal-base, $lightness: $hover-lightness);
+$antiphonal-active: color.scale($antiphonal-base, $lightness: $active-lightness);
+
+$solo: color.scale($solo-base, $lightness: $default-lightness);
+$solo-hover: color.scale($solo-base, $lightness: $hover-lightness);
+$solo-active: color.scale($solo-base, $lightness: $active-lightness);
+
+$swell: color.scale($swell-base, $lightness: $default-lightness);
+$swell-hover: color.scale($swell-base, $lightness: $hover-lightness);
+$swell-active: color.scale($swell-base, $lightness: $active-lightness);
+
+$great: color.scale($great-base, $lightness: $default-lightness);
+$great-hover: color.scale($great-base, $lightness: $hover-lightness);
+$great-active: color.scale($great-base, $lightness: $active-lightness);
+
+$choir: color.scale($choir-base, $lightness: $default-lightness);
+$choir-hover: color.scale($choir-base, $lightness: $hover-lightness);
+$choir-active: color.scale($choir-base, $lightness: $active-lightness);
+
+$positiv: color.scale($positiv-base, $lightness: $default-lightness);
+$positiv-hover: color.scale($positiv-base, $lightness: $hover-lightness);
+$positiv-active: color.scale($positiv-base, $lightness: $active-lightness);
+
+$pedal: color.scale($pedal-base, $lightness: $default-lightness);
+$pedal-hover: color.scale($pedal-base, $lightness: $hover-lightness);
+$pedal-active: color.scale($pedal-base, $lightness: $active-lightness);
+
+// Inputs
+
+$input-color: black;
+$input-bg-color: color.scale($general-base, $lightness: 85%);
+$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+
+// Action Buttons
+
+$action-button: rgb(12, 130, 232);
+$action-button-hover: color.scale($action-button, $lightness: -8%);
+$action-button-active: color.scale($action-button, $lightness: -16%);
+
+$secondary-button: $input-bg-color;
+$secondary-button-hover: color.scale($secondary-button, $lightness: -5%);
+$secondary-button-active: color.scale($secondary-button, $lightness: -10%);
+
+// Misc.
+
+$divider-color: #ddd;
+

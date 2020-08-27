@@ -1,21 +1,4 @@
-@use "sass:color";
-
-$general-base: rgb(150, 150, 150);
-$antiphonal-base: rgb(38, 50, 237);
-$solo-base: rgb(193, 47, 138);
-$swell-base: rgb(219, 81, 32);
-$great-base: rgb(3, 195, 235);
-$choir-base: rgb(228, 220, 0);
-$positiv-base: rgb(152, 193, 42);
-$pedal-base: rgb(62, 96, 111);
-
-$base-ligthness: 80%;
-$hover-lightness: 65%;
-$active-lightness: 50%;
-
-$input-bg-color: color.scale($general-base, $lightness: 85%);
-$input-bg-color-active: color.scale($general-base, $lightness: 65%);
-
+@import "../../variables";
 
 .sequence-info {
 
@@ -57,7 +40,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
             .text {
                 min-height: 19px;
                 padding: 10px 0 4px;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid $divider-color;
             }
        }
    }
@@ -71,7 +54,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
         display: flex;
         flex-direction: row;
         padding: 10px 0;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $divider-color;
         line-height: 35px;
 
         &.header {
@@ -151,35 +134,35 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
             }
 
             &.general {
-                background-color: color.scale($general-base, $lightness: $base-ligthness);
+                background-color: $general;
             }
         
             &.antiphonal {
-                background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+                background-color: $antiphonal;
             }
         
             &.solo {
-                background-color: color.scale($solo-base, $lightness: $base-ligthness);
+                background-color: $solo;
             }
         
             &.swell {
-                background-color: color.scale($swell-base, $lightness: $base-ligthness);
+                background-color: $swell;
             }
         
             &.great {
-                background-color: color.scale($great-base, $lightness: $base-ligthness);
+                background-color: $great;
             }
         
             &.choir {
-                background-color: color.scale($choir-base, $lightness: $base-ligthness);
+                background-color: $choir;
             }
         
             &.positiv {
-                background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+                background-color: $positiv;
             }
         
             &.pedal {
-                background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+                background-color: $pedal;
             }
         }
     }

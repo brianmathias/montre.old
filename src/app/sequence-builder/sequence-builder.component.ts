@@ -39,12 +39,12 @@ export class SequenceBuilderComponent implements OnInit {
     this.sequenceService.deleteStep(step);
   }
 
-  // Fires when a sequence step is reordered
+  /** Fires when a sequence step is reordered. */
   drop(event: CdkDragDrop<string[]>) {
     this.sequenceService.reorderSequence(event.previousIndex, event.currentIndex);
   }
 
-  // Provides conditional CSS classes to enable division colors
+  /** Provides conditional CSS classes to enable division colors. */
   getDivisionStyle(manual: string) {
     return this.divisionStylesService.getDivisionClass(manual);
   }

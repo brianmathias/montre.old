@@ -12,6 +12,8 @@ import { MonitorComponent } from './monitor/monitor.component';
 import { SequenceEditorComponent } from './sequence-editor/sequence-editor.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PrintComponent } from './print/print.component';
+import { OptionsComponent } from './options/options.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { PrintComponent } from './print/print.component';
     SequenceEditorComponent,
     FileUploadComponent,
     PrintComponent,
+    OptionsComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

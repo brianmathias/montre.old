@@ -1,16 +1,40 @@
 import { Injectable } from '@angular/core';
 
+interface DivisionStyleObject {
+  general?: boolean;
+  antiphonal?: boolean;
+  solo?: boolean;
+  swell?: boolean;
+  great?: boolean;
+  choir?: boolean;
+  positiv?: boolean;
+  pedal?: boolean;
+}
+
+
+/**
+ * Service that provides components an easy way to apply CSS classes based on divisions 
+ * of the organ. 
+ */
+
 @Injectable({
   providedIn: 'root'
 })
-export class DivisionStylesService {
 
-  // This service provides a simple function for applying conditional styles (colors)
-  // for different division of the organ
+export class DivisionStylesService {
 
   constructor() { }
 
-  getDivisionClass(manual: string) {
+  /** 
+   * Takes the name of the division as input and returns a DivisionStyleObject that 
+   * can be used to apply the proper CSS class to an element using ngClass.
+   * 
+   * @param {string} manual - The name of the manual.
+   * 
+   * @return {DivisionStyleObject}
+   */
+
+  getDivisionClass(manual: string): DivisionStyleObject {
     
     let style: string = "";
     

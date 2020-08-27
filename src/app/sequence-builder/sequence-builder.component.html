@@ -4,22 +4,29 @@
         <div class="form-row">
             <div class="form-group form-catalog">
                 <label for="catalog">Catalog no.</label>
-                <input type="text" class="form-control" [(ngModel)]="sequence.composition.catalogNo" id="catalog" name="catalog">
+                <input type="text" class="form-control large" [(ngModel)]="sequence.composition.catalogNo" id="catalog" name="catalog">
             </div>
             <div class="form-group form-title">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" [(ngModel)]="sequence.composition.title" id="title" name="title">
+                <input type="text" class="form-control large" [(ngModel)]="sequence.composition.title" id="title" name="title">
             </div>
     
             <div class="form-group form-composer">
                 <label for="composer">Composer</label>
-                <input type="text" class="form-control" [(ngModel)]="sequence.composition.composer" id="composer" name="composer">
+                <input type="text" class="form-control large" [(ngModel)]="sequence.composition.composer" id="composer" name="composer">
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group form-notes">
+            <div class="form-group form-type">
+                <label for="type">Type</label>
+                <select class="form-control large" id="level" name="type" [(ngModel)]="sequence.type">
+                    <option [value]="'Choral'">Choral</option>
+                    <option [value]="'Organ'">Organ</option>
+                </select>
+            </div>
+            <div class="form-group form-version">
                 <label for="notes">Version</label>
-                <input type="text" class="form-control" [(ngModel)]="sequence.version" id="version" name="version">
+                <input type="text" class="form-control large" [(ngModel)]="sequence.version" id="version" name="version">
             </div>
             
         </div>
@@ -33,7 +40,7 @@
     <div class="left">
         <div class="division memory-level">
             <h2>Memory Level</h2>
-            <select class="form-control" id="level" [(ngModel)]="memoryLevel">
+            <select class="form-control large" id="level" [(ngModel)]="memoryLevel">
                 <option *ngFor="let level of memoryLevels" [value]="level">{{level}}</option>
             </select>
         </div>

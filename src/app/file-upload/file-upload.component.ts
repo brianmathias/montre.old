@@ -14,12 +14,15 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   fileNameSubscription: Subscription;
   fileLoaded: boolean = false;
   fileLoadedSubscription: Subscription;
+  fileError: string = "";
+  fileErrorSubscription: Subscription;
 
   constructor(private fileService: FileService) {}
 
   ngOnInit(): void {
-    this.fileLoadedSubscription = this.fileService.fileLoaded.subscribe(val => this.fileLoaded = val);
-    this.fileNameSubscription = this.fileService.fileName.subscribe(val => this.fileName = val);
+    this.fileLoadedSubscription = this.fileService.fileLoaded$.subscribe(val => this.fileLoaded = val);
+    this.fileNameSubscription = this.fileService.fileName$.subscribe(val => this.fileName = val);
+    this.fileErrorSubscription = this.fileService.fileError$.subscribe(val => this.fileError = val);
   }
 
   ngOnDestroy(): void {

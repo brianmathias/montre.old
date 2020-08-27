@@ -1,0 +1,75 @@
+<h1>Options</h1>
+<div class="section">
+    <h2>Filename</h2>
+    <div class="tokens">
+        <div class="filename-group">
+            <label>Choral Works</label>
+            <input type="text" class="large" [(ngModel)]="filenameTemplateChoral" (keyup)="updateFilenameChoral()">
+            <p class="example">Example: <span class="filename">{{filenameExampleChoral}}</span></p>
+        </div>
+        <div class="filename-group">
+            <label>Organ Works</label>
+            <input type="text" class="large" [(ngModel)]="filenameTemplateOrgan" (keyup)="updateFilenameOrgan()">
+            <p class="example">Example: <span class="filename">{{filenameExampleOrgan}}</span></p>
+        </div>
+        <p>Available tokens:</p>
+        <ul>
+            <li>$catalog - Catalog number</li>
+            <li>$composer-first - Composer first name</li>
+            <li>$composer-last - Composer last name</li>
+            <li>$title - Composition title</li>
+            <li>$version - Composition version</li>
+            <li>$organ - TAB or CC</li>
+            <li>$date - Today's date (yyyy-mm-dd)</li>
+        </ul>
+        
+    </div>
+</div>
+<div class="section">
+    <h2>Page Title</h2>
+    <div class="tokens">
+        <div class="filename-group">
+            <label>Choral Works</label>
+            <input type="text" class="large" [(ngModel)]="titleTemplateChoral" (keyup)="updateTitleChoral()">
+            <p class="example">Example: <span class="filename">{{titleExampleChoral}}</span></p>
+        </div>
+        <div class="filename-group">
+            <label>Organ Works</label>
+            <input type="text" class="large" [(ngModel)]="titleTemplateOrgan" (keyup)="updateTitleOrgan()">
+            <p class="example">Example: <span class="filename">{{titleExampleOrgan}}</span></p>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h2>History</h2>
+
+    <div class="history-table" *ngIf="sequenceHistory.length > 0">
+        <div class="row header">
+            <div class="cell catalog">Catalog</div>
+            <div class="cell title">Title</div>
+            <div class="cell composer">Composer</div>
+            <div class="cell organ">Organ</div>
+            <div class="cell date">Date</div>
+            <div class="cell view"></div>
+            <div class="cell remove"></div>
+        </div>
+        <div class="row" *ngFor="let sequence of sequenceHistory; index as i;">
+            <div class="cell catalog">{{sequence.composition.catalogNo}}</div>
+            <div class="cell title">{{sequence.composition.title}}</div>
+            <div class="cell composer">{{sequence.composition.composer}}</div>
+            <div class="cell organ">{{sequence.organString}}</div>
+            <div class="cell date">{{sequence.date | date: 'shortDate'}}</div>
+            <div class="cell view"><button (click)="reprintRecord(sequence)">View</button></div>
+            <div class="cell remove"><span (click)="removeFromHistory(i)">X</span></div>
+        </div>
+    </div>
+
+    <button (click)="clearHistory()" *ngIf="sequenceHistory.length > 0">Clear History</button>
+
+
+</div>
+<div class="section">
+    <h2>Blank Piston Records</h2>
+    <button (click)="printBlankRecord(0)">Tabernacle Organ</button>
+    <button (click)="printBlankRecord(1)">Conference Center Organ</button>
+</div>

@@ -1,0 +1,146 @@
+@import '../../variables';
+
+button {
+    margin-right: 20px;
+}
+
+.section {
+    padding-bottom: 48px;
+    border-bottom: 1px solid $divider-color;
+
+    h2 {
+        margin-top: 24px;
+        margin-bottom: 36px;
+    }
+
+    &:last-child {
+        border-bottom: 0px solid $divider-color;
+    }
+}
+
+.filename-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.tokens {
+
+    margin-bottom: 20px;
+
+    input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    margin: 20px 0;
+    color: black;
+
+    p {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    ul {
+        margin-bottom: 20px;
+        font-size: 13px;
+        list-style-position: inside;
+        list-style-type: disc;
+
+
+        li {
+            margin-bottom: 5px;
+            margin-left: 10px;
+        }
+    }
+
+    p.example {
+        font-size: 14px;
+
+        .filename {
+            font-family: monospace;
+        }
+    }
+}
+
+.history-table {
+
+    margin-bottom: 20px;
+    font-size: 14px; 
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        padding: 10px 0;
+        border-bottom: 1px solid $divider-color;
+        line-height: 39px;
+
+        &.header {
+            font-weight: 700;
+            text-align: left;
+        }
+
+        &:last-child {
+            border-bottom: 0px solid $divider-color;
+        }
+    }
+
+    .cell {
+
+        padding: 0 10px;
+
+        &.catalog {
+            width: 50px;
+            padding-left: 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        &.composer {
+            width: 200px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        &.title {
+            min-width: 200px;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        &.organ {
+            width: 80px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        &.date {
+            width: 80px;
+            flex-grow: 0;
+        }
+
+        &.view {
+            width: 100px;
+            padding: 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+            text-align: right;
+
+            button {
+                margin-right: 0;
+            }
+        }
+
+        &.remove {
+            width: 30px;
+            padding: 0 10px;
+            flex-grow: 0;
+            color: $divider-color;
+            cursor: pointer;
+            text-align: right;
+        }
+
+    }
+}
+
+

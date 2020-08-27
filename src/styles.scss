@@ -1,5 +1,6 @@
 
 @use "sass:color";
+@import "variables";
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -30,37 +31,7 @@ $montre-theme: mat-light-theme($montre-primary, $montre-accent, $montre-warn);
 
 /* You can add global styles to this file, and also import other style files */
 
-:root {
-    --general-base: rgb(150, 150, 150);
-    --antiphonal-base: rgb(38, 50, 237);
-    --solo-base: rgb(193, 47, 138);
-    --swell-base: rgb(219, 81, 32);
-    --great-base: rgb(3, 195, 235);
-    --choir-base: rgb(228, 220, 0);
-    --positiv-base: rgb(152, 193, 42);
-    --pedal-base:  rgb(114, 151, 166);
-}
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
-
-
-
-$general-base: rgb(150, 150, 150);
-$antiphonal-base: rgb(38, 50, 237);
-$solo-base: rgb(193, 47, 138);
-$swell-base: rgb(219, 81, 32);
-$great-base: rgb(3, 195, 235);
-$choir-base: rgb(228, 220, 0);
-$positiv-base: rgb(152, 193, 42);
-$pedal-base: rgb(62, 96, 111);
-
-$base-ligthness: 80%;
-$hover-lightness: 65%;
-$active-lightness: 50%;
-
-$input-bg-color: color.scale($general-base, $lightness: 85%);
-$input-bg-color-active: color.scale($general-base, $lightness: 65%);
-
-$action-button-base: rgb(12, 130, 232);
 
 /* CSS RESET ----------------------------------------------------------------*/
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -118,20 +89,11 @@ input {
 
 /* END CSS RESET -------------------------------------------------------------*/
 
-
-
-
-
-
-
-
-
-
 html, body { height: 100%; }
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--test);
+    background-color: white;
     font-family: "Montserrat", "Helvetica Neue", sans-serif;
 }
 
@@ -142,6 +104,7 @@ h1 {
 }
 
 h2 {
+    margin: 12px 0;
     color: #ccc;
     font-size: 14px;
     font-weight: 400;
@@ -150,14 +113,121 @@ h2 {
 }
 
 button {
-    font-family: "montserrat", sans-serif;
-    outline: none;
+
+    padding: 10px 20px;
+    background-color: $secondary-button;
     border: none;
     cursor: pointer;
+    font-family: "montserrat", sans-serif;
+    font-size: 16px;
+    outline: none;
+    
     &:disabled {
         opacity: 50%;
     }
+
+    &:hover {
+        background-color: $secondary-button-hover;
+    }
+
+    &:active {
+        background-color: $secondary-button-active;
+    }
 }
+
+label {
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+input[type=text] {
+        
+    padding: 7px;
+    background-color: $input-bg-color;
+    border: 0px solid black;
+    font-size: 14px;
+    font-family: "Montserrat";
+
+    &:focus {
+        background-color: $input-bg-color-active;
+        outline: none;
+    }
+
+    &.large {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+select {    
+            
+    padding: 7px;
+    appearance: none;
+    background-color: $input-bg-color;
+    border: 0px solid black;
+    border-radius: 0px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+
+    // https://codepen.io/vkjgr/pen/VYMeXp
+    background-image:
+        linear-gradient(45deg, transparent 50%, gray 50%),
+        linear-gradient(135deg, gray 50%, transparent 50%),
+        linear-gradient(to right, #ccc, #ccc);
+    background-position:
+        calc(100% - 18px) calc(1em + 0px),
+        calc(100% - 13px) calc(1em + 0px),
+        calc(100% - 2.5em) 0.5em;
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+    background-repeat: no-repeat;
+
+    option {
+        padding: 10px;
+    }  
+}
+
+select.large {
+
+    padding: 10px;
+    appearance: none;
+    background-color: $input-bg-color;
+    border: 0px solid black;
+    border-radius: 0px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+
+    // https://codepen.io/vkjgr/pen/VYMeXp
+    background-image:
+        linear-gradient(45deg, transparent 50%, gray 50%),
+        linear-gradient(135deg, gray 50%, transparent 50%),
+        linear-gradient(to right, #ccc, #ccc);
+    background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+    background-repeat: no-repeat;
+
+    option {
+        padding: 10px;
+    }  
+}
+
+
+
+
+
+
 
 .action-row {
     margin: 100px 0 150px;
@@ -171,15 +241,15 @@ button {
     }
 
     button.action-left {
-        background-color: $input-bg-color;
+        background-color: $secondary-button;
         color: black;
 
         &:hover {
-            background-color: color.scale($general-base, $lightness: 75%);
+            background-color: $secondary-button-hover;
         }
 
         &:active {
-            background-color: color.scale($general-base, $lightness: 65%);
+            background-color: $secondary-button-active;
         }
     }
 
@@ -188,15 +258,15 @@ button {
     }
 
     button.action-right {
-        background-color: $action-button-base;
+        background-color: $action-button;
         color: white;
 
         &:hover {
-            background-color: color.scale($action-button-base, $lightness: -10%);
+            background-color: $action-button-hover;
         }
     
         &:active {
-            background-color: color.scale($action-button-base, $lightness: -20%);
+            background-color: $action-button-active;
         }
 
         &:disabled {

@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private fileService: FileService) { }
 
   ngOnInit(): void {
-    this.subscription = this.fileService.fileLoaded.subscribe(val => this.show = val);
+    this.subscription = this.fileService.fileLoaded$.subscribe(val => this.show = val);
   }
 
   ngOnDestroy(): void {

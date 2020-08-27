@@ -1,0 +1,13 @@
+<div class="overlay" [@backdrop]="showDialog ? 'show' : 'hide'" *ngIf="showDialog" (click)="cancelClick()">
+    
+    
+</div>
+<div class="modal-container" [@dialog]="showDialog ? 'show' : 'hide'" *ngIf="showDialog" (click)="cancelClick()">
+    <div class="modal" >
+        <p>{{message.message}}</p>
+        <div class="button-row">
+            <button class="action-left" (click)="cancelClick()">{{message.cancelButton}}</button>
+            <button class="action-right" (click)="okClick()">{{message.okButton}}</button>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,4 @@
-@use "sass:color";
-
-$general-base: rgb(150, 150, 150);
-$antiphonal-base: rgb(38, 50, 237);
-$solo-base: rgb(193, 47, 138);
-$swell-base: rgb(219, 81, 32);
-$great-base: rgb(3, 195, 235);
-$choir-base: rgb(228, 220, 0);
-$positiv-base: rgb(152, 193, 42);
-$pedal-base: rgb(62, 96, 111);
-
-$base-ligthness: 80%;
-$hover-lightness: 65%;
-$active-lightness: 50%;
-
-$input-bg-color: color.scale($general-base, $lightness: 85%);
-$input-bg-color-active: color.scale($general-base, $lightness: 65%);
+@import "../../variables";
 
 // Container styles ---------------------------------------------
 
@@ -36,42 +20,28 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
         margin-right: 0;
     }
 
-    label {
-        margin-bottom: 5px;
-        
-        font-size: 12px;
-        //text-transform: uppercase;
-    }
-
-    input[type=text] {
-        
-        padding: 10px;
-        background-color: $input-bg-color;
-        border: 0px solid black;
-        font-size: 16px;
-        font-family: "Montserrat";
-
-    }
-
-    input[type=text]:focus {
-        background-color: $input-bg-color-active;
-        outline: none;
-    }
-
     &.form-catalog {
-        width: 100px;
+        width: 120px;
         flex-grow: 0;
     }
     &.form-title {
-        flex-grow: 2;
+        flex-grow: 1;
     }
 
-    &.form-notes {
+    &.form-composer {
+        width: 200px;
+        flex-grow: 0;
+    }
+
+    &.form-type {
+        width: 120px;
+        flex-grow: 0;
+    }
+
+    &.form-version {
         flex-grow: 1;
     }
 }
-
-
 
 .flex-container {
     display: flex;
@@ -79,15 +49,13 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
 
 .left {
     width: 685px;
-    flex-grow: 0;
-    
+    flex-grow: 0;   
 }
 
 .right {
-    
     flex-grow: 1;
     padding-left: 30px;
-    border-left: 1px solid #ddd;
+    border-left: 1px solid $divider-color;
 }
 
 // Piston styles -------------------------------------------------
@@ -98,47 +66,18 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
         width: 100px;
         margin-top: 18px;
         margin-bottom: 24px;
-        padding: 10px;
-        appearance: none;
-        background-color: $input-bg-color;
-        border: 0px solid black;
-        border-radius: 0px;
-        font-family: "Montserrat", sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        outline: none;
-
-        // https://codepen.io/vkjgr/pen/VYMeXp
-        background-image:
-            linear-gradient(45deg, transparent 50%, gray 50%),
-            linear-gradient(135deg, gray 50%, transparent 50%),
-            linear-gradient(to right, #ccc, #ccc);
-        background-position:
-            calc(100% - 20px) calc(1em + 2px),
-            calc(100% - 15px) calc(1em + 2px),
-            calc(100% - 2.5em) 0.5em;
-        background-size:
-            5px 5px,
-            5px 5px,
-            1px 1.5em;
-        background-repeat: no-repeat;
-
-        option {
-            padding: 10px;
-        }  
     }
 }
 
 .piston-container {
     width: 100%;
     margin-left: -10px;
-    padding: 12px 0;
+    padding: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
     button {
-    
         margin: 8px;
         padding: 0;
         width: 40px;
@@ -158,103 +97,101 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.general button {
-        background-color: color.scale($general-base, $lightness: $base-ligthness);
+        background-color: $general;
     }
 
     &.general button:hover {
-        background-color: color.scale($general-base, $lightness: $hover-lightness);
+        background-color: $general-hover;
     }
 
     &.general button:active {
-        background-color: color.scale($general-base, $lightness: $active-lightness);
+        background-color: $general-active;
     }
 
     &.antiphonal button {
-        background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+        background-color: $antiphonal;
     }
 
     &.antiphonal button:hover {
-        background-color: color.scale($antiphonal-base, $lightness: $hover-lightness);
+        background-color: $antiphonal-hover;
     }
 
     &.antiphonal button:active {
-        background-color: color.scale($antiphonal-base, $lightness: $active-lightness);
+        background-color: $antiphonal-active;
     }
 
     &.solo button {
-        background-color: color.scale($solo-base, $lightness: $base-ligthness);
+        background-color: $solo;
     }
 
     &.solo button:hover {
-        background-color: color.scale($solo-base, $lightness: $hover-lightness);
+        background-color: $solo-hover;
     }
 
     &.solo button:active {
-        background-color: color.scale($solo-base, $lightness: $active-lightness);
+        background-color: $solo-active;
     }
 
     &.swell button {
-        background-color: color.scale($swell-base, $lightness: $base-ligthness);
+        background-color: $swell;
     }
 
     &.swell button:hover {
-        background-color: color.scale($swell-base, $lightness: $hover-lightness);
+        background-color: $swell-hover;
     }
 
     &.swell button:active {
-        background-color: color.scale($swell-base, $lightness: $active-lightness);
+        background-color: $swell-active;
     }
 
     &.great button {
-        background-color: color.scale($great-base, $lightness: $base-ligthness);
+        background-color: $great;
     }
 
     &.great button:hover {
-        background-color: color.scale($great-base, $lightness: $hover-lightness);
+        background-color: $great-hover;
     }
 
     &.great button:active {
-        background-color: color.scale($great-base, $lightness: $active-lightness);
+        background-color: $great-active;
     }
 
     &.choir button {
-        background-color: color.scale($choir-base, $lightness: $base-ligthness);
+        background-color: $choir;
     }
 
     &.choir button:hover {
-        background-color: color.scale($choir-base, $lightness: $hover-lightness);
+        background-color: $choir-hover;
     }
 
     &.choir button:active {
-        background-color: color.scale($choir-base, $lightness: $active-lightness);
+        background-color: $choir-active;
     }
 
     &.positiv button {
-        background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+        background-color: $positiv;
     }
 
     &.positiv button:hover {
-        background-color: color.scale($positiv-base, $lightness: $hover-lightness);
+        background-color: $positiv-hover;
     }
 
     &.positiv button:active {
-        background-color: color.scale($positiv-base, $lightness: $active-lightness);
+        background-color: $positiv-active;
     }
 
     &.pedal button {
-        background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+        background-color: $pedal;
     }
 
     &.pedal button:hover {
-        background-color: color.scale($pedal-base, $lightness: $hover-lightness);
+        background-color: $pedal-hover;
     }
 
     &.pedal button:active {
-        background-color: color.scale($pedal-base, $lightness: $active-lightness);
+        background-color: $pedal-active;
     }
 }
-
-
 
 // Sequence styles ------------------------------------
 
@@ -262,8 +199,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     padding-top: 5px;
 }
 
-.sequence-step {
-    
+.sequence-step {    
     margin: 10px 0;
     padding: 5px 5px 5px 8px;
     display: flex;
@@ -276,7 +212,6 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
 
     .step {
         width: 22px;
-        
     }
 
     .level {
@@ -300,7 +235,6 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
         border-radius: 12px;
         line-height: 23px;
         text-align: center;
-       
     }
 
     .spacer {
@@ -320,7 +254,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.general {
-        background-color: color.scale($general-base, $lightness: $base-ligthness);
+        background-color: $general;
 
         .delete {
             color: $general-base;
@@ -328,7 +262,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.antiphonal {
-        background-color: color.scale($antiphonal-base, $lightness: $base-ligthness);
+        background-color: $antiphonal;
 
         .delete {
             color: $antiphonal-base;
@@ -336,7 +270,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.solo {
-        background-color: color.scale($solo-base, $lightness: $base-ligthness);
+        background-color: $solo;
 
         .delete {
             color: $solo-base;
@@ -344,7 +278,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.swell {
-        background-color: color.scale($swell-base, $lightness: $base-ligthness);
+        background-color: $swell;
 
         .delete {
             color: $swell-base;
@@ -352,7 +286,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.great {
-        background-color: color.scale($great-base, $lightness: $base-ligthness);
+        background-color: $great;
 
         .delete {
             color: $great-base;
@@ -360,7 +294,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.choir {
-        background-color: color.scale($choir-base, $lightness: $base-ligthness);
+        background-color: $choir;
 
         .delete {
             color: $choir-base;
@@ -368,7 +302,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.positiv {
-        background-color: color.scale($positiv-base, $lightness: $base-ligthness);
+        background-color: $positiv;
 
         .delete {
             color: $positiv-base;
@@ -376,7 +310,7 @@ $input-bg-color-active: color.scale($general-base, $lightness: 65%);
     }
 
     &.pedal {
-        background-color: color.scale($pedal-base, $lightness: $base-ligthness);
+        background-color: $pedal;
 
         .delete {
             color: $pedal-base;

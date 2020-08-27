@@ -5,6 +5,7 @@ import { Organs } from '../models/organs';
 import { Piston } from '../models/piston';
 import { OrganLayout } from '../models/organ-layout';
 import { PrintSequence } from '../models/sequence';
+import { PrintStep } from '../models/sequence-step';
 import { DrawknobState } from '../models/drawknob-state';
 import { OrganService } from './organ.service';
 import { LogService } from './log.service';
@@ -14,241 +15,358 @@ import { LogService } from './log.service';
 })
 export class PDFService {
 
-  sequence: PrintSequence;
-  organ: Organ;
-  pistons: Piston[];
-  organLayout: OrganLayout;
+  /** Local copy of organService.organ (purely for brevity and convenience). */
+  private o: Organ;
+  
+  /** Local copy of organService.organLayout. */
+  private ol: OrganLayout;
+  //private organLayout: OrganLayout;
+  
+  /** Local copy of organService.pistons. */
+  private p: Piston[];
+  
+  /** Abbreviated venue ("organString"; "TAB" or "CC") used for the upper-left corner venue indicator and filename generation. */
+  private os: string;
+  
+  /** The sequence used as the main data source by various class methods.   */
+  private s: PrintSequence;
+  
+  /** The jsPDF document used for PDF() and blankRecord() methods. */
+  private pdf: jsPDF;
 
-  constructor(private organService: OrganService, private log: LogService) { 
-    this.organ = this.organService.organ;
-    this.organLayout = this.organService.organLayout;
-    this.pistons = this.organService.pistons;
-  }
+  /** Indicates whether testing mode is active. Gridlines and margins are drawn on the page
+   * when true.
+   */
+  private testing: boolean = false;
 
-  public PDF(sequence: PrintSequence){
-    
-    this.sequence = sequence;
-    let organString: string;
 
-    if (this.sequence.organ === Organs.Tabernacle) { organString = "TAB"; }
-    else if (this.sequence.organ === Organs.ConferenceCenter ) { organString = "CC" }
+  constructor(private organService: OrganService, private log: LogService) { }
 
-    const testing = false;
-    const font = "Helvetica";
-    const r = this.organLayout.drawknobRadius;
-    let page = 1;
+  /** This is the main public method for PDFService. It generates a PDF document based on the 
+   * PrintSequence passed into the function.
+   * 
+   * @param sequence {PrintSequence} The PrintSequence object that provides all the data for the 
+   * PDF document.
+   */
+  public PDF(sequence: PrintSequence, filename: string, title: string): void {
 
-    let pdf = new jsPDF({
+    this.s = sequence;
+    this._setOrgan(sequence.organ);
+
+    let page: number = 1;
+
+    this.pdf = new jsPDF({
       format: "letter",
       orientation: "landscape",
       unit: "pt"
     });
 
-    for (let step of this.sequence.steps) {
-      
+    for(let step of this.s.steps){
+
       this.log.add("Drawing page " + page + ".");
-      // Draw margins and drawknob columns in test mode
-      if(testing) {
-        
-        pdf.setDrawColor("0.8");
-
-        // Draw margins
-        pdf.line(0, 36, 792, 36); // Top
-        pdf.line(0, 576, 792, 576); // Bottom
-        pdf.line(36, 0, 36, 612); // Left
-        pdf.line(756, 0, 756, 612); // Right
-
-        // Center line
-        pdf.setDrawColor(0, 0, 255);
-        pdf.line(396, 0, 396, 612);
-
-        // Stop columns
-        pdf.setDrawColor(255, 0, 0);
-        for(let column of this.organLayout.columns) {
-          pdf.line(column, 0, column, 612);
-        }
-      }
-
-      let baseline = 48;
-
-      // Draw title
-      pdf.setTextColor("0");
-      pdf.setFontSize(18);
-      pdf.setFont(font, "bold");
-      let titleString = "";
-      if (this.sequence.composition.catalogNo !== "") { titleString += "#" + this.sequence.composition.catalogNo + " - "; } 
-      titleString += this.sequence.composition.title;
-      pdf.text(titleString.toUpperCase(), 396, baseline, {align: "center"});
-
-      // Draw subtitles
-      pdf.setFontSize(14);
-      pdf.setFont(font, "normal");
-      baseline += 16;
+      if(this.testing) { this._drawGrid(); }
+      this._drawTitles(title, this.s.composition.composer, this.s.version);
+      this._drawCornerBoxes(page);
+      this._drawTextFields(step);
+      this._drawDrawknobs(step);
+      this._drawDivisionLabels();
+      this._drawDivisionDividers();
       
-      if (this.sequence.version !== "") {
-        pdf.text(this.sequence.version, 396, baseline, {align: "center"});
-        baseline += 16;
-        pdf.text(this.sequence.composition.composer, 396, baseline, {align: "center"});
-      } else {
-        pdf.text(this.sequence.composition.composer, 396, baseline, {align: "center"});
-      }
+      page++;
+      this.pdf.addPage();
+    }
+
+    this.pdf.deletePage(page); // Delete extra page from end of loop
+
+    this.pdf.save(filename);
+    this.log.add("PDF finished.");
+  }
+
+  /** Generates a blank piston record for either organ.
+   * 
+   * @param organ {Organs} The instrument for which a blank record should be generated.
+   */
+
+  public blankRecord(organ: Organs): void {
+
+    let page: number = 1;
+
+    this.pdf = new jsPDF({
+      format: "letter",
+      orientation: "landscape",
+      unit: "pt"
+    });
+
+    this._setOrgan(organ);
+
+    this.log.add("Drawing page " + page + ".");
+    if(this.testing) { this._drawGrid(); }
+    this._drawTitles(`${this.o.venue} Organ Piston Record`, "", "");
+    this._drawCornerBoxes();
+    this._drawCompositionTextField();
+    this._drawTextFields();
+    this._drawDrawknobs();
+    this._drawDivisionLabels();
+    this._drawDivisionDividers();
+
+    this.pdf.save(`Blank Piston Record (${this.os})`); 
+    this.log.add("PDF finished.");
+
+  }
+
+  /** Sets the organ (TAB or CC) to be used for the document. (Note: this works independently
+   * of organService.setOrgan in order to enable the printing of blank piston records for either
+   *  organ.
+   */
+  private _setOrgan(organ: Organs): void {
+
+    if (organ === Organs.Tabernacle) { 
+      this.o = this.organService.TabernacleOrgan.organ;
+      this.ol = this.organService.TabernacleOrgan.layout;
+      this.p = this.organService.TabernacleOrgan.pistons;
+      this.os = "TAB"; 
+    } else if (organ === Organs.ConferenceCenter ) { 
+      this.o = this.organService.ConferenceCenterOrgan.organ;
+      this.ol = this.organService.ConferenceCenterOrgan.layout;
+      this.p = this.organService.ConferenceCenterOrgan.pistons;
+      this.os = "CC"; 
+    }
+  }
+
+  /** Draws margins and stop column gridlines for testing. */
+  private _drawGrid():void {
+
+    this.pdf.setDrawColor("0.8");
+
+    // Draw margins
+    this.pdf.line(0, 36, 792, 36); // Top
+    this.pdf.line(0, 576, 792, 576); // Bottom
+    this.pdf.line(36, 0, 36, 612); // Left
+    this.pdf.line(756, 0, 756, 612); // Right
+
+    // Center line
+    this.pdf.setDrawColor(0, 0, 255);
+    this.pdf.line(396, 0, 396, 612);
+
+    // Stop columns
+    this.pdf.setDrawColor(255, 0, 0);
     
-      // Draw organ indicator
-      pdf.setDrawColor("0");
-      pdf.setLineWidth(1);
-      pdf.rect(36, 30, 72, 24, "S");
-      pdf.setFont(font, "bold");
-      pdf.setFontSize(10);
-      
-      pdf.text(organString, 72, 46, {align: "center"});
+    for(let column of this.ol.columns) {
+      this.pdf.line(column, 0, column, 612);
+    }
+  }
 
-      // Draw step number 
-      pdf.rect(684, 30, 72, 24, "S");
-      pdf.setFont(font, "normal");
-      let pageString = "Step " + page + " of " + this.sequence.steps.length;
-      pdf.text(pageString, 720, 46, {align: "center"});
+  /** Draws titles and subtitles */
+  private _drawTitles(title: string, composer: string, version: string): void {
+    
+    /** Horizontal center of the page. */
+    const center = (72 * 11) / 2; 
+    let baseline: number = this.ol.titleBaseline;
+    
+    // Draw title
+    this.pdf.setTextColor(0);
+    this.pdf.setFontSize(this.ol.titleFontSize);
+    this.pdf.setFont(this.ol.font, "bold");
 
-      // Draw text fields
-      baseline = 120;
-      const tfColumns = [36, 263, 283, 509, 529, 756]; // 10" / 3 with 20 point gutters
-      const tfRowHeight = 32;
-      const tfRows = [baseline, baseline + tfRowHeight];
-      const tfLabelOffset = -18;
-      const tfTextOffset = -5;
+    this.pdf.text(title.toUpperCase(), center, baseline, {align: "center"});
 
-      pdf.setLineWidth(1);
-      pdf.setDrawColor(1);
+    // Draw subtitles
+    this.pdf.setFontSize(this.ol.subtitleFontSize);
+    this.pdf.setFont(this.ol.font, "normal");
+    baseline += this.ol.subtitleFontSize + 2;
+    
+    if (version !== "") {
+      this.pdf.text(version, center, baseline, {align: "center"});
+      baseline += this.ol.subtitleFontSize + 2;
+      this.pdf.text(composer, center, baseline, {align: "center"});
+    } else {
+      this.pdf.text(composer, center, baseline, {align: "center"});
+    }
+  }
+
+  /** Draws venue (left) and step number (right corner boxes). */
+  private _drawCornerBoxes(pageNumber?: number): void {
+    
+    let pageString: string;
+
+    this.pdf.setTextColor(0);
+    this.pdf.setDrawColor(0);
+    this.pdf.setLineWidth(1);
+    
+    // Draw organ indicator (top left corner)
+    this.pdf.rect(this.ol.pageMargin, this.ol.cornerBoxYPosition, this.ol.cornerBoxWidth, this.ol.cornerBoxHeight, "S");
+    this.pdf.setFont(this.ol.font, "bold");
+    this.pdf.setFontSize(this.ol.cornerBoxFontSize);
+    this.pdf.text(this.os, this.ol.pageMargin + (this.ol.cornerBoxWidth / 2), this.ol.cornerBoxBaseline, {align: "center"});
+
+    // Draw step number (top right corner)
+    this.pdf.rect(this.ol.pageWidth - (this.ol.pageMargin + this.ol.cornerBoxWidth), this.ol.cornerBoxYPosition, this.ol.cornerBoxWidth, this.ol.cornerBoxHeight, "S");
+    this.pdf.setFont(this.ol.font, "normal");
+    
+    if(pageNumber) {
+      pageString = `Step ${pageNumber} of ${this.s.steps.length}`;
+    } else {
+      pageString = "Step __ of __";
+    }
+    
+    this.pdf.text(pageString, this.ol.pageWidth - (this.ol.pageMargin + (this.ol.cornerBoxWidth / 2)), this.ol.cornerBoxBaseline, {align: "center"});
+
+  }
+
+  /** Draws the "piston," "based on," "measure(s)," and "notes" text fields with their associated 
+   * labels and underlines.
+   * 
+   * @param {PrintStep} [step] - The sequence step that provides the piston, base piston, measure,
+   * and notes information to be drawn on the page. If not passed, only labels and underlines are drawn.
+   */
+  private _drawTextFields(step?: PrintStep): void {
+    
+    this.pdf.setLineWidth(1);
+    this.pdf.setDrawColor(0);
+    
+    this.pdf.line(this.ol.textFieldColumns[0], this.ol.textFieldRows[0], this.ol.textFieldColumns[1], this.ol.textFieldRows[0]);  
+    this.pdf.line(this.ol.textFieldColumns[2], this.ol.textFieldRows[0], this.ol.textFieldColumns[3], this.ol.textFieldRows[0]);  
+    this.pdf.line(this.ol.textFieldColumns[4], this.ol.textFieldRows[0], this.ol.textFieldColumns[5], this.ol.textFieldRows[0]); 
+    this.pdf.line(this.ol.textFieldColumns[0], this.ol.textFieldRows[1], this.ol.textFieldColumns[5], this.ol.textFieldRows[1]);  
+    
+    // Text field labels
+    this.pdf.setFont(this.ol.font, "bold");
+    this.pdf.setFontSize(this.ol.textFieldLabelFontSize);
+    this.pdf.text("PISTON", this.ol.textFieldColumns[0], this.ol.textFieldRows[0] + this.ol.textFieldlabelOffset);
+    this.pdf.text("BASED ON", this.ol.textFieldColumns[2], this.ol.textFieldRows[0] + this.ol.textFieldlabelOffset);
+    this.pdf.text("MEASURE(S)", this.ol.textFieldColumns[4], this.ol.textFieldRows[0] + this.ol.textFieldlabelOffset);
+    this.pdf.text("NOTES", this.ol.textFieldColumns[0], this.ol.textFieldRows[1] + this.ol.textFieldlabelOffset);
+    
+
+    // Text field text (only draw if a SequenceStep was passed into the function).
+
+    if (step) {
+      this.pdf.setFont(this.ol.font, "normal");
+      this.pdf.setFontSize(this.ol.textFieldTextFontSize);
       
-      pdf.line(tfColumns[0], tfRows[0], tfColumns[1], tfRows[0]);  
-      pdf.line(tfColumns[2], tfRows[0], tfColumns[3], tfRows[0]);  
-      pdf.line(tfColumns[4], tfRows[0], tfColumns[5], tfRows[0]); 
-      pdf.line(tfColumns[0], tfRows[1], tfColumns[5], tfRows[1]);  
+      let pistonString = `Level ${step.memoryLevel}: ${this.p[step.piston].division} ${this.p[step.piston].number}`;
+      this.pdf.text(pistonString, this.ol.textFieldColumns[0], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
       
-      // Text field labels
-      pdf.setFont(font, "bold");
-      pdf.setFontSize(5);
-      pdf.text("PISTON", tfColumns[0], tfRows[0] + tfLabelOffset);
-      pdf.text("BASED ON", tfColumns[2], tfRows[0] + tfLabelOffset);
-      pdf.text("MEASURE(S)", tfColumns[4], tfRows[0] + tfLabelOffset);
-      pdf.text("NOTES", tfColumns[0], tfRows[1] + tfLabelOffset);
-      
-      // Text field text
-      pdf.setFont(font, "normal");
-      pdf.setFontSize(11);
-      
-      let pistonString = "Level " + step.memoryLevel + ": " + this.pistons[step.piston].division + " " + this.pistons[step.piston].number;
-      pdf.text(pistonString, tfColumns[0], tfRows[0] + tfTextOffset);
-      
-      let baseString = "(None)"
+      let baseString = "(None)";
       if(step.base !== -1) {
-        let baseStep = this.sequence.steps[step.base];
-        let basePiston = this.pistons[baseStep.piston];
-        baseString = "Level " + baseStep.memoryLevel + ": " + basePiston.division + " " + basePiston.number + " (Step " + (step.base + 1) + ")";
+        let baseStep = this.s.steps[step.base];
+        let basePiston = this.p[baseStep.piston];
+        baseString = `Level ${baseStep.memoryLevel}: ${basePiston.division} ${basePiston.number} (Step ${step.base + 1})`;
       }
       
-      pdf.text(baseString, tfColumns[2], tfRows[0] + tfTextOffset);
-      pdf.text(step.measure, tfColumns[4], tfRows[0] + tfTextOffset);
-      pdf.text(step.notes, tfColumns[0], tfRows[1] + tfTextOffset);
-
-      // Drawknobs
-      pdf.setLineWidth(1);
-      pdf.setFontSize(this.organLayout.drawknobFontSize);
-      pdf.setFont(font, "bold");
+      this.pdf.text(baseString, this.ol.textFieldColumns[2], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
       
-      for(let i = 0; i < this.organ.stops.length; i++) {
-        const stop = this.organ.stops[i];
-        const state: DrawknobState = step.drawknobs[i].state;
-        
-        let x: number 
-        
-        if (this.organ.stops[i].aux) {
-          x = this.organLayout.auxColumns[stop.column];
-        } else {
-          x = this.organLayout.columns[stop.column];
-        } 
+      this.pdf.text(step.measure, this.ol.textFieldColumns[4], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
+      
+      this.pdf.text(step.notes, this.ol.textFieldColumns[0], this.ol.textFieldRows[1] + this.ol.textFieldTextOffset);
+    }
+    
+  }
 
-        const y: number = this.organLayout.rows[stop.row];
-        const lh: number = this.organLayout.drawknobFontSize; // Line height
-        let offset: number;
-        let baseline: number;
-        let style = "";
-        
-        switch(state) {
-          case DrawknobState.Off:
-            pdf.setDrawColor(0);
-            pdf.setTextColor(0);
-            style = "S";
-            break;
-          case DrawknobState.On:
-            pdf.setDrawColor(0);
-            pdf.setFillColor(0);
-            pdf.setTextColor(255);
-            style = "DF";
-            break;
-          case DrawknobState.Remove:
-            pdf.setDrawColor(180, 0, 0);
-            pdf.setTextColor(180, 0, 0);
-            style = "S";
-            break;
-          case DrawknobState.Add:
-            pdf.setDrawColor(30, 130, 75);
-            pdf.setFillColor(30, 130, 75);
-            pdf.setTextColor(255);
-            style = "DF";
-            break;
-        }
+  /** Draws the additional "Composition" text field for blank piston records. */
+  private _drawCompositionTextField(): void {
 
-        if(stop.shortPitchDesignation.indexOf("\'") !== -1) {
-          offset = this.organLayout.drawknobPitchOffset;
-        } else {
-          offset = 0;
-        }
+    const baseline = this.ol.textFieldBaseline - this.ol.textFieldRowHeight;
 
-        if(stop.shortPitchDesignation === "") {
-          baseline = y + (lh / 2) - 1;
-        } else {
-          baseline = y - 1;
-        }
+    this.pdf.setLineWidth(1);
+    this.pdf.setDrawColor(0);
+    
+    this.pdf.setFont(this.ol.font, "bold");
+    this.pdf.setFontSize(this.ol.textFieldLabelFontSize);
+    this.pdf.setTextColor(0);
 
-        // Draw a circle around regular stops and a square around "auxilliary" stops
-        if(stop.aux) {
-          pdf.rect(x - r, y - r, r * 2, r * 2, style);
-        } else {
-          pdf.circle(x, y, r, style);
-        }
+    this.pdf.line(this.ol.textFieldColumns[0], baseline, this.ol.textFieldColumns[5], baseline);  
+    this.pdf.text("COMPOSITION", this.ol.textFieldColumns[0], baseline + this.ol.textFieldlabelOffset);
+  }
 
-        
-        pdf.text(stop.shortName, x, baseline, {align: "center"});
-        pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+  /** Draws the drawknobs found in PDFService.o.stops.
+   * 
+   * @param {PrintStep} [step] - A PrintStep that provides state information for each drawknob. If 
+   * parameter is not passed, all drawknobs are drawn in the "Off" state.  
+   */
+  private _drawDrawknobs(step?: PrintStep): void {
+
+    this.pdf.setLineWidth(1);
+    this.pdf.setFontSize(this.ol.drawknobFontSize);
+    this.pdf.setFont(this.ol.font, "bold");
+
+    let r: number = this.ol.drawknobRadius;
+    
+    for(let i = 0; i < this.o.stops.length; i++) {
+      
+      const stop = this.o.stops[i];
+      let state: DrawknobState;
+
+      if (step) { state = step.drawknobs[i].state; }
+      else { state = DrawknobState.Off; }
+      
+      let x: number 
+      
+      if (this.o.stops[i].aux) {
+        x = this.ol.auxColumns[stop.column];
+      } else {
+        x = this.ol.columns[stop.column];
+      } 
+
+      const y: number = this.ol.rows[stop.row];
+      const lh: number = this.ol.drawknobFontSize; // Line height
+      let offset: number;
+      let baseline: number;
+      let style = "";
+      
+      // Get correct colors for drawknob state (specified in OrganLayout)
+      let colors = this.ol.colors[state];
+      this.pdf.setDrawColor(colors.stroke.r, colors.stroke.g, colors.stroke.b);
+      this.pdf.setFillColor(colors.fill.r, colors.fill.g, colors.fill.b);
+      this.pdf.setTextColor(colors.text.r, colors.text.g, colors.text.b);
+      style = colors.style;
+      
+      if(stop.shortPitchDesignation.indexOf("\'") !== -1) {
+        offset = this.ol.drawknobPitchOffset;
+      } else {
+        offset = 0;
       }
 
-      // Division dividers
-      pdf.setDrawColor("0");
-      pdf.setTextColor("0");
-      for(let divider of this.organLayout.dividers) {
-        pdf.line(divider.x, divider.y1, divider.x, divider.y2);
+      if(stop.shortPitchDesignation === "") {
+        baseline = y + (lh / 2) - 1;
+      } else {
+        baseline = y - 1;
       }
 
-      // Division labels
-      pdf.setFontSize(8);
-      for(let label of this.organLayout.labels) {
-        pdf.text(label.label, label.x, label.y, {align: "center"});
+      // Draw a circle around regular stops and a square around "auxilliary" stops
+      if(stop.aux) {
+        this.pdf.rect(x - r, y - r, r * 2, r * 2, style);
+      } else {
+        this.pdf.circle(x, y, r, style);
       }
 
-      page = page + 1;
-      pdf.addPage("letter", "landscape");
-    } // End For step of sequence.steps
+      // Draw drawknob text
+      this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+      this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+    }
+  }
 
+  /** Draws the vertical dividing lines between divisions. */
+  private _drawDivisionDividers(): void {
 
-    pdf.deletePage(page); // Delete extra page from end of loop
+    this.pdf.setLineWidth(this.ol.divisionDividerLineWidth);
+    this.pdf.setDrawColor(0);
+    this.pdf.setTextColor(0);
+    
+    for(let divider of this.ol.dividers) {
+      this.pdf.line(divider.x, divider.y1, divider.x, divider.y2);
+    }
+  }
 
-    let title = "";
-    if(sequence.composition.catalogNo !== "") { title += sequence.composition.catalogNo + " - "; }
-    title += sequence.composition.title;
-    if(title === "") { title = "Montre"; }
-    title += " (" + organString + ").pdf";
-
-    pdf.save(title);
-    this.log.add("PDF finished.")
+  /** Draws division labels. */
+  private _drawDivisionLabels(): void {
+    
+    this.pdf.setFontSize(this.ol.divisionLabelFontSize);
+    this.pdf.setTextColor(0);
+    this.pdf.setFont(this.ol.font, "bold");
+    
+    for(let label of this.ol.labels) {
+      this.pdf.text(label.label, label.x, label.y, {align: "center"});
+    }
   }
 }

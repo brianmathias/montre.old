@@ -1,3 +1,7 @@
+/**
+ * An object containing information about the Virtuoso configuration for an organ. Used
+ * to facilitate calculating (or looking up) the binary offset for a particular piston.
+ */
 export interface OrganConfig {
 
 

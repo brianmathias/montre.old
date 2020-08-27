@@ -1,5 +1,6 @@
 import { Organ } from "./organ";
 
+/** A JSON representation of the Conference Center organ. */
 export const ConferenceCenterOrgan: Organ = {
 
     venue: "Conference Center",

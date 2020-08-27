@@ -1,7 +1,26 @@
+@use "sass:color";
+$action-button-base: rgb(100, 100, 100);
+
 .monitor {
     margin-top: 80px;
     padding: 20px;
     background-color: #eaeaea;
     font-size: 14px;
     line-height: 24px;
+
+    button {
+        margin: 20px 20px 20px 0;
+        padding: 15px 20px;
+        background-color:$action-button-base;
+        color: white; 
+        font-size: 16px;
+
+        &:hover {
+            background-color: color.scale($action-button-base, $lightness: -10%);
+        }
+    
+        &:active {
+            background-color: color.scale($action-button-base, $lightness: -20%);
+        }
+    }
 }
