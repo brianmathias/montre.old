@@ -57,5 +57,14 @@
 <div class="action-row">
     <button routerLink="/edit" class="action-left">&larr; Edit Sequence</button>
     <span class="action-spacer"></span>
-    <button routerLink="/print" class="action-right" (click)="print()">Generate PDF</button>
+    <button routerLink="/print" class="action-right" (click)="print()" [disabled]="sequence.steps.length < 1">Generate PDF</button>
+</div>
+
+<div class="next-bar" *ngIf="showNextBar">
+    <p>{{filename}} has been generated. Next steps:</p>
+    <div class="next-buttons">
+        <button (click)="edit()">Edit Sequence</button>
+        <button (click)="newSequence()">Start New Sequence</button>
+        <button (click)="newFile()">Upload New File</button>
+    </div>
 </div>

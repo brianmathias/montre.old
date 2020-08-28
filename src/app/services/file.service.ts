@@ -115,6 +115,14 @@ export class FileService {
     reader.readAsArrayBuffer(this._file);
   }
 
+  /** Unloads the current file and resets all the file observables. */
+  public unloadFile(): void {
+    this._file = null;
+    this._fileName.next("");
+    this._fileLoaded.next(false);
+    this._fileError.next("");
+  }
+
   /**
    * Retrieves 32-bit word at the specified offset.
    * 

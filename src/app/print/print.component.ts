@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SequenceService } from '../services/sequence.service';
+import { FileService } from '../services/file.service';
 import { OrganService } from '../services/organ.service';
 import { DivisionStylesService } from '../services/division-styles.service';
 import { ProcessService } from '../services/process.service';
-import { ModalService } from '../services/modal.service';
 import { Sequence } from '../models/sequence';
-import { SequenceStep } from '../models/sequence-step';
 import { Piston } from '../models/piston';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-print',
@@ -21,9 +19,18 @@ export class PrintComponent implements OnInit {
   pistons: Piston[];
   bases: Piston[];
 
-  modal$: Subscription;
 
-  constructor(private sequenceService: SequenceService, private organService: OrganService, private divisionStylesService: DivisionStylesService, private processService: ProcessService, private modalService: ModalService, private router: Router) { }
+  showNextBar: boolean = false;
+  filename: string = "";
+
+  constructor(
+    private sequenceService: SequenceService, 
+    private organService: OrganService, 
+    private divisionStylesService: DivisionStylesService, 
+    private processService: ProcessService, 
+    private router: Router, 
+    private fileService: FileService
+  ) { }
 
   ngOnInit(): void {
     this.sequence = this.sequenceService.sequence;
@@ -31,20 +38,23 @@ export class PrintComponent implements OnInit {
   }
 
   print(): void {
-    let filename = this.processService.process(this.sequence);
-    
-    this.modal$ = this.modalService.showModal({
-      message: `${filename} has been created. Do you want to create a new sequence?`,
-      cancelButton: "No",
-      okButton: "Yes"
-    }).subscribe((result) => {
-      if (result) { 
-        this.sequenceService.clearSequence(); 
-        this.router.navigate(["build"]);
-      }
-      this.modal$.unsubscribe();
-    });
-    
+    this.filename = this.processService.process(this.sequence);
+    this.showNextBar = true;
+  }
+
+  edit(): void {
+    this.router.navigate(["edit"]);
+  }
+
+  newSequence(): void {
+    this.sequenceService.clearSequence();
+    this.router.navigate(["build"]);
+  }
+
+  newFile(): void {
+    this.sequenceService.clearSequence();
+    this.fileService.unloadFile();
+    this.router.navigate([""]);
   }
 
   // Provides conditional CSS classes to enable division colors

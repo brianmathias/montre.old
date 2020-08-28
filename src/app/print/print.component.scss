@@ -168,4 +168,25 @@
     }
 }
 
+.next-bar {
+    margin: -80px 0 150px;
+    padding: 20px;
+    border: 1px solid $general;
+    
+    line-height: 40px;
+
+    .next-buttons {
+        
+        display: flex;
+
+        button {
+            margin: 0 10px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
 
