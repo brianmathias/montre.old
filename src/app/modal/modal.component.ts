@@ -11,6 +11,7 @@ import { ModalMessage } from '../models/modal';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'], 
+  /*
   animations: [
     trigger('backdrop', [
       transition(':enter', [
@@ -42,7 +43,7 @@ import { ModalMessage } from '../models/modal';
         }))
       ])
     ])
-  ]
+  ]*/
 
 })
 

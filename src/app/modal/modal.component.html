@@ -1,8 +1,8 @@
-<div class="overlay" [@backdrop]="showDialog ? 'show' : 'hide'" *ngIf="showDialog==='show'" (click)="cancelClick()">
+<div class="overlay" *ngIf="showDialog==='show'" (click)="cancelClick()">
     
     
 </div>
-<div class="modal-container" [@dialog]="showDialog ? 'show' : 'hide'" *ngIf="showDialog==='show'" (click)="cancelClick()">
+<div class="modal-container" *ngIf="showDialog==='show'" (click)="cancelClick()">
     <div class="modal" >
         <p>{{message.message}}</p>
         <div class="button-row">
