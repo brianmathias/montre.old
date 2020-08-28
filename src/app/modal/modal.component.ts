@@ -50,8 +50,11 @@ export class ModalComponent {
 
   /** The current state of the modal dialog (true = show, false = hide). Receives updates from the 
    * modalService.state$ observable.
+   * 
+   * Note: using a boolean causes weird behavior with the animation (works in development but not
+   * production?). Thus, "show"/"hide" strings are used instead.
    */
-  showDialog: boolean = false;
+  showDialog: string = "hide";
 
   /** The current ModalMessage displayed in the dialog. */
   message: ModalMessage;
@@ -63,7 +66,10 @@ export class ModalComponent {
   message$: Subscription;
   
   constructor(private modalService: ModalService) { 
-    this.state$ = this.modalService.state$.subscribe((state) => { this.showDialog = state });    
+    this.state$ = this.modalService.state$.subscribe((state) => { 
+      if(state) { this.showDialog = "show"; }
+      else { this.showDialog = "hide"; }
+    });    
     this.message$ = this.modalService.message$.subscribe((message) => this.message = message);
   }
 
