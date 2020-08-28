@@ -17,6 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "jspdf",
+              "xlsx"
+            ],
             "outputPath": "dist/montre",
             "index": "src/index.html",
             "main": "src/main.ts",
