@@ -3,12 +3,12 @@ import { DrawknobState } from './drawknob-state';
 /**
  * Object representing a drawknob as part of a sequence step with the following three properties:
  * 
+ * - id: number - The id number of the stop
  * - state: DrawknobState (off|on|remove|add)
  * - isInRange: boolean
- * - inCancelable: boolean
  */
 export interface Drawknob {
+    id: number;
     state: DrawknobState;
     isInRange: boolean;
-    isCancelable: boolean;
 }

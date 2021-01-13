@@ -1,28 +1,34 @@
+import { StopTableRow } from '../virtuoso/stopTableRow';
+import { PistonTableRow } from '../virtuoso/pistonTableRow';
+
 /**
  * An object containing information about the Virtuoso configuration for an organ. Used
- * to facilitate calculating (or looking up) the binary offset for a particular piston.
+ * to facilitate calculating the binary offset for a particular piston.
  */
 export interface OrganConfig {
 
 
-    // Offset numbers
-    // Lookup tables for memory levels, pistons, and stops
-    
-    pistonLength: number; // Number of 32-bit words used to store one piston
-    
-    // Either data to calculate offsets of memory levels (ideally), 
-    // or array of offsets for every level
+    /** The number of bytes used to store a single piston. This is equivalent to Sd Stops on the Virtuoso File Format Map (not Sd + 1 stops). */
+    byteCount: number;
 
-    memoryLevels: number[];
-    
-    // Either data to calculate offsets of each piston or array of offsets
-    // for each of the organs pistons
+    /** The number of memory levels per user folder. */
+    memoryLevelCount: number;
 
-    pistons: number[];
+    /** The length in bytes of a single memory level */
+    memoryLevelLength: number;
     
-    // Lookup table for stops of Organ to facilitate putting data at the correct
-    // index in the Drawknobs array
+    /** Lookup table for pistons of the Organ to facilitate converting piston ID of 
+     * Organ object to the correct offset relative to the memory level. */
+    pistonTable: PistonTableRow[];
     
-    stops: number[];
+    /** Lookup table for stops of the Organ to facilitate putting data at the correct
+     *  index in the Drawknobs array. */
+    stopTable: StopTableRow[];
+
+    /** Array of four numbers representing the offset for the start of each crescendo. */
+    crescendoOffsets: number[];
+
+    /** Array of seven numbers representing the offset for each of the six tuttis. */
+    tuttiOffsets: number[];
 
 }

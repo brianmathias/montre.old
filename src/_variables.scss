@@ -52,6 +52,7 @@ $pedal-active: color.scale($pedal-base, $lightness: $active-lightness);
 $input-color: black;
 $input-bg-color: color.scale($general-base, $lightness: 85%);
 $input-bg-color-active: color.scale($general-base, $lightness: 65%);
+$input-bg-color-selected: color.scale($general-base, $lightness: 50%);
 
 // Action Buttons
 

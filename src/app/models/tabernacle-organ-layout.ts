@@ -81,6 +81,7 @@ export class TabernacleOrganLayout extends OrganLayout {
 
         // Auxilliary stop columns (7 stops, centered on page)
         let center = 792 / 2;
+        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 4));
         this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
         this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
         this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));

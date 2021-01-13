@@ -5,9 +5,9 @@
         <!--<nav *ngIf="show">-->
         <nav>
             <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Upload</a>
-            <a routerLink="/build" routerLinkActive="active">Build</a>
-            <a routerLink="/edit" routerLinkActive="active">Edit</a>
-            <a routerLink="/print" routerLinkActive="active">Print</a>
+            <a routerLink="/build" routerLinkActive="active" [class.disabled-route]="!show">Build</a>
+            <a routerLink="/edit" routerLinkActive="active" [class.disabled-route]="!show">Edit</a>
+            <a routerLink="/print" routerLinkActive="active" [class.disabled-route]="!show">Print</a>
             <a routerLink="/options" routerLinkActive="active"><img class="gear" src="assets/gear.svg"></a>
         </nav>
 

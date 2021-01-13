@@ -1,4 +1,4 @@
-import { Drawknob } from './drawknob';
+import { DrawknobState } from './drawknob-state';
 
 /** Object that represents a single step of a sequence. */
 export interface SequenceStep {
@@ -19,12 +19,12 @@ export interface SequenceStep {
     measure: string; 
 
     /** Only used to keep TypeScript happy when converting a SequenceStep to a PrintStep. */
-    drawknobs?: Drawknob[];
+    drawknobs?: DrawknobState[];
 }
 
 /** Extension of SequenceStep that includes drawknob states from VirtuosoService. */
 export interface PrintStep extends SequenceStep {
 
     /** An array of Drawknob objects containing the state of each drawknob for the current piston. */
-    drawknobs: Drawknob[];
+    drawknobs: DrawknobState[];
 }

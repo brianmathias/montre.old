@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { FileService } from './services/file.service';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SequenceBuilderComponent } from './sequence-builder/sequence-builder.component';
 import { SequenceEditorComponent } from './sequence-editor/sequence-editor.component';
@@ -8,11 +9,32 @@ import { OptionsComponent } from './options/options.component';
 
 
 const routes: Routes = [
-  { path: '', component: FileUploadComponent },
-  { path: 'build', component: SequenceBuilderComponent },
-  { path: 'edit', component: SequenceEditorComponent },
-  { path: 'print', component: PrintComponent },
-  { path: 'options', component: OptionsComponent }
+  {
+    path: '', 
+    component: FileUploadComponent },
+  { 
+    path: 'build', 
+    component: SequenceBuilderComponent,
+    canActivate: [FileService] 
+  },
+  { 
+    path: 'edit', 
+    component: SequenceEditorComponent,
+    canActivate: [FileService]
+  },
+  { 
+    path: 'print', 
+    component: PrintComponent,
+    canActivate: [FileService]
+  },
+  { 
+    path: 'options', 
+    component: OptionsComponent 
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({

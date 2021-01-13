@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Organs } from '../models/organs';
+import { OrganService } from '../services/organ.service';
 import { PrintSequence } from '../models/sequence';
 import { OptionsService } from '../services/options.service';
-import { ModalService } from '../services/modal.service';
+import { FileService } from '../services/file.service';
+import { ProcessService } from '../services/process.service';
 import { PDFService } from '../services/pdf.service';
 
 
@@ -15,7 +17,8 @@ import { PDFService } from '../services/pdf.service';
 })
 export class OptionsComponent {
 
-  modal$: Subscription;
+  fileStatus$: Subscription;
+  fileStatus: boolean = false;
 
   filenameTemplateChoral: string;
   filenameExampleChoral: string;
@@ -47,7 +50,7 @@ export class OptionsComponent {
     version: "Organ Solo"
   }
 
-  constructor(private options: OptionsService, private pdfService: PDFService, private modalService: ModalService) {
+  constructor(private options: OptionsService, private fileService: FileService, private processService: ProcessService, private pdfService: PDFService) {
     
     this.filenameTemplateChoral = this.options.getFilenameTemplateChoral();
     this.filenameExampleChoral = this.options.getFilename(this.choralExample.type, this.choralExample.catalog, this.choralExample.title, this.choralExample.composer, this.choralExample.version, this.choralExample.organ);
@@ -62,6 +65,14 @@ export class OptionsComponent {
     this.titleExampleOrgan = this.options.getTitle(this.organExample.type, this.organExample.catalog, this.organExample.title, this.organExample.composer, this.organExample.version, this.organExample.organ);
 
     this.sequenceHistory = this.options.sequenceHistory;
+  }
+
+  ngOnInit(): void {
+    this.fileStatus$ = this.fileService.fileLoaded$.subscribe(val => this.fileStatus = val);
+  }
+
+  ngOnDestroy(): void {
+    this.fileStatus$.unsubscribe();
   }
 
   updateFilenameChoral(): void {
@@ -89,6 +100,7 @@ export class OptionsComponent {
   }
 
   reprintRecord(sequence: PrintSequence): void {
+    console.log(sequence);
     const filename = this.options.getFilename(sequence.type, sequence.composition.catalogNo, sequence.composition.title, sequence.composition.composer, sequence.version, sequence.organString);
     const title = this.options.getTitle(sequence.type, sequence.composition.catalogNo, sequence.composition.title, sequence.composition.composer, sequence.version, sequence.organString);
     this.pdfService.PDF(sequence, filename, title);
@@ -104,7 +116,13 @@ export class OptionsComponent {
     this.sequenceHistory = this.options.sequenceHistory;
   }
 
+  printCrescendo(num: number): void {
+    this.processService.crescendo(num);
+  }
 
+  printTutti(num: number): void {
+    this.processService.tutti(num);
+  }
   
 
 }

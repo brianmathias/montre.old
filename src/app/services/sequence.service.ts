@@ -27,12 +27,14 @@ export class SequenceService {
   
   constructor(private organService: OrganService) {
     this._pistons = this.organService.pistons;
-    
+    this.sequence = new Sequence(this.organService.selectedOrgan);
+    /*
     if(this._env.production){
       this.sequence = new Sequence(this.organService.selectedOrgan);
     } else {
       this.sequence = this._mockData;
     }
+    */
   }
 
   /** Clears the current sequence and creates a new one. */

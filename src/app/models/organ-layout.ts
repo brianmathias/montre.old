@@ -102,7 +102,7 @@ export class OrganLayout {
         white: {r: 255, g: 255, b: 255},
         red: {r: 180, g: 0, b: 0},
         green: {r: 30, g: 130, b: 75},
-        gray: {r: 192, g: 192, b: 192}
+        gray: {r: 210, g: 210, b: 210}
     }
 
     /** Array of DrawknobColor objects corresponding to the four drawknob states:

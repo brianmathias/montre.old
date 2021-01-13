@@ -6,6 +6,8 @@ import { VirtuosoService } from '../services/virtuoso.service';
 import { PDFService } from '../services/pdf.service';
 import { LogService } from './log.service';
 import { Organs } from '../models/organs';
+import { Crescendo } from '../models/crescendo';
+import { Tutti } from '../models/tutti';
 
 /**
  * This service is the main processing point for generating PDF documents. 
@@ -61,13 +63,57 @@ export class ProcessService {
   }
 
   /**
+   * Prints one of four 60-stage crescendos.
+   * @param num {number} - The number of the desired crescendo.
+   */
+  public crescendo(num: number): void {
+
+    let crescendo: Crescendo = {
+      num: num,
+      organ: Organs.Tabernacle,
+      stages: this.virtuosoService.getCrescendo(num)
+    }
+
+    // Compare crescendo stages to add Add and Remove drawknob states
+    for(let i = 1; i < crescendo.stages.length; i++) {
+
+      for (let j = 0; j < crescendo.stages[i].drawknobs.length; j++) {
+
+        if (crescendo.stages[i].drawknobs[j] === DrawknobState.On && (crescendo.stages[i - 1].drawknobs[j] === DrawknobState.Off || crescendo.stages[i - 1].drawknobs[j] === DrawknobState.Remove)){
+          crescendo.stages[i].drawknobs[j] = DrawknobState.Add;
+        }
+
+        // If previous step is On or Add, change Off to Remove
+        else if (crescendo.stages[i].drawknobs[j] === DrawknobState.Off && (crescendo.stages[i - 1].drawknobs[j] === DrawknobState.On || crescendo.stages[i - 1].drawknobs[j] === DrawknobState.Add)){
+          crescendo.stages[i].drawknobs[j] = DrawknobState.Remove;
+        }
+      }
+    }
+
+    this.pdfService.printCrescendo(crescendo);
+  }
+
+  public tutti(num: number): void {
+
+    let tutti: Tutti = {
+      num: num,
+      organ: Organs.Tabernacle,
+      drawknobs: this.virtuosoService.getTutti(num)
+    }
+
+    this.pdfService.printTutti(tutti);
+
+  }
+
+
+  /**
    * Compares drawknobs of each sequence step to determine Add/Remove states.
    */ 
   private _compareDrawknobs(sequence: PrintSequence): PrintSequence {
     
     // Create a copy of sequence
     const str = JSON.stringify(sequence);
-    let seq = JSON.parse(str);
+    let seq: PrintSequence = JSON.parse(str);
     
     // Loop through sequence steps
     for(let i = 1; i < seq.steps.length; i++) {
@@ -82,13 +128,13 @@ export class ProcessService {
         for(let j = 0; j < step.drawknobs.length; j++){
 
           // If previous step is Off or Remove, change On to Add
-          if (step.drawknobs[j].state === DrawknobState.On && (base.drawknobs[j].state === DrawknobState.Off || base.drawknobs[j].state === DrawknobState.Remove)){
-            step.drawknobs[j].state = DrawknobState.Add;
+          if (step.drawknobs[j] === DrawknobState.On && (base.drawknobs[j] === DrawknobState.Off || base.drawknobs[j] === DrawknobState.Remove)){
+            step.drawknobs[j] = DrawknobState.Add;
           }
 
           // If previous step is On or Add, change Off to Remove
-          else if (step.drawknobs[j].state === DrawknobState.Off && (base.drawknobs[j].state === DrawknobState.On || base.drawknobs[j].state === DrawknobState.Add)){
-            step.drawknobs[j].state = DrawknobState.Remove;
+          else if (step.drawknobs[j] === DrawknobState.Off && (base.drawknobs[j] === DrawknobState.On || base.drawknobs[j] === DrawknobState.Add)){
+            step.drawknobs[j] = DrawknobState.Remove;
           }
         }
       }

@@ -7,7 +7,7 @@
 }
 
 h1 {
-    margin: 50px 0 20px;
+    margin: 40px 0 20px;
     font-size: 48px;
     font-weight: 200;
     text-align: center;
@@ -22,7 +22,7 @@ h1 {
 .file-row {
 
     display: flex;
-    padding: 100px 0 30px;
+    padding: 50px 0 30px;
 
     button.upload {
         
@@ -47,4 +47,26 @@ h1 {
     color: red;
     font-size: 14px;
     
+}
+
+.large {
+    width: 250px;
+}
+
+.organ-row {
+    width: 608px;
+    margin-top: 40px;
+
+    button.selected {
+        background-color: $input-bg-color-selected;
+        cursor: default;
+    }
+
+    button {
+        width: 50%;
+    }
+}
+input[type=radio] {
+    width: 50px;
+    font-size: 100px;
 }

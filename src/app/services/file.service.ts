@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router, CanActivate } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from "rxjs";
-import * as XLSX from 'xlsx';
-import { Organs } from '../models/organs';
-import { OrganService } from '../services/organ.service';
 
 /**
  * This service processes the uploaded file and provides methods to access its raw data.
@@ -22,7 +20,7 @@ import { OrganService } from '../services/organ.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FileService {
+export class FileService implements CanActivate {
   
   private _env = environment;
   
@@ -48,16 +46,25 @@ export class FileService {
   /** Observable providing the current error message ("" = no error) */
   public fileError$ = this._fileError.asObservable();
   
-  private _32BitArray: Uint32Array;
+
   private _dataView: DataView;
-  private _data = null; // Array of values from spreadsheet
+
   
-  constructor(private organService: OrganService) {
-    if(!this._env.virtuoso) {
-      this.organService.setOrgan(Organs.Tabernacle);
-      //this.organService.setOrgan(Organs.ConferenceCenter);
+  constructor(public router: Router) {}
+
+    /** If the user has not uploaded a file, tell the router not to allow navigation to the Build, 
+     * Edit, and Print routes.
+     */
+    canActivate(): boolean {
+      
+      if (this._file === undefined) { 
+        console.log(this._file);
+        this.router.navigate(['']);
+        return false;
+      } 
+
+      return true;
     }
-  }
 
   /**
    * Loads the passed file into memory for access through getValue().
@@ -75,79 +82,40 @@ export class FileService {
       // Necessary to circumvent Typescript errors
       let e: any = event.target;
       let result = e.result; 
-
-      let data = new Uint8Array(result);
-      let book = XLSX.read(data, {type: 'array'});
-      let sheetName = book.SheetNames[0];
-      let sheet = book.Sheets[sheetName];
-      this._data = XLSX.utils.sheet_to_json(sheet, {raw: true, header: 1});
       
-      // Should only need one of these (probably dataView, since it provides 
-      // control over endianness)
+
       this._dataView = new DataView(result);
-      
-      
-      // 32BitArray requires that file's byte length is a multiple of 4 (DataView is preferable)
-      //this._32BitArray = new Uint32Array(result);
-      
-      // Eventually, there should be some check to make sure the file is a 
-      // Virtuoso file before proceeding. Also, check file for which organ
-      // and call organService.setOrgan() 
-
-      if(this.getValue(3) === "10101110011011100000000000100001") {
-        this._fileLoaded.next(true);
-        this._fileName.next(this._file.name);
-        this._fileError.next("");
-      } else {
-        this._fileLoaded.next(false);
-        this._fileName.next(this._file.name);
-        this._fileError.next("This file is not a valid Virtuoso file. Please upload another file to proceed.");
-      }
-
-
-
-
-      
-      
-      
-
+      this._fileLoaded.next(true);
+      this._fileName.next(this._file.name);
+      this._fileError.next("");
     }
     reader.readAsArrayBuffer(this._file);
   }
 
   /** Unloads the current file and resets all the file observables. */
   public unloadFile(): void {
-    this._file = null;
+    this._file = undefined;
     this._fileName.next("");
     this._fileLoaded.next(false);
     this._fileError.next("");
   }
 
   /**
-   * Retrieves 32-bit word at the specified offset.
+   * Retrieves a block of byte values beginning at the specified offset.
    * 
-   * @param offset - The offset (8-bit or 32-bit?) at which to retrieve the value.
-   * 
-   * @returns {string} 32-bit value as a binary string. 
+   * @param offset - The offset at which to begin retrieving the values.
+   * @param length - The number of values to return.
+   * @returns {number[]} An array of signed 8-bit integers. 
    */
-  public getValue(offset: number): string {
+  public getValues(offset: number, length: number): number[] {
 
-    // Note: need to find out from Dwight if Virtuoso is little-endian or big-endian 
-    // Assumption: little-endian?
-
-    // DataView takes an integer (BYTE - not 32-bit) offset and returns a 32-bit binary string
-    const int = this._dataView.getUint32(offset * 4, true);
-    const str = int.toString(2).padStart(32, "0");
-    return str;
+    let arr: number[] = [];
+    
+    for(let i = 0; i < length; i++){
+      let int = this._dataView.getUint8(offset + i);
+      arr.push(int);
+    }
+    
+    return arr;
   }
-
-  // This method is probably unnecessary and can be removed once file access is settled
-  public getArrayValue(offset: number): string {
-    const int = this._32BitArray[offset];
-    const str = int.toString(2).padStart(32, "0");
-    return str;
-  }
-
-  // If info is actually in a spreadsheet, need to provide way to retrieve values
-
 }

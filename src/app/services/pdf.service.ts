@@ -6,6 +6,8 @@ import { Piston } from '../models/piston';
 import { OrganLayout } from '../models/organ-layout';
 import { PrintSequence } from '../models/sequence';
 import { PrintStep } from '../models/sequence-step';
+import { Crescendo } from '../models/crescendo';
+import { Tutti } from '../models/tutti';
 import { DrawknobState } from '../models/drawknob-state';
 import { OrganService } from './organ.service';
 import { LogService } from './log.service';
@@ -81,6 +83,101 @@ export class PDFService {
     this.pdf.save(filename);
     this.log.add("PDF finished.");
   }
+
+  public printCrescendo(crescendo: Crescendo): void {
+
+    let page: number = 1;
+    this._setOrgan(crescendo.organ);
+
+    this.pdf = new jsPDF({
+      format: "letter",
+      orientation: "landscape",
+      unit: "pt"
+    });
+
+    for (let stage of crescendo.stages) {
+
+      this._drawTitles("Crescendo " + crescendo.num, "", "");
+      this._drawCornerBoxesNew(this.os, stage.stage, 60);
+      this._drawTextFields();
+
+
+      this.pdf.setFont(this.ol.font, "normal");
+      this.pdf.setFontSize(this.ol.textFieldTextFontSize);
+
+
+      let pistonString = `Stage ${stage.stage}`;
+      this.pdf.text(pistonString, this.ol.textFieldColumns[0], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
+      
+      let baseString = "(None)";
+      if(stage.stage > 1) {
+        baseString = `Stage ${stage.stage -1}`;
+      }
+      this.pdf.text(baseString, this.ol.textFieldColumns[2], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
+      
+      let step: PrintStep = {
+        drawknobs: stage.drawknobs,
+        memoryLevel: -1,
+        piston: null,
+        base: null,
+        notes: null,
+        measure: null
+      }
+
+      this._drawDrawknobs(step);
+      this._drawDivisionLabels();
+      this._drawDivisionDividers();
+      
+      page++;
+      this.pdf.addPage();
+
+    }
+
+    this.pdf.deletePage(page);
+
+    let filename: string = "Crescendo " + crescendo.num + ".pdf";
+    this.pdf.save("Crescendo" + filename);
+  }
+
+  public printTutti(tutti: Tutti): void {
+    
+    this._setOrgan(tutti.organ);
+
+    this.pdf = new jsPDF({
+      format: "letter",
+      orientation: "landscape",
+      unit: "pt"
+    });
+
+    this._drawTitles("Tutti " + tutti.num, "", "");
+    this._drawCornerBoxes();
+    this._drawTextFields();
+
+    this.pdf.setFont(this.ol.font, "normal");
+    this.pdf.setFontSize(this.ol.textFieldTextFontSize);
+
+
+    let pistonString = `Tutti ${tutti.num}`;
+    this.pdf.text(pistonString, this.ol.textFieldColumns[0], this.ol.textFieldRows[0] + this.ol.textFieldTextOffset);
+      
+    let step: PrintStep = {
+      drawknobs: tutti.drawknobs,
+      memoryLevel: -1,
+      piston: null,
+      base: null,
+      notes: null,
+      measure: null
+    }
+
+    this._drawDrawknobs(step);
+    this._drawDivisionLabels();
+    this._drawDivisionDividers();
+
+    let filename: string = "Tutti " + tutti.num + ".pdf";
+    this.pdf.save(filename);
+    
+  }
+
 
   /** Generates a blank piston record for either organ.
    * 
@@ -213,6 +310,46 @@ export class PDFService {
 
   }
 
+  /** Draws venue (left) and step number (right corner boxes). */
+  private _drawCornerBoxesNew(organString: string, pageNumber: number, pageCount: number): void {
+    
+    let pageString: string;
+
+    this.pdf.setTextColor(0);
+    this.pdf.setDrawColor(0);
+    this.pdf.setLineWidth(1);
+    
+    // Draw organ indicator (top left corner)
+    this.pdf.rect(this.ol.pageMargin, this.ol.cornerBoxYPosition, this.ol.cornerBoxWidth, this.ol.cornerBoxHeight, "S");
+    this.pdf.setFont(this.ol.font, "bold");
+    this.pdf.setFontSize(this.ol.cornerBoxFontSize);
+    this.pdf.text(organString, this.ol.pageMargin + (this.ol.cornerBoxWidth / 2), this.ol.cornerBoxBaseline, {align: "center"});
+
+    // Draw step number (top right corner)
+    this.pdf.rect(this.ol.pageWidth - (this.ol.pageMargin + this.ol.cornerBoxWidth), this.ol.cornerBoxYPosition, this.ol.cornerBoxWidth, this.ol.cornerBoxHeight, "S");
+    this.pdf.setFont(this.ol.font, "normal");
+    
+    if(pageNumber) {
+      pageString = `Step ${pageNumber} of ${pageCount}`;
+    } else {
+      pageString = "Step __ of __";
+    }
+    
+    this.pdf.text(pageString, this.ol.pageWidth - (this.ol.pageMargin + (this.ol.cornerBoxWidth / 2)), this.ol.cornerBoxBaseline, {align: "center"});
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   /** Draws the "piston," "based on," "measure(s)," and "notes" text fields with their associated 
    * labels and underlines.
    * 
@@ -297,7 +434,7 @@ export class PDFService {
       const stop = this.o.stops[i];
       let state: DrawknobState;
 
-      if (step) { state = step.drawknobs[i].state; }
+      if (step) { state = step.drawknobs[i]; }
       else { state = DrawknobState.Off; }
       
       let x: number 

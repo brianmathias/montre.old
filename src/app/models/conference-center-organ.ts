@@ -5,7 +5,7 @@ export const ConferenceCenterOrgan: Organ = {
 
     venue: "Conference Center",
     builder: "Schoenstein",
-    memoryLevels: 99,
+    memoryLevels: 50,
     manuals: [
         {
             name: "General",

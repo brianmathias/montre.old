@@ -40,7 +40,7 @@
         </div>
     </div>
 </div>
-<div class="section">
+<div class="section" *ngIf="sequenceHistory.length > 0">
     <h2>History</h2>
 
     <div class="history-table" *ngIf="sequenceHistory.length > 0">
@@ -67,6 +67,22 @@
     <button (click)="clearHistory()" *ngIf="sequenceHistory.length > 0">Clear History</button>
 
 
+</div>
+<div class="section" *ngIf="fileStatus">
+    <h2>Crescendos</h2>
+    <button (click)="printCrescendo(1)">Crescendo 1</button>
+    <button (click)="printCrescendo(2)">Crescendo 2</button>
+    <button (click)="printCrescendo(3)">Crescendo 3</button>
+    <button (click)="printCrescendo(4)">Crescendo 4</button>
+</div>
+<div class="section" *ngIf="fileStatus">
+    <h2>Tuttis</h2>
+    <button (click)="printTutti(1)">Tutti 1</button>
+    <button (click)="printTutti(2)">Tutti 2</button>
+    <button (click)="printTutti(3)">Tutti 3</button>
+    <button (click)="printTutti(4)">Tutti 4</button>
+    <button (click)="printTutti(5)">Tutti 5</button>
+    <button (click)="printTutti(6)">Tutti 6</button>
 </div>
 <div class="section">
     <h2>Blank Piston Records</h2>

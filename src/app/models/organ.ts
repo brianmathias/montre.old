@@ -31,7 +31,7 @@ export interface Organ {
 export interface OrganObject {
     organ: Organ,
     layout: OrganLayout,
-    // config: OrganConfig (add later)
+    config?: OrganConfig,
     memoryLevels: number[],
     manuals: Manual[],
     pistons: Piston[]

@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { Organs } from '../models/organs';
+import { OrganService } from '../services/organ.service';
 import { FileService } from '../services/file.service';
 
 @Component({
@@ -17,7 +19,11 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   fileError: string = "";
   fileErrorSubscription: Subscription;
 
-  constructor(private fileService: FileService) {}
+  organ: Organs;
+
+  constructor(private organService: OrganService, private fileService: FileService) {
+    this.organ = this.organService.selectedOrgan;
+  }
 
   ngOnInit(): void {
     this.fileLoadedSubscription = this.fileService.fileLoaded$.subscribe(val => this.fileLoaded = val);
@@ -36,7 +42,13 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   }
 
   handleFile(files: FileList): void {
+    this.organService.setOrgan(Organs.Tabernacle);
     this.fileService.loadFile(files[0]);
+  }
+
+  setOrgan(organ: Organs): void {
+    this.organ = organ;
+    this.organService.setOrgan(organ);
   }
 
 }

@@ -7,6 +7,7 @@ import { Manual } from '../models/manual';
 import { Piston } from '../models/piston';
 import { TabernacleOrgan } from '../models/tabernacle-organ';
 import { TabernacleOrganLayout } from '../models/tabernacle-organ-layout';
+import { TabernacleOrganConfig } from '../models/tabernacle-organ-config';
 import { ConferenceCenterOrgan } from '../models/conference-center-organ';
 import { ConferenceCenterOrganLayout } from '../models/conference-center-organ-layout';
 
@@ -15,9 +16,6 @@ import { ConferenceCenterOrganLayout } from '../models/conference-center-organ-l
  * This service provides access to the Organ, OrganLayout, and OrganConfig classes for the currently 
  * selected instrument, as well as direct access to the Tabernacle and Conference Center organs.
  * The setOrgan() method is used to set which organ should be used for a particular Virtuoso file.
- * 
- * (Note: setOrgan() is currently called from FileService and should be determined by the contents of the
- * file uploaded.)
  */
 @Injectable({
   providedIn: 'root'
@@ -64,6 +62,7 @@ export class OrganService {
     this.TabernacleOrgan = {
       organ: TabernacleOrgan,
       layout: new TabernacleOrganLayout(),
+      config: TabernacleOrganConfig,
       memoryLevels: [],
       manuals: [],
       pistons: [],
@@ -114,6 +113,7 @@ export class OrganService {
         this.ConferenceCenterOrgan.pistons.push({id: piston.id, division: piston.division, number: piston.number});
       }
     }
+    this.setOrgan(Organs.Tabernacle);
   } // End constructor
 
   /**
@@ -127,19 +127,19 @@ export class OrganService {
       this.selectedOrgan = organ;
       this.organ = TabernacleOrgan;
       this.organLayout = this.TabernacleOrgan.layout;
+      this.organConfig = this.TabernacleOrgan.config;
       this.memoryLevels = this.TabernacleOrgan.memoryLevels;
       this.manuals = this.TabernacleOrgan.manuals;
       this.pistons = this.TabernacleOrgan.pistons;
-      //  Add OrganConfig
 
     } else if (organ === Organs.ConferenceCenter) {
       this.selectedOrgan = organ;
       this.organ = ConferenceCenterOrgan;
       this.organLayout = this.ConferenceCenterOrgan.layout;
+      //this.organConfig = this.ConferenceCenterOrgan.config;
       this.memoryLevels = this.ConferenceCenterOrgan.memoryLevels;
       this.manuals = this.ConferenceCenterOrgan.manuals;
       this.pistons = this.ConferenceCenterOrgan.pistons;
-      // Add OrganConfig
     }
   }
 }

@@ -1,13 +1,22 @@
 <div class="flex-vertical">
 
     <h1>Upload a Virtuoso backup file to begin.</h1>
-    <input type="file" id="fileElem" (change)="handleFile($event.target.files)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+      
+    <input type="file" id="fileElem" (change)="handleFile($event.target.files)" accept=".bin"/>
     
     <div class="file-row">
         <button class="upload" (click)="selectFile()">Select File...</button>
         <span class="selected-file">{{fileName}}</span>  
     </div>
     <div class="error">{{fileError}}</div>
+
+
+    <div class="organ-row">
+        <button [class.selected]="organ === 0" (click)="setOrgan(0)">Tabernacle</button>
+        <button [class.selected]="organ === 1" (click)="setOrgan(1)">Conference Center</button>
+    </div>
+    
+
 </div>
 <div class="action-row">
     <span class="action-spacer"></span>
