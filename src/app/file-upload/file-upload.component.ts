@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Organs } from '../models/organs';
-import { OrganService } from '../services/organ.service';
+
 import { FileService } from '../services/file.service';
+import { OrganService } from '../services/organ.service';
+
+import { Organs } from '../models/organs';
 
 @Component({
   selector: 'app-file-upload',
@@ -11,14 +13,28 @@ import { FileService } from '../services/file.service';
 })
 export class FileUploadComponent implements OnInit, OnDestroy {
 
+  /** The File object for the user-supplied file. */
   file: File = null;
+
+  /** The name of the user-supplied file. */
   fileName: string = "";
+
+  /** A subscription to the FileService.fileName$ observable. */
   fileNameSubscription: Subscription;
+
+  /** Boolean indicating whether or not a file has been uploaded. */
   fileLoaded: boolean = false;
+
+  /** A subscription to the FileService.fileLoaded$ observable. */
   fileLoadedSubscription: Subscription;
+
+  /** String indicating an error with the file upload. (Is this necessary?) */
   fileError: string = "";
+
+  /** A subscription to the FileService.fileError$ observable. */
   fileErrorSubscription: Subscription;
 
+  /** The currently selected organ. */
   organ: Organs;
 
   constructor(private organService: OrganService, private fileService: FileService) {
@@ -36,16 +52,19 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.fileNameSubscription.unsubscribe();
   }
 
+  /** Shows the dialog box to select a file for upload. (Necessary in order to hide the ugly HTML default
+   * file upload element.) */
   selectFile(): void {
     const fileElement = document.getElementById("fileElem");
     fileElement.click();
   }
 
+  /** Sends the file to FileService for processing. */
   handleFile(files: FileList): void {
-    this.organService.setOrgan(Organs.Tabernacle);
     this.fileService.loadFile(files[0]);
   }
 
+  /** Sets the current organ. */
   setOrgan(organ: Organs): void {
     this.organ = organ;
     this.organService.setOrgan(organ);

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Sequence, PrintSequence } from '../models/sequence';
-import { DrawknobState } from '../models/drawknob-state';
-import { OptionsService } from '../services/options.service';
-import { VirtuosoService } from '../services/virtuoso.service';
-import { PDFService } from '../services/pdf.service';
+
 import { LogService } from './log.service';
-import { Organs } from '../models/organs';
+import { OptionsService } from '../services/options.service';
+import { PDFService } from '../services/pdf.service';
+import { VirtuosoService } from '../services/virtuoso.service';
+
 import { Crescendo } from '../models/crescendo';
+import { DrawknobState } from '../models/drawknob-state';
+import { Organs } from '../models/organs';
+import { Sequence, PrintSequence } from '../models/sequence';
 import { Tutti } from '../models/tutti';
 
 /**
@@ -55,7 +57,7 @@ export class ProcessService {
     let filename = this.optionsService.getFilename(pseq.type, pseq.composition.catalogNo, pseq.composition.title, pseq.composition.composer, pseq.version, organ)
     let title = this.optionsService.getTitle(pseq.type, pseq.composition.catalogNo, pseq.composition.title, pseq.composition.composer, pseq.version, organ);
 
-    this.pdfService.PDF(pseq, filename, title); 
+    this.pdfService.printSequence(pseq, filename, title); 
     
     if(addToHistory) { this.optionsService.addToHistory(pseq); }
     
@@ -64,7 +66,8 @@ export class ProcessService {
 
   /**
    * Prints one of four 60-stage crescendos.
-   * @param num {number} - The number of the desired crescendo.
+   * 
+   * @param num {number} - The number of the desired crescendo (1-4).
    */
   public crescendo(num: number): void {
 

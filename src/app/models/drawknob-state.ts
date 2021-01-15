@@ -1,6 +1,7 @@
 
 /**
- * Enum for four possible drawknob states:
+ * Enum for five possible drawknob states:
+ * 
  * - Off (0)
  * - On (1)
  * - Remove (2)

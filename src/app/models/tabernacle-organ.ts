@@ -2638,10 +2638,10 @@ export const TabernacleOrgan: Organ = {
         {
             id: 220, 
             name: "All Tremulants Off",
-            shortName: "ATR", 
+            shortName: "TRM", 
             pitchDesignation: "",
             shortPitchDesignation: "OFF",
-            column: 0,
+            column: 3,
             row: 24,
             division: 0,
             aux: true
@@ -2652,7 +2652,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "ANT",
-            column: 2,
+            column: 4,
             row: 24,
             division: 1,
             aux: true
@@ -2663,7 +2663,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "SO",
-            column: 3,
+            column: 5,
             row: 24,
             division: 2,
             aux: true
@@ -2674,7 +2674,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "SW",
-            column: 4,
+            column: 6,
             row: 24,
             division: 3,
             aux: true
@@ -2685,7 +2685,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "GT",
-            column: 5,
+            column: 7,
             row: 24,
             division: 4,
             aux: true
@@ -2696,7 +2696,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "CH",
-            column: 6,
+            column: 8,
             row: 24,
             division: 5,
             aux: true,
@@ -2707,7 +2707,7 @@ export const TabernacleOrgan: Organ = {
             shortName: "MID", 
             pitchDesignation: "",
             shortPitchDesignation: "PD",
-            column: 7,
+            column: 9,
             row: 24,
             division: 7,
             aux: true
@@ -2715,14 +2715,37 @@ export const TabernacleOrgan: Organ = {
         {
             id: 227, 
             name: "Vox Tremulant Off",
-            shortName: "VTR", 
+            shortName: "VXT", 
+            pitchDesignation: "",
+            shortPitchDesignation: "OFF",
+            column: 0,
+            row: 24,
+            division: 0,
+            aux: true
+        },
+        {
+            id: 228, 
+            name: "Percussion Off",
+            shortName: "PRC", 
+            pitchDesignation: "",
+            shortPitchDesignation: "OFF",
+            column: 2,
+            row: 24,
+            division: 0,
+            aux: true
+        },
+        {
+            id: 229, 
+            name: "Celestes Off",
+            shortName: "CEL", 
             pitchDesignation: "",
             shortPitchDesignation: "OFF",
             column: 1,
             row: 24,
             division: 0,
             aux: true
-        } 
+        },
+
         
     ] // end stops
 }

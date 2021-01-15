@@ -1,6 +1,4 @@
 import { OrganConfig } from '../models/organ-config';
-import { StopTableRow } from '../virtuoso/stopTableRow';
-import { PistonTableRow } from '../virtuoso/pistonTableRow';
 
 export const TabernacleOrganConfig: OrganConfig = {
 
@@ -350,7 +348,10 @@ export const TabernacleOrganConfig: OrganConfig = {
         {id: 224, vIndex: 247},
         {id: 225, vIndex: 246},
         {id: 226, vIndex: 245},
-        {id: 226, vIndex: 244}
+        {id: 227, vIndex: 244},
+        {id: 228, vIndex: 242},
+        {id: 229, vIndex: 243}
+
     ]
 
 }

@@ -294,9 +294,10 @@ export class OrganLayout {
         }
 
         // Bottom row for auxilliary stops (row 24)
-        this.rows.push(564);
+        //this.rows.push(564);
+        this.rows.push(573)
         
-        // Column coordinates should be calculated in sub-class cunstructors
+        // Column coordinates should be calculated in sub-class constructors
         // Division labels and dividers should be specified in sub-class constructors
     }
 

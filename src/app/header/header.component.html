@@ -2,7 +2,6 @@
     <div class="container">
         <img class="logo" src="assets/montre-logo-regular.svg">
         <span class="spacer"></span>
-        <!--<nav *ngIf="show">-->
         <nav>
             <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Upload</a>
             <a routerLink="/build" routerLinkActive="active" [class.disabled-route]="!show">Build</a>

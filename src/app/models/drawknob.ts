@@ -1,6 +1,8 @@
 import { DrawknobState } from './drawknob-state';
 
 /**
+ * NOTE: No longer being used?
+ * 
  * Object representing a drawknob as part of a sequence step with the following three properties:
  * 
  * - id: number - The id number of the stop

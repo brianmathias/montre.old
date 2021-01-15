@@ -81,13 +81,24 @@ export class TabernacleOrganLayout extends OrganLayout {
 
         // Auxilliary stop columns (7 stops, centered on page)
         let center = 792 / 2;
-        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 4));
-        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
-        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
-        this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
-        this.auxColumns.push(center);
-        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
-        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
-        this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
+        //this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 4));
+        //this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
+        //this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
+        //this.auxColumns.push(center - ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
+        //this.auxColumns.push(center);
+        //this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 1));
+        //this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 2));
+        //this.auxColumns.push(center + ((this.drawknobColumnWidth + this.spacerColumnWidth) * 3));
+
+        this.auxColumns.push(this.columns[0]);
+        this.auxColumns.push(this.columns[1]);
+        this.auxColumns.push(this.columns[2]);
+        this.auxColumns.push(this.columns[3]);
+        this.auxColumns.push(this.columns[18] - ((this.drawknobColumnWidth + this.spacerColumnWidth)) * 2);
+        this.auxColumns.push(this.columns[18] - (this.drawknobColumnWidth + this.spacerColumnWidth));
+        this.auxColumns.push(this.columns[18]);
+        this.auxColumns.push(this.columns[19]);
+        this.auxColumns.push(this.columns[20]);
+        this.auxColumns.push(this.columns[21]);
     }
 }
