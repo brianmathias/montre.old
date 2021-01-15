@@ -33,16 +33,25 @@
             text-align: center;
             text-decoration: none;
             text-transform: uppercase;
+
+            &.active {
+                background-color: rgba(255,255,255,0.1);    
+            }
+
+            &.disabled-route {
+                opacity: .3;
+                cursor: default;    
+            }
         }
 
-        a.active {
-            background-color: rgba(255,255,255,0.1);
-        }
+        //a.active {
+        //    background-color: rgba(255,255,255,0.1);
+        //}
 
-        a.disabled-route {
-            opacity: 30%;
-            cursor: default;
-        }
+        //a.disabled-route {
+        //    opacity: 30%;
+        //    cursor: default;
+        //}
 
         img.gear { 
             padding: 16px 0;
