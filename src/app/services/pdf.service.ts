@@ -370,12 +370,15 @@ export class PDFService {
     // of them is in a On, Add, or Remove (don't print if they are all Off or OutOfRange) state.
     let printAux: boolean = false;
 
-    for(let i = 220; i < 230; i++) {
-      if (drawknobs[i] !== DrawknobState.Off && drawknobs[i] !== DrawknobState.OutOfRange) {
-        printAux = true;
-        break;
-      } 
+    if(drawknobs && this.os === "TAB") {
+      for(let i = 220; i < 230; i++) {
+        if (drawknobs[i] !== DrawknobState.Off && drawknobs[i] !== DrawknobState.OutOfRange) {
+          printAux = true;
+          break;
+        } 
+      }
     }
+    
 
     for(let i = 0; i < this.o.stops.length; i++) {
       
