@@ -364,7 +364,19 @@ export class PDFService {
     this.pdf.setFont(this.ol.font, "bold");
 
     let r: number = this.ol.drawknobRadius;
+
     
+    // Auxiliarry stops (Tabernacle Organ only, stops 220-229) should only print if at least one 
+    // of them is in a On, Add, or Remove (don't print if they are all Off or OutOfRange) state.
+    let printAux: boolean = false;
+
+    for(let i = 220; i < 230; i++) {
+      if (drawknobs[i] !== DrawknobState.Off && drawknobs[i] !== DrawknobState.OutOfRange) {
+        printAux = true;
+        break;
+      } 
+    }
+
     for(let i = 0; i < this.o.stops.length; i++) {
       
       const stop = this.o.stops[i];
@@ -406,16 +418,20 @@ export class PDFService {
         baseline = y - 1;
       }
 
-      // Draw a circle around regular stops and a square around "auxilliary" stops
-      if(stop.aux) {
-        this.pdf.rect(x - r, y - r, r * 2, r * 2, style);
-      } else {
+      // If the stop is not an auxiliarry stop
+      if (!stop.aux) {
         this.pdf.circle(x, y, r, style);
-      }
+        this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+        this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+      } else {
 
-      // Draw drawknob text
-      this.pdf.text(stop.shortName, x, baseline, {align: "center"});
-      this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+        // Only print auxiliarry stops if at least one has been found to be in a non-Off state (see loop above)
+        if (printAux) {
+          this.pdf.rect(x - r, y - r, r * 2, r * 2, style);
+          this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+          this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+        }
+      }
     }
   }
 
