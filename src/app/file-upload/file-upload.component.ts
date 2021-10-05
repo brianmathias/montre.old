@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { FileService } from '../services/file.service';
 import { OrganService } from '../services/organ.service';
+import { SequenceService } from '../services/sequence.service';
 
 import { Organs } from '../models/organs';
 
@@ -34,22 +35,29 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   /** A subscription to the FileService.fileError$ observable. */
   fileErrorSubscription: Subscription;
 
+  fileOrganSubscription: Subscription;
+
   /** The currently selected organ. */
   organ: Organs;
 
-  constructor(private organService: OrganService, private fileService: FileService) {
-    this.organ = this.organService.selectedOrgan;
+  organSubscription: Subscription
+
+  constructor(private organService: OrganService, private fileService: FileService, private sequenceService: SequenceService) {
+    
   }
 
   ngOnInit(): void {
     this.fileLoadedSubscription = this.fileService.fileLoaded$.subscribe(val => this.fileLoaded = val);
     this.fileNameSubscription = this.fileService.fileName$.subscribe(val => this.fileName = val);
     this.fileErrorSubscription = this.fileService.fileError$.subscribe(val => this.fileError = val);
+    this.organSubscription = this.organService.selectedOrgan$.subscribe(val => this.organ = val);
   }
 
   ngOnDestroy(): void {
     this.fileLoadedSubscription.unsubscribe();
     this.fileNameSubscription.unsubscribe();
+    this.fileErrorSubscription.unsubscribe();
+    this.organSubscription.unsubscribe();
   }
 
   /** Shows the dialog box to select a file for upload. (Necessary in order to hide the ugly HTML default
@@ -66,7 +74,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
 
   /** Sets the current organ. */
   setOrgan(organ: Organs): void {
-    this.organ = organ;
     this.organService.setOrgan(organ);
   }
 

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Subscription } from 'rxjs';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Sequence } from '../models/sequence';
 import { Piston } from '../models/piston';
 import { OrganService } from './organ.service';
+import { Organs } from '../models/organs';
 
 /**
  * This service holds the sequence data that is used by the SequenceBuilder, SequenceEditor,
@@ -15,31 +17,31 @@ import { OrganService } from './organ.service';
 export class SequenceService {
 
   private _env = environment;
-  
-  /** Mock data to use in development. */
-  private _mockData: Sequence = { "composition": { "title": "Praise, My Soul, the King of Heaven", "composer": "arr. Wilberg", "catalogNo": "893" }, "type": "Choral", "version": "Organ w/ Orchestra", "organ": 0, "organString": "TAB", "steps": [ { "memoryLevel": 1, "piston": 13, "base": -1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 12, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 11, "base": 1, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 45, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 41, "base": 2, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 14, "base": 0, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 4, "base": 5, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 28, "base": 6, "notes": "", "measure": "" }, { "memoryLevel": 1, "piston": 66, "base": 6, "notes": "", "measure": "" } ] }
-  
+
   private _pistons: Piston[];
+
+  private _organSubscription: Subscription;
+
+  private _organ: Organs;
 
   /** The current sequence. */
   public sequence: Sequence;
   
   
   constructor(private organService: OrganService) {
+
     this._pistons = this.organService.pistons;
-    this.sequence = new Sequence(this.organService.selectedOrgan);
-    /*
-    if(this._env.production){
-      this.sequence = new Sequence(this.organService.selectedOrgan);
-    } else {
-      this.sequence = this._mockData;
-    }
-    */
+    this.sequence = new Sequence();
+
+    this._organSubscription = organService.selectedOrgan$.subscribe(val => {
+      this._organ = val;
+      this.sequence.setOrgan(val)
+    });
   }
 
   /** Clears the current sequence and creates a new one. */
   public clearSequence(): void {
-    this.sequence = new Sequence(this.organService.selectedOrgan);
+    this.sequence = new Sequence();
   }
  
   /**

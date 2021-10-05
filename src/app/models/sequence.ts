@@ -31,7 +31,7 @@ export class Sequence {
     /** Array containing the individual steps of the sequence. */
     steps: SequenceStep[]
 
-    constructor(organ: Organs) {
+    constructor() {
         this.composition = {
             title: "",
             composer: "",
@@ -39,9 +39,12 @@ export class Sequence {
         };
         this.type = "Choral";
         this.version = "";
-        this.organ = organ;
         this.steps = [];
 
+    }
+
+    setOrgan(organ: Organs): void {
+        this.organ = organ;
         if (this.organ === Organs.Tabernacle) { this.organString = "TAB"; }
         else if (this.organ === Organs.ConferenceCenter) { this.organString = "CC"; }
     }

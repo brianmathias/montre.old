@@ -9,6 +9,6 @@ export interface Piston {
     division: string;
 
     /** The piston's number. */
-    number: number;
+    number: number|string;
     
 }

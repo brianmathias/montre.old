@@ -43,6 +43,9 @@ export class DivisionStylesService {
       case "General":
         style = "general";
         break;
+      case "Expression":
+        style = "general";
+        break;
       case "Antiphonal":
         style = "antiphonal";
         break;

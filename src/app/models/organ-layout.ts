@@ -237,6 +237,9 @@ export class OrganLayout {
     /** The drawknob radius (in points). */
     public drawknobRadius: number = this.drawknobColumnWidth / 2; 
 
+    /** The drawknob radius of miniature expression drawknobs (in points). */
+    public expDrawknobRadius: number = 7;
+
     /** The width (in points) of the spacer columns between drawknob columns. */
     public spacerColumnWidth: number = 7;
 
@@ -258,10 +261,16 @@ export class OrganLayout {
     /** An array containing the X position (in points) of the organ's auxiliary drawknobs. Used for 
      * the square "hidden" stops on the Tabernacle organ (All Trems Off, MIDI controls, etc.).
      */
-    public auxColumns?: number[] = []
+    public auxColumns?: number[] = [];
+
+    public expTopMargin: number = 184;
+
+    /** An array containing the X position (in points) of the organ's expression assignments 
+     * drawknobs. Used for the mini drawknobs on the Conference Center organ.*/
+    public expColumns?: number[] = [];
 
     /** The number of drawknob rows. */
-    private _rowCount: number = 23;
+    public _rowCount: number = 23;
 
     /** An array containing the Y position (in points) of the organ's drawknob rows. */
     public rows: number[] = [];
@@ -287,15 +296,15 @@ export class OrganLayout {
     constructor() {
 
         // Calculate row coordinates
-        this.rows.push(this.pageMargin + this.drawknobTopMargin + (this.drawknobColumnWidth / 2));
-        for(let i = 1; i < this._rowCount + 1; i++) {
-            const y = this.rows[i - 1] + (this.drawknobColumnWidth / 2) + (this.spacerColumnWidth / 2);
-            this.rows.push(y);
-        }
+        //this.rows.push(this.pageMargin + this.drawknobTopMargin + (this.drawknobColumnWidth / 2));
+        //for(let i = 1; i < this._rowCount + 1; i++) {
+        //    const y = this.rows[i - 1] + (this.drawknobColumnWidth / 2) + (this.spacerColumnWidth / 2);
+        //    this.rows.push(y);
+       // }
 
         // Bottom row for auxilliary stops (row 24)
         //this.rows.push(564);
-        this.rows.push(573)
+        //this.rows.push(573)
         
         // Column coordinates should be calculated in sub-class constructors
         // Division labels and dividers should be specified in sub-class constructors

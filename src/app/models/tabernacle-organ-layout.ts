@@ -12,6 +12,15 @@ export class TabernacleOrganLayout extends OrganLayout {
         // Calculate column coordinates
         super();
 
+
+        // Calculate row coordinates
+        
+        this.rows.push(this.pageMargin + this.drawknobTopMargin + (this.drawknobColumnWidth / 2));
+        for(let i = 1; i < this._rowCount + 1; i++) {
+            const y = this.rows[i - 1] + (this.drawknobColumnWidth / 2) + (this.spacerColumnWidth / 2);
+            this.rows.push(y);
+        }
+
         //Pedal
         this.columns.push(this.drawknobMargin + (this.drawknobColumnWidth / 2) + this.spacerColumnWidth + this.drawknobColumnWidth);
         this.columns.push(this.columns[0] + this.spacerColumnWidth + this.drawknobColumnWidth);

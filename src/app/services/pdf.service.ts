@@ -5,7 +5,7 @@ import { LogService } from './log.service';
 import { OrganService } from './organ.service';
 
 import { Crescendo } from '../models/crescendo';
-import { DrawknobState } from '../models/drawknob-state';
+import { DrawknobState, DrawknobType } from '../models/drawknob-state';
 import { Organ } from '../models/organ';
 import { OrganLayout } from '../models/organ-layout';
 import { Organs } from '../models/organs';
@@ -61,6 +61,8 @@ export class PDFService {
       orientation: "landscape",
       unit: "pt"
     });
+
+    this.log.add(this.s);
 
     for(let step of this.s.steps){
 
@@ -357,14 +359,7 @@ export class PDFService {
    * in the same order as the stops in the Organ constant). If this argument is omitted, all 
    * drawknobs are drawn in the "Off" state.
    */
-  private _drawDrawknobs(drawknobs?: DrawknobState[]): void {
-
-    this.pdf.setLineWidth(1);
-    this.pdf.setFontSize(this.ol.drawknobFontSize);
-    this.pdf.setFont(this.ol.font, "bold");
-
-    let r: number = this.ol.drawknobRadius;
-
+  private _drawDrawknobsOld(drawknobs?: DrawknobState[]): void {
     
     // Auxiliarry stops (Tabernacle Organ only, stops 220-229) should only print if at least one 
     // of them is in a On, Add, or Remove (don't print if they are all Off or OutOfRange) state.
@@ -379,24 +374,37 @@ export class PDFService {
       }
     }
     
-
     for(let i = 0; i < this.o.stops.length; i++) {
       
       const stop = this.o.stops[i];
+      let type: DrawknobType;
       let state: DrawknobState;
+ 
+      if(stop.aux) {
+        type = DrawknobType.Aux;
+      } else if (stop.exp) {
+        type = DrawknobType.Exp;
+      } else {
+        DrawknobType.Stop;
+      }
 
       if (drawknobs) { state = drawknobs[i]; }
       else { state = DrawknobState.Off; }
       
-      let x: number 
-      
-      if (this.o.stops[i].aux) {
-        x = this.ol.auxColumns[stop.column];
-      } else {
-        x = this.ol.columns[stop.column];
-      } 
+      let x: number;
 
-      const y: number = this.ol.rows[stop.row];
+      switch(type) {
+        case DrawknobType.Stop:
+          x = this.ol.columns[stop.column];
+        case DrawknobType.Aux:
+          x = this.ol.auxColumns[stop.column];
+        case DrawknobType.Exp:
+          x = this.ol.expColumns[stop.column];
+      } 
+      
+      let y: number = this.ol.rows[stop.row];
+      if (stop.exp) (y = 188);
+      
       const lh: number = this.ol.drawknobFontSize; // Line height
       let offset: number;
       let baseline: number;
@@ -422,21 +430,168 @@ export class PDFService {
       }
 
       // If the stop is not an auxiliarry stop
-      if (!stop.aux) {
+      switch(type) {
+        case DrawknobType.Stop:
+          this.pdf.setLineWidth(1);
+          this.pdf.setFont(this.ol.font, "bold");
+
+          let r: number = this.ol.drawknobRadius;
+          this.pdf.circle(x, y, r, style);
+          this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+          this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+        case DrawknobType.Aux:
+          if (printAux) {
+            this.pdf.rect(x - r, y - r, r * 2, r * 2, style);
+            this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+            this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
+          }
+        case DrawknobType.Exp:
+          this.pdf.circle(x, y, (r*.7), style);
+          this.pdf.setFontSize(this.ol.drawknobFontSize * .7);
+          this.pdf.text(stop.shortName, x, baseline, {align: "center"});
+      }
+    }
+  }
+
+
+  private _drawDrawknobs(drawknobs?: DrawknobState[]): void {
+    
+    // Auxiliarry stops (Tabernacle Organ only, stops 220-229) should only print if at least one 
+    // of them is in a On, Add, or Remove (don't print if they are all Off or OutOfRange) state.
+    let printAux: boolean = false;
+
+    if(drawknobs && this.os === "TAB") {
+      for(let i = 220; i < 230; i++) {
+        if (drawknobs[i] !== DrawknobState.Off && drawknobs[i] !== DrawknobState.OutOfRange) {
+          printAux = true;
+          break;
+        } 
+      }
+    }
+    
+    let stopIndex = 0;
+    for(let stop of this.o.stops) {
+      
+      let drawknobType: DrawknobType;
+      let state: DrawknobState;
+ 
+      if(stop.aux) {
+        drawknobType = DrawknobType.Aux;
+      } else if (stop.exp) {
+        drawknobType = DrawknobType.Exp;
+      } else {
+        drawknobType = DrawknobType.Stop;
+      }
+
+      if (drawknobs) { state = drawknobs[stopIndex]; }
+      else { state = DrawknobState.Off; }
+      
+      /** X coordinate of the drawknob. */
+      let x: number;
+
+      /** Y coordinate of the drawknob. */
+      let y: number;
+
+      /** Radius of the drawknob. */
+      let r: number;
+
+      /** Line height of the drawknob text. */
+      let lh: number;
+
+      /** Offset? */
+      let offset: number;
+
+      /**  Baseline Y coordinate. */
+      let baseline: number;
+          
+      /** JSPDF shape style */
+      let style: string;
+      
+      // Get correct colors for drawknob state (specified in OrganLayout)
+      let colors = this.ol.colors[state];
+      this.pdf.setDrawColor(colors.stroke.r, colors.stroke.g, colors.stroke.b);
+      this.pdf.setFillColor(colors.fill.r, colors.fill.g, colors.fill.b);
+      this.pdf.setTextColor(colors.text.r, colors.text.g, colors.text.b);
+      style = colors.style;
+
+      // Draw different drawknobs differently based on type.
+      if (drawknobType === DrawknobType.Stop) {
+
+        y = this.ol.rows[stop.row];
+        x = this.ol.columns[stop.column];
+        r = this.ol.drawknobRadius;
+        lh = this.ol.drawknobFontSize;
+        
+        if(stop.shortPitchDesignation.indexOf("\'") !== -1) {
+          offset = this.ol.drawknobPitchOffset;
+        } else {
+          offset = 0;
+        }
+
+        if(stop.shortPitchDesignation === "") {
+          baseline = y + (lh / 2) - 1;
+        } else {
+          baseline = y - 1;
+        }
+        
+        this.pdf.setLineWidth(1);
+        this.pdf.setFontSize(this.ol.drawknobFontSize);
+        this.pdf.setFont(this.ol.font, "bold");
+
         this.pdf.circle(x, y, r, style);
         this.pdf.text(stop.shortName, x, baseline, {align: "center"});
-        this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
-      } else {
+        this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"});
 
-        // Only print auxiliarry stops if at least one has been found to be in a non-Off state (see loop above)
+      } else if (drawknobType === DrawknobType.Aux) {
+        
         if (printAux) {
+            
+          y = this.ol.rows[stop.row];
+          x = this.ol.auxColumns[stop.column];
+          r = this.ol.drawknobRadius;
+          lh = this.ol.drawknobFontSize;
+          offset = 0;
+          
+          if(stop.shortPitchDesignation === "") {
+            baseline = y + (lh / 2) - 1;
+          } else {
+            baseline = y - 1;
+          }
+        
+          this.pdf.setLineWidth(1);
+          this.pdf.setFontSize(this.ol.drawknobFontSize);
+          this.pdf.setFont(this.ol.font, "bold");
+
           this.pdf.rect(x - r, y - r, r * 2, r * 2, style);
           this.pdf.text(stop.shortName, x, baseline, {align: "center"});
           this.pdf.text(stop.shortPitchDesignation, (x + offset), (baseline + lh), {align: "center"}); 
         }
+      } else if (drawknobType === DrawknobType.Exp) {
+
+        y = this.ol.expTopMargin;
+        x = this.ol.expColumns[stop.column];
+        r = this.ol.expDrawknobRadius;
+        lh = this.ol.expDrawknobRadius;
+        offset = 0;
+        baseline = y + (lh / 2) - 1;
+        
+        this.pdf.setLineWidth(1);
+        this.pdf.setFontSize(this.ol.drawknobFontSize);
+        this.pdf.setFont(this.ol.font, "bold");
+
+        this.pdf.circle(x, y, r, style);
+        this.pdf.text(stop.shortName, x, baseline, {align: "center"});
       }
+      stopIndex++;
     }
   }
+
+
+
+
+
+
+
 
   /** Draws the vertical dividing lines between divisions. */
   private _drawDivisionDividers(): void {

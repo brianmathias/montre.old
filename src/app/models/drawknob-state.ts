@@ -15,3 +15,9 @@ export enum DrawknobState {
     Add, // 3
     OutOfRange // 4
   }
+
+  export enum DrawknobType {
+    Stop, // 0
+    Aux, // 1
+    Exp // 2
+  }

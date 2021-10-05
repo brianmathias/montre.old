@@ -29,5 +29,9 @@ export interface Stop {
      * square border at the bottom). 
      */
     aux?: boolean; 
+
+    /** Boolean indicating whether or not the stop is an "expression" stop (to be drawn in small
+     *  size along the top of the console diagram). */
+    exp?: boolean;
     
 }

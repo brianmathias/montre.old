@@ -6,6 +6,7 @@ import { Piston } from '../models/piston';
 import { Sequence } from '../models/sequence';
 import { SequenceService } from '../services/sequence.service';
 import { OrganService } from '../services/organ.service';
+import { VirtuosoService } from '../services/virtuoso.service';
 import { DivisionStylesService } from '../services/division-styles.service';
 
 @Component({
@@ -22,17 +23,20 @@ export class SequenceBuilderComponent implements OnInit {
   pistons: Piston[];
 
   
-  constructor(private sequenceService: SequenceService, private organService: OrganService, private divisionStylesService: DivisionStylesService) {}
+  constructor(private sequenceService: SequenceService, private organService: OrganService, private divisionStylesService: DivisionStylesService, private vs: VirtuosoService) {}
 
   ngOnInit(): void {
     this.sequence = this.sequenceService.sequence; 
     this.organ = this.organService.organ;
     this.memoryLevels  = this.organService.memoryLevels;
     this.pistons = this.organService.pistons;
+    console.log(this.pistons);
   }
 
   addStep(memoryLevel: number, piston: number): void {
     this.sequenceService.addStep(memoryLevel, piston);
+    let test = this.vs.getPiston(memoryLevel, piston);
+    console.log(test);
   }
 
   deleteStep(step: number): void {

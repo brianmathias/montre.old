@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Organ, OrganObject } from '../models/organ';
 import { Organs } from '../models/organs';
 import { OrganLayout } from '../models/organ-layout';
@@ -10,6 +11,7 @@ import { TabernacleOrganLayout } from '../models/tabernacle-organ-layout';
 import { TabernacleOrganConfig } from '../models/tabernacle-organ-config';
 import { ConferenceCenterOrgan } from '../models/conference-center-organ';
 import { ConferenceCenterOrganLayout } from '../models/conference-center-organ-layout';
+import { ConferenceCenterOrganConfig } from '../models/conference-center-organ-config';
 
 
 /**
@@ -23,7 +25,10 @@ import { ConferenceCenterOrganLayout } from '../models/conference-center-organ-l
 export class OrganService {
   
   /**  The Organs enum value of the currently selected instrument. */
-  public selectedOrgan: Organs;
+  private _selectedOrgan: BehaviorSubject<Organs> = new BehaviorSubject(Organs.Tabernacle);
+
+  /** Observable that provides outside access to the currently selected instrument. */
+  public selectedOrgan$: Observable<Organs> = this._selectedOrgan.asObservable();
 
   /** The Organ object for the currently selected instrument. */
   public organ: Organ;
@@ -92,6 +97,7 @@ export class OrganService {
     this.ConferenceCenterOrgan = {
       organ: ConferenceCenterOrgan,
       layout: new ConferenceCenterOrganLayout(),
+      config: ConferenceCenterOrganConfig,
       memoryLevels: [],
       manuals: [],
       pistons: [],
@@ -124,7 +130,6 @@ export class OrganService {
   public setOrgan(organ: Organs) {
     
     if (organ === Organs.Tabernacle) {
-      this.selectedOrgan = organ;
       this.organ = TabernacleOrgan;
       this.organLayout = this.TabernacleOrgan.layout;
       this.organConfig = this.TabernacleOrgan.config;
@@ -133,13 +138,14 @@ export class OrganService {
       this.pistons = this.TabernacleOrgan.pistons;
 
     } else if (organ === Organs.ConferenceCenter) {
-      this.selectedOrgan = organ;
       this.organ = ConferenceCenterOrgan;
       this.organLayout = this.ConferenceCenterOrgan.layout;
-      //this.organConfig = this.ConferenceCenterOrgan.config;
+      this.organConfig = this.ConferenceCenterOrgan.config;
       this.memoryLevels = this.ConferenceCenterOrgan.memoryLevels;
       this.manuals = this.ConferenceCenterOrgan.manuals;
       this.pistons = this.ConferenceCenterOrgan.pistons;
     }
+    this._selectedOrgan.next(organ);
+    console.log(`Organ set to ${organ}`);
   }
 }

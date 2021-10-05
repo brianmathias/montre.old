@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { Organ } from '../models/organ';
@@ -20,10 +21,15 @@ import { FileService } from '../services/file.service';
 export class VirtuosoService {
  
   private _config: OrganConfig;
+  
+  private _organSubscription: Subscription;
 
   constructor(private organService: OrganService, private fileService: FileService) {
-    this._config = this.organService.organConfig;
-   }
+    
+    this._organSubscription = this.organService.selectedOrgan$.subscribe(val => {
+      this._config = this.organService.organConfig;
+    })
+  }
 
   /**
    * Retrieves the drawknob data for a single piston.
@@ -42,8 +48,9 @@ export class VirtuosoService {
     let byteCount = this._config.byteCount + 1;
     let data = this._getValues(offset, byteCount);
     
+    console.log(data);
+
     drawknobs = this._decodePiston(data);
-    
     return drawknobs;
   }
 
@@ -115,12 +122,12 @@ export class VirtuosoService {
   /** Decodes the supplied 8-bit integer to a DrawknobState. 
    * 
    * @param int {number} - The integer value that represents a stop in Virtuoso's data format. 
-   * Virtuoso stores each stop of each piston as a single byte, which the 8 bits representing the 
+   * Virtuoso stores each stop of each piston as a single byte, with the 8 bits representing the 
    * following:
    * 
    * - 7 (high bit) - Whether or not the stop is in range (1 = no, 0 = yes)
    * - 6 - N/A
-   * - 1-5 - Binary number representing the number division the stop belongs to (not needed)
+   * - 1-5 - Binary number representing the number of the division the stop belongs to (not needed)
    * - 0 (low bit) - Whether or not the stop is on (1 = yes, 0 = no)
    * 
    * @returns {DrawknobState} Returns a DrawknobState.
@@ -147,7 +154,7 @@ export class VirtuosoService {
    * @param level {number} - The memory level of the requested piston.
    * @param piston {number} - The index number of the requested piston.
    */
-  private _getOffset(level: number, piston: number): number {
+  public _getOffset(level: number, piston: number): number {
     
     let levelOffset: number = (level - 1) * this._config.memoryLevelLength; 
 
@@ -164,7 +171,7 @@ export class VirtuosoService {
    * @param offset {number} - The offset at which to begin reading values.
    * @param length {number} - The number of values to retrieve.
    * 
-   * @returns {number[]} Returns an array of 8-bit unsigned integers.
+   * @returns {number[]} Returns an array of 8-bit signed integers.
    */
   private _getValues(offset: number, length: number): number[] {
 

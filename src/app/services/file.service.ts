@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from "rxjs";
+import { Observable, Subject, BehaviorSubject } from "rxjs";
+
+import { Organs } from '../models/organs';
+import { OrganService } from '../services/organ.service';
 
 /**
  * This service processes the uploaded file and provides methods to access its raw data.
@@ -44,13 +47,11 @@ export class FileService implements CanActivate {
   public fileName$ = this._fileName.asObservable();
 
   /** Observable providing the current error message ("" = no error) */
-  public fileError$ = this._fileError.asObservable();
+  public fileError$: Observable<string> = this._fileError.asObservable();
   
-
   private _dataView: DataView;
 
-  
-  constructor(public router: Router) {}
+  constructor(public router: Router, private organService: OrganService) {}
 
     /** If the user has not uploaded a file, tell the router not to allow navigation to the Build, 
      * Edit, and Print routes.
@@ -83,8 +84,14 @@ export class FileService implements CanActivate {
       let e: any = event.target;
       let result = e.result; 
       
-
       this._dataView = new DataView(result);
+      
+      // Determine which organ the uploaded file originated from by checking the size of the file
+      let length: number = this._dataView.byteLength;
+      console.log(length);
+      if (length === 1740091) { this.organService.setOrgan(Organs.Tabernacle); }
+      else if (length === 1929200) { this.organService.setOrgan(Organs.ConferenceCenter); }
+    
       this._fileLoaded.next(true);
       this._fileName.next(this._file.name);
       this._fileError.next("");
@@ -112,10 +119,11 @@ export class FileService implements CanActivate {
     let arr: number[] = [];
     
     for(let i = 0; i < length; i++){
-      let int = this._dataView.getUint8(offset + i);
+      let int = this._dataView.getInt8(offset + i);
       arr.push(int);
     }
-    
+    console.log(`Reading from ${offset}...`);
+    console.log(arr);
     return arr;
   }
 }

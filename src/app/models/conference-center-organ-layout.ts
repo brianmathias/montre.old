@@ -7,11 +7,31 @@ import { OrganLayout } from './organ-layout';
  */
 export class ConferenceCenterOrganLayout extends OrganLayout {
 
+    /** The Y position of the expression drawknobs. */
+    expTopMargin: number;
+
+    /** Array containing the X position of the columns for the expression drawknobs. */
+    expColumns: number[];
+
     constructor(){
 
-        // Calculate column coordinates
         super();
+        
+        
+        // Calculate row coordinates
+        this.drawknobTopMargin = 196;
+        
+        this.rows.push(this.pageMargin + this.drawknobTopMargin + (this.drawknobColumnWidth / 2));
+        for(let i = 1; i < this._rowCount + 1; i++) {
+            const y = this.rows[i - 1] + (this.drawknobColumnWidth / 2) + (this.spacerColumnWidth / 2);
+            this.rows.push(y);
+        }
 
+        this.expTopMargin = 184;
+        
+        // Column coordinates should be calculated in sub-class constructors
+        // Division labels and dividers should be specified in sub-class constructors
+       
         //Pedal
         this.columns.push(this.drawknobMargin + (this.drawknobColumnWidth / 2));
         this.columns.push(this.columns[0] + this.spacerColumnWidth + this.drawknobColumnWidth);
@@ -51,6 +71,14 @@ export class ConferenceCenterOrganLayout extends OrganLayout {
         this.columns.push(this.columns[20] + this.spacerColumnWidth + this.drawknobColumnWidth);
         this.columns.push(this.columns[21] + this.spacerColumnWidth + this.drawknobColumnWidth);
 
+        // Expression Drawknob Columns
+        this.expColumns.push(196, 216, 236, 256);
+        this.expColumns.push(296, 316, 336);
+        this.expColumns.push(376, 396, 416, 436, 456);
+        this.expColumns.push(496, 516, 536, 556);
+        this.expColumns.push(596);
+
+
         // Division dividers
 
         // Left stop jamb
@@ -78,4 +106,6 @@ export class ConferenceCenterOrganLayout extends OrganLayout {
         this.labels.push({label: "GREAT", x: this.columns[18], y: this.labelRow()});
         this.labels.push({label: "CHOIR", x: this.columns[21], y: this.labelRow()});
     }
+
+    
 }
