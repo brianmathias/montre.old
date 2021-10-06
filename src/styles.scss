@@ -117,6 +117,7 @@ button {
     padding: 10px 20px;
     background-color: $secondary-button;
     border: none;
+    color: black;
     cursor: pointer;
     font-family: "montserrat", sans-serif;
     font-size: 16px;
@@ -166,6 +167,7 @@ select {
     background-color: $input-bg-color;
     border: 0px solid black;
     border-radius: 0px;
+    color: black;
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -198,6 +200,7 @@ select.large {
     background-color: $input-bg-color;
     border: 0px solid black;
     border-radius: 0px;
+    color: black;
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     font-weight: 400;
