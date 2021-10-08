@@ -47,8 +47,6 @@ export class VirtuosoService {
     // Virtuoso file format map from Dwight - SdStops + 1)
     let byteCount = this._config.byteCount + 1;
     let data = this._getValues(offset, byteCount);
-    
-    console.log(data);
 
     drawknobs = this._decodePiston(data);
     return drawknobs;

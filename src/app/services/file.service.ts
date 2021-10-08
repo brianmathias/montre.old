@@ -59,7 +59,6 @@ export class FileService implements CanActivate {
     canActivate(): boolean {
       
       if (this._file === undefined) { 
-        console.log(this._file);
         this.router.navigate(['']);
         return false;
       } 
@@ -88,7 +87,6 @@ export class FileService implements CanActivate {
       
       // Determine which organ the uploaded file originated from by checking the size of the file
       let length: number = this._dataView.byteLength;
-      console.log(length);
       if (length === 1740091) { this.organService.setOrgan(Organs.Tabernacle); }
       else if (length === 1929200) { this.organService.setOrgan(Organs.ConferenceCenter); }
     
@@ -122,8 +120,7 @@ export class FileService implements CanActivate {
       let int = this._dataView.getInt8(offset + i);
       arr.push(int);
     }
-    console.log(`Reading from ${offset}...`);
-    console.log(arr);
+    
     return arr;
   }
 }

@@ -146,6 +146,5 @@ export class OrganService {
       this.pistons = this.ConferenceCenterOrgan.pistons;
     }
     this._selectedOrgan.next(organ);
-    console.log(`Organ set to ${organ}`);
   }
 }

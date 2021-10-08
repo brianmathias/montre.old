@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { LogService } from './log.service';
 import { OptionsService } from '../services/options.service';
+import { OrganService } from '../services/organ.service';
 import { PDFService } from '../services/pdf.service';
 import { VirtuosoService } from '../services/virtuoso.service';
 
@@ -21,7 +23,14 @@ import { Tutti } from '../models/tutti';
 })
 export class ProcessService {
 
-  constructor(private optionsService: OptionsService, private virtuosoService: VirtuosoService, private pdfService: PDFService, private log: LogService) { }
+  private _organSubscription: Subscription;
+  private _organ: Organs;
+
+  constructor(private optionsService: OptionsService, private organService: OrganService, private virtuosoService: VirtuosoService, private pdfService: PDFService, private log: LogService) { 
+
+    this._organSubscription = this.organService.selectedOrgan$.subscribe((organ) => {this._organ = organ});
+
+  }
 
   /**
    * Processes the provided sequence and generates a PDF document.
@@ -73,7 +82,7 @@ export class ProcessService {
 
     let crescendo: Crescendo = {
       num: num,
-      organ: Organs.Tabernacle,
+      organ: this._organ,
       stages: this.virtuosoService.getCrescendo(num)
     }
 
@@ -100,7 +109,7 @@ export class ProcessService {
 
     let tutti: Tutti = {
       num: num,
-      organ: Organs.Tabernacle,
+      organ: this._organ,
       drawknobs: this.virtuosoService.getTutti(num)
     }
 

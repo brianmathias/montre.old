@@ -30,13 +30,10 @@ export class SequenceBuilderComponent implements OnInit {
     this.organ = this.organService.organ;
     this.memoryLevels  = this.organService.memoryLevels;
     this.pistons = this.organService.pistons;
-    console.log(this.pistons);
   }
 
   addStep(memoryLevel: number, piston: number): void {
     this.sequenceService.addStep(memoryLevel, piston);
-    let test = this.vs.getPiston(memoryLevel, piston);
-    console.log(test);
   }
 
   deleteStep(step: number): void {
