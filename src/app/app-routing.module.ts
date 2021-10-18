@@ -28,13 +28,14 @@ const routes: Routes = [
     component: PrintComponent,
     canActivate: [FileService]
   },
+  {
+    path: 'check',
+    component: LevelCheckerComponent,
+    canActivate: [FileService]
+  },
   { 
     path: 'options', 
     component: OptionsComponent 
-  },
-  {
-    path: 'check',
-    component: LevelCheckerComponent
   },
   {
     path: '**',
