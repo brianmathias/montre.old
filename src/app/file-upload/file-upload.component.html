@@ -9,14 +9,10 @@
         <span class="selected-file">{{fileName}}</span>  
     </div>
     <div class="error">{{fileError}}</div>
-
-
     <div class="organ-row">
         <button [class.selected]="organ === 0" (click)="setOrgan(0)">Tabernacle</button>
         <button [class.selected]="organ === 1" (click)="setOrgan(1)">Conference Center</button>
     </div>
-    
-
 </div>
 <div class="action-row">
     <span class="action-spacer"></span>

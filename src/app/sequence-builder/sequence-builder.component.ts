@@ -34,6 +34,8 @@ export class SequenceBuilderComponent implements OnInit {
 
   addStep(memoryLevel: number, piston: number): void {
     this.sequenceService.addStep(memoryLevel, piston);
+    let test = this.vs.getPistonStatus(memoryLevel, piston);
+   
   }
 
   deleteStep(step: number): void {

@@ -52,6 +52,28 @@ export class VirtuosoService {
     return drawknobs;
   }
 
+
+  /** Checks to see if the supplied piston is set or clear.
+   * 
+   * @param level {number} - The memory level of the requested piston.
+   * @param piston {number} - The index number of the requested piston.
+   * @returns {boolean} - Returns a boolean, with true indicating that the piston
+   * has been set, and false indicating that it is clear.
+   */
+  public getPistonStatus(level: number, piston: number): boolean {
+
+    let offset = this._getOffset(level, piston);
+    let byteCount = this._config.byteCount + 1;
+    let data = this._getValues(offset, byteCount);
+    let drawknobs = this._decodePiston(data);
+
+    for (let drawknob of drawknobs) {
+      if (drawknob !== DrawknobState.Off && drawknob !== DrawknobState.OutOfRange) { return true; };
+    }
+
+    return false;
+  }
+
   /** Gets drawknob data for Stages 1-60 of the specified crescendo.
    * 
    * @param num {number} - The number of the desired crescendo.

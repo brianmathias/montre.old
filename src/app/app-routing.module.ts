@@ -6,6 +6,7 @@ import { SequenceBuilderComponent } from './sequence-builder/sequence-builder.co
 import { SequenceEditorComponent } from './sequence-editor/sequence-editor.component';
 import { PrintComponent } from './print/print.component';
 import { OptionsComponent } from './options/options.component';
+import { LevelCheckerComponent } from './level-checker/level-checker.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
   { 
     path: 'options', 
     component: OptionsComponent 
+  },
+  {
+    path: 'check',
+    component: LevelCheckerComponent
   },
   {
     path: '**',

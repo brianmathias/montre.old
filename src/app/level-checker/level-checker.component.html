@@ -1,0 +1,21 @@
+<h1>Check Level</h1>
+<h2>Memory Level</h2>
+<div class="flex-container">
+    <select class="form-control large memory-level" id="level" [(ngModel)]="memoryLevel" (change)="selectLevel(memoryLevel)">
+        <option *ngFor="let level of memoryLevels" [value]="level">{{level}}</option>
+    </select>
+</div>
+<div class="tally-sheet">
+    <div class="tally-sheet-column" *ngFor="let column of tallySheet.columns">
+        <div class="tally-sheet-division" *ngFor="let division of column.divisions">
+            <div class="tally-sheet-heading">
+                {{division.name}}
+            </div>
+            <div class="tally-sheet-row" [ngClass]="getClass(piston.pistonID)" *ngFor="let piston of division.pistons">
+                <span class="row-piston" >{{getNumber(piston.pistonID)}}</span>
+                <span class="row-state" >{{getState(piston.pistonID)}}</span> 
+            </div>
+        </div>
+    </div>
+</div>
+

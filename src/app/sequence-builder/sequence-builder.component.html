@@ -42,7 +42,7 @@
             <h2>Memory Level</h2>
             <select class="form-control large" id="level" [(ngModel)]="memoryLevel">
                 <option *ngFor="let level of memoryLevels" [value]="level">{{level}}</option>
-            </select>
+            </select> 
         </div>
         <div *ngFor="let manual of organ.manuals" class="division">
             <h2>{{manual.name}}</h2>

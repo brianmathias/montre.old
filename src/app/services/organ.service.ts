@@ -9,9 +9,12 @@ import { Piston } from '../models/piston';
 import { TabernacleOrgan } from '../models/tabernacle-organ';
 import { TabernacleOrganLayout } from '../models/tabernacle-organ-layout';
 import { TabernacleOrganConfig } from '../models/tabernacle-organ-config';
+import { TabernacleOrganTallySheet } from '../models/tabernacle-organ-tally-sheet';
 import { ConferenceCenterOrgan } from '../models/conference-center-organ';
 import { ConferenceCenterOrganLayout } from '../models/conference-center-organ-layout';
 import { ConferenceCenterOrganConfig } from '../models/conference-center-organ-config';
+import { ConferenceCenterOrganTallySheet } from '../models/conference-center-organ-tally-sheet';
+import { TallySheet } from '../models/tally-sheet';
 
 
 /**
@@ -38,6 +41,9 @@ export class OrganService {
 
   /** The OrganConfig object of the currently selected instrument. */
   public organConfig: OrganConfig;
+
+  /** The TallySheet object of the currently selected instrument. */
+  public tallySheet: TallySheet;
 
   /** An array containing the memory levels of the currently selected instrument. */
   public memoryLevels: number[] = [];
@@ -68,6 +74,7 @@ export class OrganService {
       organ: TabernacleOrgan,
       layout: new TabernacleOrganLayout(),
       config: TabernacleOrganConfig,
+      tallySheet: TabernacleOrganTallySheet,
       memoryLevels: [],
       manuals: [],
       pistons: [],
@@ -98,6 +105,7 @@ export class OrganService {
       organ: ConferenceCenterOrgan,
       layout: new ConferenceCenterOrganLayout(),
       config: ConferenceCenterOrganConfig,
+      tallySheet: ConferenceCenterOrganTallySheet,
       memoryLevels: [],
       manuals: [],
       pistons: [],
@@ -133,6 +141,7 @@ export class OrganService {
       this.organ = TabernacleOrgan;
       this.organLayout = this.TabernacleOrgan.layout;
       this.organConfig = this.TabernacleOrgan.config;
+      this.tallySheet = this.TabernacleOrgan.tallySheet;
       this.memoryLevels = this.TabernacleOrgan.memoryLevels;
       this.manuals = this.TabernacleOrgan.manuals;
       this.pistons = this.TabernacleOrgan.pistons;
@@ -141,6 +150,7 @@ export class OrganService {
       this.organ = ConferenceCenterOrgan;
       this.organLayout = this.ConferenceCenterOrgan.layout;
       this.organConfig = this.ConferenceCenterOrgan.config;
+      this.tallySheet = this.ConferenceCenterOrgan.tallySheet;
       this.memoryLevels = this.ConferenceCenterOrgan.memoryLevels;
       this.manuals = this.ConferenceCenterOrgan.manuals;
       this.pistons = this.ConferenceCenterOrgan.pistons;

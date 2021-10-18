@@ -1,0 +1,68 @@
+@use "sass:color";
+@import "../../variables";
+
+$red: #FF0000;
+$green: #28B463;
+$red-background: color.scale($red, $lightness: 85%);
+$green-background: color.scale($green, $lightness: 85%);
+
+.flex-container {
+    display: flex;
+}
+
+select.memory-level {
+    width: 100px;
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
+
+.tally-sheet {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 150px;
+    border: 0.5px solid #666;
+    font-size: 14px;
+
+    .tally-sheet-column {
+        width: 33.333%;
+
+        .tally-sheet-division {
+
+            .tally-sheet-heading {
+
+                padding: 10px 8px;
+                border: 0.5px solid #666;
+                background-color: #666;
+                color: white;
+                font-weight: 700;
+                text-align: center;
+            }
+
+            .tally-sheet-row {
+                display: flex;
+                height: 14px;
+                padding: 10px 8px;
+                border: 0.5px solid #666;
+
+                .row-piston {
+                    width: 24px;
+                    color: black;
+                    font-weight: 700;                    
+                }
+                &.set {
+                    background-color: $red-background;
+                    color: $red;
+                }
+
+                &.clear {
+                    background-color:$green-background;
+                    color: $green;
+                }
+
+                &.disabled {
+                    background-color: $input-bg-color;
+                }
+            }
+        }
+    }
+}

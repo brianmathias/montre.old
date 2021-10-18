@@ -1,6 +1,7 @@
 
 import { OrganLayout } from './organ-layout';
 import { OrganConfig } from './organ-config';
+import { TallySheet } from './tally-sheet';
 import { Manual } from "./manual";
 import { Stop } from "./stop";
 import { Piston } from './piston';
@@ -32,6 +33,7 @@ export interface OrganObject {
     organ: Organ,
     layout: OrganLayout,
     config?: OrganConfig,
+    tallySheet: TallySheet,
     memoryLevels: number[],
     manuals: Manual[],
     pistons: Piston[]

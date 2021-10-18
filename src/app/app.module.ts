@@ -14,6 +14,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PrintComponent } from './print/print.component';
 import { OptionsComponent } from './options/options.component';
 import { ModalComponent } from './modal/modal.component';
+import { LevelCheckerComponent } from './level-checker/level-checker.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ModalComponent } from './modal/modal.component';
     PrintComponent,
     OptionsComponent,
     ModalComponent,
+    LevelCheckerComponent,
   ],
   imports: [
     BrowserModule,
